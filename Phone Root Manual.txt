@@ -1,0 +1,70 @@
+== OnePlus 7T Pro ==
+
+%% to enable developer options, in Settings, About Phone tap on Build Number seven times
+%% in Settings, System, Developer Options, permit OEM Unlocking and enable USB Debugging
+%% make sure the device is found, working properly, and USB Debugging is permitted
+adb devices
+%% reboot into the bootloader https://www.getdroidtips.com/how-to-install-twrp-recovery-and-root-oneplus-7t-pro/
+adb reboot bootloader
+%% in the bootloader, ensure the device is found 
+fastboot devices
+%% unlock the bootloader: run the command,
+%% then on the phone select the option using the colume keys and confirm using the power button
+%% CAREFUL: THIS WIPES ALL DATA!
+fastboot flashing unlock
+%% after this is completed, re-setup the phone
+%% this includes enabling the developer options and USB Debugging
+%% the bootloader is already unlocked, so we need not permit unlocking it any more
+%% once again, verify USB Debugging is working as it should
+adb devices
+%% boot into the bootloader once more
+adb reboot bootloader
+%% at this point, we would usually be flashing TWRP and use that to root the system
+%% right now, however, TWRP doesn't work properly on native Android 10 devices such as this phone
+%% this means we need to hard-flash Magisk onto the system
+%% this also means that flashing TWRP is at best meaningless, and at worst harmful
+%% boot into TWRP without flashing https://forum.xda-developers.com/7t-pro/development/recovery-unofficial-twrp-recovery-t3989333
+fastboot boot ./[OP7TPro]/twrp-3.3.1-5-hotdog-unified-mauronofrio.img
+%% once TWRP has booted, create an image of the current boot partition https://forum.xda-developers.com/7t-pro/development/10-0-3-patched-boot-image-oneplus-7t-pro-t3986351
+adb shell dd if=/dev/block/bootdevice/by-name/boot_a of=/boot_a.img
+%% load it onto the computer
+adb pull /boot_a.img ./[OP7TPro]/boot_a.img
+%% and remove the image from device storage, where it only takes up space
+adb shell rm /boot_a.img
+%% then reboot into the system
+adb reboot
+%% copy the boot partition image onto the phone
+adb push ./[OP7TPro]/boot_a.img /sdcard/Download/
+%% install the Magisk Manager onto the phone https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445
+adb install ./[OP7TPro]/MagiskManager-v7.4.0.apk
+%% the next step requires an internet connection, so in Settings, System, Developer Options, make sure that Automatic System Updates are disabled
+%% when that is done, connect to the internet
+%% open the Magisk Manager
+%% expand the Advanced Settings and enable the option to Preserve AVB 2.0/dm-verity
+%% additionally, make sure that you Preserve force encryption
+%% Magisk Manager shows two install buttons:
+%% - Magisk is not installed
+%% - Magisk Manager is up to date
+%% select to install Magisk itself, and when it asks how install, choose to Select and Patch a File
+%% use the boot_a.img that you copied over earlier
+%% copy the patched result onto the computer
+adb pull /sdcard/Download/magisk_patched.img ./[OP7TPro]/boot_magisk.img
+%% clean up the phone storage
+adb shell rm /sdcard/Download/boot_a.img /sdcard/Download/magisk_patched.img
+%% now reboot into the bootloader, again
+adb reboot bootloader
+%% once again, leave the flashing commands alone
+%% this time, boot the magisk patched image
+fastboot boot ./[OP7TPro]/boot_magisk.img
+
+%% == ERROR == if the phone gets stuck in an endless boot animation, flash the complete stock ROM
+%% https://forum.xda-developers.com/7t-pro/how-to/rom-stock-fastboot-roms-oneplus-7t-pro-t3991189
+%% start again almost from scratch, but with the bootloader already unlocked
+%% make sure to avoid all internet connectivity until it is required!
+%% note that instead of extracting the boot partition, if the phone is flashed to the stock ROM, the stock ROM's boot.img file is identical and can be used to save time
+
+%% when the system has booted, open Magisk Manager and once again select to install Magisk
+%% this time, instead of patching a file, select a Direct Install, as is recommended
+%% reboot
+adb reboot
+%% COMPLETE!
