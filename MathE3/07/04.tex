@@ -1,0 +1,168 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Volumen und Schwerpunkt von Fl\"achen]{4}
+
+    Wir betrachtenden den Rand~\( \partial K \) zum K\"orper
+    \begin{equation*}
+        K = \set[\big]{
+            x \in \RealNums^3
+            \given
+            x_3 \in \IntervalClosed{0}{1}
+                , \enspace
+                x_1^2 + x_2^2 \leq 1 - x_3
+        }
+    \end{equation*}
+    Wir unterteilen~\( \partial K \) in zwei Fl\"achen
+    die wir leicht parametrisieren k\"onnen
+    \begin{align*}
+        F_1 &
+        = \set[\big]{x \in \RealNums^3 \given \norm{x} = 1, \enspace x_3 = 0},
+            &
+            \Phi_1 &
+            \colon \IntervalClosed{0}{1} \times \IntervalCO{0}{2 \pi}
+                \to \RealNums^3
+            , \enspace
+            \begin{pmatrix} r \\ \varphi \end{pmatrix}
+                \mapsto \begin{pmatrix}
+                    r \cos \varphi \\ r \sin \varphi \\ 0
+                \end{pmatrix}
+        \displaybreak[0] \\
+        F_2 &
+        = \set[\big]{
+            x \in \RealNums^3
+            \given
+            x_3 \in \IntervalClosed{0}{1} , \enspace x_1^2 + x_2^2 = 1 - x_3
+        },
+            &
+            \Phi_2 &
+            \colon \IntervalCO{0}{2 \pi} \times \IntervalClosed{0}{1}
+                \to \RealNums^3
+            , \enspace
+            \begin{pmatrix} \varphi \\ z \end{pmatrix}
+                \mapsto \begin{pmatrix}
+                    \sqrt{1 - z} \cos \varphi \\ \sqrt{1 - z} \sin \varphi \\ z
+                \end{pmatrix}
+    \end{align*}
+    F\"ur diese Parametrisierung ergibt sich
+    \begin{align*}
+        \int_{F_1} 1 \dF[F_1] &
+        = \int_{F_1} \norm[\Bigg]{
+                \begin{pmatrix}
+                    \cos \varphi \\ \sin \varphi \\ 0
+                \end{pmatrix}
+                \times
+                \begin{pmatrix}
+                    -r \sin \varphi \\ \phantom{-}r \cos \varphi \\ 0
+                \end{pmatrix}
+            }
+        \dx[\paren{r, \varphi}]
+        = \int_{F_1}
+            \norm[\Bigg]{\begin{pmatrix} 0 \\ 0 \\ r \end{pmatrix}}
+        \dx[\paren{r, \varphi}]
+        = 2 \pi \int_0^1 r \dx[r]
+        = \pi
+        \displaybreak[0] \\
+        \int_{F_2} 1 \dF[F_2] &
+        = \int_{F_2}
+            \norm[\Bigg]{
+                \begin{pmatrix}
+                    -\sqrt{1 - z} \sin \varphi \\
+                    \phantom{-} \sqrt{1 - z} \cos \varphi \\
+                    0
+                \end{pmatrix}
+                \times
+                \begin{pmatrix}
+                    \frac{-1}{2 \sqrt{1 - z}} \cos \varphi \\
+                    \frac{-1}{2 \sqrt{1 - z}} \sin \varphi \\
+                    1
+                \end{pmatrix}
+            }
+        \dx[\paren{\varphi, z}]
+        = \int_{F_2}
+            \norm[\Bigg]{
+                \begin{pmatrix}
+                    \sqrt{1 - z} \cos \varphi \\
+                    \sqrt{1 - z} \sin \varphi \\
+                    \frac{1}{2}
+                \end{pmatrix}
+            }
+        \dx[\paren{\varphi, z}]
+        \\ &
+        = 2 \pi \int_0^1 \frac{\sqrt{5 - 4z}}{2} \dx[z]
+        % = \frac{\pi}{4} \int_1^0 -4 \sqrt{5 - 4z} \dx[z]
+        = \frac{\pi}{4} \int_1^5 \sqrt{u} \dx[u]
+        = \frac{\pi}{6} \FunctionBounds{\sqrt{u^3}}{1}{5}
+        = \frac{5 \sqrt{5} - 1}{6} \pi
+    \end{align*}
+    Wir wissen dass~\( \partial K = F_1 \cup F_2 \)
+    und dass~\( \mu \paren{F_1 \cap F_2} = 0 \).
+    \begin{equation*}
+        \volume{\partial K}
+        = \volume{F_1} + \volume{F_2}
+        = \frac{5 \paren{1 + \sqrt{5}}}{6} \pi
+    \end{equation*}
+
+    Weiterhin gilt
+    \begin{align*}
+        \int_{F_1} x \dF[F_1] &
+        = \int_{F_1}
+            \begin{pmatrix} r \cos \varphi \\ r \sin \varphi \\ 0 \end{pmatrix}
+            \norm[\Bigg]{ \begin{pmatrix} 0 \\ 0 \\ r \end{pmatrix} }
+        \dx[\paren{r, \varphi}]
+        = \int_{F_1}
+            r^2 \begin{pmatrix} \cos \varphi \\ \sin \varphi \\ 0 \end{pmatrix}
+        \dx[\paren{r, \varphi}]
+        = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}
+        \displaybreak[0] \\
+        \int_{F_2} x \dF[F_2] &
+        = \int_{F_2}
+            \begin{pmatrix}
+                \sqrt{1 - z} \cos \varphi \\ \sqrt{1 - z} \sin \varphi \\ z
+            \end{pmatrix}
+            \norm[\Bigg]{
+                \begin{pmatrix}
+                    \sqrt{1 - z} \cos \varphi \\
+                    \sqrt{1 - z} \sin \varphi \\
+                    \frac{1}{2}
+                \end{pmatrix}
+            }
+        \dx[\paren{\varphi, z}]
+        \equiv \int_{F_2}
+            \frac{\sqrt{5 - 4z}}{2} \begin{pmatrix} 0 \\ 0 \\ z \end{pmatrix}
+        \dx[\paren{\varphi, z}]
+        \\ &
+        = \pi \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \int_0^1 z \sqrt{5 - 4z} \dx[z]
+        = \frac{\pi}{4} \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \int_0^1 \paren{4z + 5 - 5} \sqrt{5 - 4z} \dx[z]
+        = \frac{\pi}{16} \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \int_5^1 \paren{u - 5} \sqrt{u} \dx[u]
+        \\ &
+        = \frac{\pi}{16} \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \paren[\Bigg]{
+            5 \int_1^5 \sqrt{u} \dx[u] - \int_1^5 \sqrt{u^3} \dx[u]
+        }
+        = \frac{\pi}{16} \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \paren[\Bigg]{
+            \frac{10}{3} \FunctionBounds{\sqrt{u^3}}{1}{5}
+            - \frac{2}{5} \FunctionBounds{\sqrt{u^5}}{1}{5}
+        }
+        \\ &
+        = \frac{\pi}{15 \cdot 16} \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        \paren[\big]{50 \paren{5 \sqrt{5} - 1} - 6 \paren{25 \sqrt{5} - 1}}
+        = \frac{100 \sqrt{5} - 44}{15 \cdot 16} \pi
+        \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+        = \frac{25 \sqrt{5} - 11}{60} \pi
+        \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+    \end{align*}
+    Damit berechnet sich der Fl\"achenschwerpunkt zu
+    \begin{equation*}
+        x_S = \frac{1}{\volume{\partial K}} \int_{\partial K} x \dF[\partial K]
+        = \frac{6}{5 \pi \paren{1 + \sqrt{5}}}
+        \paren[\Big]{\int_{F_1} x \dF[F_1] + \int_{F_2} x \dF[F_2]}
+        = \frac{25 \sqrt{5} - 11}{50 \paren{1 + \sqrt{5}}}
+        \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+    \end{equation*}
+\end{document}

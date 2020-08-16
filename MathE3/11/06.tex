@@ -1,0 +1,27 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Holomorphie Reellwertiger Funktionen]{2}
+
+    Es sei~\( f \) holomorph.
+    \begin{gather*}
+        \Phi \colon \ComplexNums \to \RealNums^2
+        , \enspace
+        z = x + y \iComplex \mapsto \begin{pmatrix} x \\ y \end{pmatrix}
+        , \qquad
+        f \colon \ComplexNums \to \ComplexNums
+        , \enspace
+        \Phi \paren[\big]{f \paren{x + y \iComplex}}
+        = \begin{pmatrix} u \paren{x, y} \\ 0 \end{pmatrix}
+        \eqqcolon \begin{pmatrix} u \paren{x, y} \\ v \paren{x, y} \end{pmatrix}
+        \\
+        \begin{rcases}
+            \partial_x u \paren{x, y} = \phantom{-}\partial_y v \paren{x, y} = 0
+            \\
+            \partial_y u \paren{x, y} = -\partial_x v \paren{x, y} = 0
+        \end{rcases}
+        u \paren{x, y} = c \enspace \in \RealNums
+    \end{gather*}
+    Es folgt dass \"uberall~\( f' \paren{z} = 0 \) gelten muss.
+\end{document}

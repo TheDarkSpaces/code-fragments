@@ -1,0 +1,134 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Sph\"arische Teilgebiete]{4}
+    \label{task:3dint:sphere:parts}
+
+    Es sei~\( \Omega \coloneqq \Omega_1 \cup \Omega_2 \)
+    mit~\( \Omega, \Omega_1, \Omega_2 \subset \RealNums^3 \).
+    \begin{align*}
+        \Omega_1 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given z \geq 0, \enspace x^2 + y^2 + z^2 \leq 1
+        }
+        \\
+        \Omega_2 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given -2 \leq z \leq 0, \enspace
+                \sqrt{x^2 + y^2} \leq 1 + \frac{z}{2}
+        }
+    \end{align*}
+
+
+    \PartEx[Skizze]{1}
+    \label{task:3dint:sphere:parts:sketch}
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Sketch]{Scone}
+
+        \caption*{%
+            Skizze zu
+            \hyperref[task:3dint:sphere:parts:sketch]{%
+                \ref*{task:3dint:sphere:parts}%
+                ~\ref*{task:3dint:sphere:parts:sketch}%
+            }%
+        }
+        \label{task:3dint:sphere:parts:sketch:visual}
+    \end{figure}
+
+    Wir sehen dass~\( \Omega_1 \) eine Halbkugel beschreibt,
+    w\"ahrend~\( \Omega_2 \) einen Kegel darstellt,
+    die sich nur in einer Nullmenge \"uberschneiden.
+    Das f\"uhrt zur Skizze
+    auf \hyperref[task:3dint:sphere:parts:sketch:visual]{%
+        Seite~\pageref*{task:3dint:sphere:parts:sketch:visual}%
+    }.
+
+
+    \PartEx[Volumen und Schwerpunkt]{3}
+
+    Durch eine Integration \"uber Kreisscheiben
+    k\"onnen wir leicht die Massen berechnen.
+    \begin{align*}
+        M_{\Omega_1} &
+        = \int_{\Omega_1} 1 \dx[\paren{x, y, z}]
+        = \int_{z = 0}^1
+            \int_{B_{\sqrt{1 - z^2}} \paren{0}} 1 \dx[\paren{x, y}]
+        \dx[z]
+        = \int_0^1 \paren{1 - z^2} \pi \dx[z]
+        = \paren[\Big]{ 1 - \frac{1}{3} } \pi
+        = \frac{2}{3} \pi
+        \displaybreak[0] \\
+        M_{\Omega_2} &
+        = \int_{\Omega_2} 1 \dx[\paren{x, y, z}]
+        = \int_{z = -2}^0
+            \int_{B_{1 + \frac{z}{2}} \paren{0}} 1 \dx[\paren{x, y}]
+        \dx[z]
+        = \int_{-2}^0 \paren[\Big]{1 + \frac{z}{2}}^2 \pi \dx[z]
+        \\ &
+        = \pi \int_{-2}^0 1 + z + \frac{z^2}{4} \dx[z]
+        = \paren[\Big]{2 - 2 + \frac{2}{3}} \pi
+        = \frac{2}{3} \pi
+        \displaybreak[0] \\
+        M_\Omega &
+        = M_{\Omega_1} + M_{\Omega_2}
+        = \frac{2}{3} \pi + \frac{2}{3} \pi
+        = \frac{4}{3} \pi
+    \end{align*}
+    Ebenso k\"onnen wir nun die Schwerpunkte bestimmen.
+    \begin{align*}
+        S_{\Omega_1} &
+        = \frac{1}{M_{\Omega_1}} \int_{\Omega_1}
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix}
+        \dx[\paren{x, y, z}]
+        = \frac{3}{2 \pi} \int_{z = 0}^1 \int_{B_{\sqrt{1 - z^2}} \paren{0}}
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix}
+        \dx[\paren{x, y}] \dx[z]
+        = \frac{3}{2 \pi} \int_0^1
+            \begin{psmallmatrix}
+                0 \\ 0 \\ z \paren{1 - z^2} \pi
+            \end{psmallmatrix}
+        \dx[z]
+        \\ &
+        = \frac{3}{2} \begin{psmallmatrix} 0 \\ 0 \\ 1 \end{psmallmatrix}
+            \int_0^1 z - z^3 \dx[z]
+        = \frac{3}{2} \StandardVect{3}
+            \cdot \FunctionBounds{\frac{z^2}{2} - \frac{z^4}{4}}{0}{1}
+        = \frac{3}{2} \StandardVect{3}
+            \cdot \paren[\Big]{\frac{1}{2} - \frac{1}{4}}
+        = \frac{3}{2} \cdot \frac{1}{4} \StandardVect{3}
+        = \frac{3}{8} \StandardVect{3}
+        \displaybreak[0] \\
+        S_{\Omega_2} &
+        = \frac{1}{M_{\Omega_2}} \int_{\Omega_2}
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix}
+        \dx[\paren{x, y, z}]
+        = \frac{3}{2 \pi} \int_{z = -2}^0 \int_{B_{1 + \frac{z}{2}} \paren{0}}
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix}
+        \dx[\paren{x, y}] \dx[z]
+        = \frac{3}{2 \pi} \int_{-2}^0
+            \begin{psmallmatrix}
+                0 \\ 0 \\ z \paren{1 + \frac{z}{2}}^2 \pi
+            \end{psmallmatrix}
+        \dx[z]
+        \\ &
+        = \frac{3}{2} \begin{psmallmatrix} 0 \\ 0 \\ 1 \end{psmallmatrix}
+            \int_{-2}^0 z + z^2 + \frac{z^3}{4} \dx[z]
+        = \frac{3}{2} \StandardVect{3} \cdot \paren[\Big]{-2 + \frac{8}{3} - 1}
+        = \frac{3}{2} \StandardVect{3} \cdot \frac{-1}{3}
+        = -\frac{1}{2} \StandardVect{3}
+        \displaybreak[0] \\
+        S_\Omega &
+        = \frac{1}{M_\Omega}
+            \paren[\big]{M_{\Omega_1} S_{\Omega_1} + M_{\Omega_2} S_{\Omega_2}}
+        = \frac{3}{4 \pi} \paren[\Big]{
+            \frac{2 \pi}{3} \cdot \frac{3}{8} \StandardVect{3}
+            - \frac{2 \pi}{3} \cdot \frac{1}{2} \StandardVect{3}
+        }
+        = \frac{1}{2} \paren[\Big]{\frac{3}{8} - \frac{1}{2}} \StandardVect{3}
+        = \frac{1}{2} \cdot \frac{-1}{8} \StandardVect{3}
+        = -\frac{1}{16} \StandardVect{3}
+    \end{align*}
+\end{document}

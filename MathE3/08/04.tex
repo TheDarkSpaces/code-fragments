@@ -1,0 +1,101 @@
+\documentclass[../full]{subfiles}
+
+
+\newcommand\NormalFunc{
+    \vv{n}
+}
+
+\begin{document}
+    \MainEx[Geschwindigkeitsfeld und Fluss]{2}
+
+    Zu einem gegebenen Geschwindigkeitsfeld
+    \begin{equation*}
+        V \colon \RealNums^3 \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+            \mapsto \begin{pmatrix} x^2 \\ xy \\ yz \end{pmatrix}
+    \end{equation*}
+    suchen wir den Fluss~\( S = \int_{\partial \Omega} V \vecdF \)
+    durch die Oberfl\"ache der Einheitskugel~\( \Omega = B_0 \paren{1} \)
+    in Richtung der \"au\ss eren Normalen.
+
+    Weil alle Werte von~\( \partial \Omega \)
+    auf der Niveaufl\"ache~\( g \paren{x} \coloneqq \norm{x}^2 = 1 \) liegen,
+    wissen wir dass~\( \nabla g \paren{x} = 2x \)
+    eine Normale zu~\( x \in \partial \Omega \) darstellt.
+    Diese Normale ist nach au\ss en gerichtet, weil
+    \begin{equation*}
+        \forall x \in \partial \Omega \; \forall s > 0 \colon
+            x + s \cdot 2x \notin \Omega
+    \end{equation*}
+    Weil alle Punkte~\( x \) die Norm~\( 1 \) haben,
+    ist~\( \nabla g \) zu normieren trivial,
+    und wir erhalten das nach au\ss en gerichtete Einheitsnormalenvektorfeld
+    \begin{equation*}
+        \NormalFunc \paren{x} = x
+    \end{equation*}
+
+    Wir k\"onnen~\( \partial \Omega \) parametrisieren durch
+    \begin{equation*}
+        \Phi \colon \IntervalCO{0}{2 \pi} \times \IntervalClosed{0}{\pi}
+            \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} \varphi \\ \theta \end{pmatrix}
+            \mapsto \begin{pmatrix}
+                \sin \paren{\theta} \cos \paren{\varphi} \\
+                \sin \paren{\theta} \sin \paren{\varphi} \\
+                \cos \paren{\theta}
+            \end{pmatrix}
+    \end{equation*}
+    Damit erhalten wir
+    \begin{align*}
+        S &
+        = \int_{\partial \Omega} V \vecdF
+        = \int_{\partial \Omega} \InnerProd{V}{\NormalFunc} \dF
+        \displaybreak[0] \\ &
+        = \int_0^{2 \pi}
+            \int_0^\pi
+                \InnerProd[\Bigg]{
+                    \begin{pmatrix}
+                        \sin^2 \paren{\theta} \cos^2 \paren{\varphi} \\
+                        \sin^2 \paren{\theta}
+                            \sin \paren{\varphi} \cos \paren{\varphi} \\
+                        \sin \paren{\theta} \cos \paren{\theta}
+                            \sin \paren{\varphi}
+                    \end{pmatrix}
+                }{
+                    \begin{pmatrix}
+                        \sin \paren{\theta} \cos \paren{\varphi} \\
+                        \sin \paren{\theta} \sin \paren{\varphi} \\
+                        \cos \paren{\theta}
+                    \end{pmatrix}
+                }
+                \norm[\Big]{
+                    \frac{\partial \Phi}{\partial \varphi}
+                            \paren{\varphi, \theta}
+                    \times
+                    \frac{\partial \Phi}{\partial \theta}
+                            \paren{\varphi, \theta}
+                }
+            \dx[\theta]
+        \dx[\varphi]
+        \displaybreak[0] \\ &
+        = \int_0^{2 \pi}
+            \int_0^\pi
+                \paren[\big]{
+                    \sin^3 \paren{\theta} \cos \paren{\varphi}
+                    + \sin \paren{\theta} \cos^2 \paren{\theta}
+                        \sin \paren{\varphi}
+                }
+                \,
+                \abs[\big]{\sin \paren{\theta}}
+            \dx[\theta]
+        \dx[\varphi]
+        \displaybreak[0] \\ &
+        = \int_0^{2 \pi} \cos \varphi \dx[\varphi]
+            \int_0^\pi \sin^4 \theta \dx[\theta]
+        + \int_0^{2 \pi} \sin \varphi \dx[\varphi]
+            \int_0^\pi \sin^2 \paren{\theta} \cos^2 \paren{\theta} \dx[\theta]
+        = 0
+    \end{align*}
+\end{document}

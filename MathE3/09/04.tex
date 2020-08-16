@@ -1,0 +1,75 @@
+\documentclass[../full]{subfiles}
+
+
+\NewDocumentCommand\NormalFunc{ o }{
+    \IfValueTF{#1} {n_{#1}} {\vv{n}}
+}
+
+\begin{document}
+    \MainEx[Integrals\"atze]{3}
+
+    Zu einem beschr\"ankten Gebiet~\( \Omega \subset \RealNums^n \)
+    mit hinreichend glattem Rand
+    sei~\( \NormalFunc \paren{x} \) eine \"au\ss ere Einheitsnormale.
+
+
+    \PartEx[Satz von Gau\ss]{2}
+
+    Nach dem Satz von Gau\ss\ gilt f\"ur eine Abbildung~\(
+        f \in C^1 \paren{\Omega, \RealNums^n}
+    \)
+    \begin{equation*}
+        \int_\Omega \paren[\big]{\fdiv f} \paren{x} \dx
+        = \int_{\partial \Omega}
+            \InnerProd[\big]{f \paren{x}}{\NormalFunc \paren{x}}
+        \dF
+    \end{equation*}
+
+    Zu~\( i = 1, \dotsc, n \)
+    sei~\( \varphi \in C^1 \paren{\Omega, \RealNums} \)
+    mit~\( f = \varphi \paren{x} \StandardVect{i} \).
+    Es ergibt sich
+    \begin{align*}
+        \int_\Omega \paren[\big]{\fdiv f} \paren{x} \dx &
+        = \int_\Omega \sum_{j = 1}^n \partial_j f_j \paren{x} \dx
+        = \int_\Omega \partial_i f_i \paren{x} \dx
+        = \int_\Omega \partial_i \varphi \paren{x} \dx
+        \\
+        \int_\Omega \paren[\big]{\fdiv f} \paren{x} \dx &
+        = \int_{\partial \Omega}
+            \InnerProd[\big]{f \paren{x}}{\NormalFunc \paren{x}}
+        \dF
+        = \int_{\partial \Omega} f_i \paren{x} \NormalFunc[i] \paren{x} \dF
+        = \int_{\partial \Omega} \varphi \paren{x} \NormalFunc[i] \paren{x} \dF
+    \end{align*}
+    Damit erhalten wir
+    den Hauptsatz der Integralrechnung im~\( \RealNums^n \)
+    \begin{equation*}
+        \int_\Omega \partial_i \varphi \paren{x} \dx
+        = \int_{\partial \Omega} \varphi \paren{x} \NormalFunc[i] \paren{x} \dF
+    \end{equation*}
+
+
+    \PartEx[Hauptsatz der Integralrechnung]{1}
+
+    Es sei~\( \varphi \paren{x} = c \in \RealNums \) eine beliebige Konstante.
+    \begin{equation*}
+        \int_{\partial \Omega} c \NormalFunc \paren{x} \dF
+        = \int_{\partial \Omega}
+            \begin{pmatrix}
+                \varphi \paren{x} \NormalFunc[1] \paren{x} \\
+                \vdots \\
+                \varphi \paren{x} \NormalFunc[n] \paren{x}
+            \end{pmatrix}
+        \dF
+        = \int_\Omega
+            \begin{pmatrix}
+                \partial_1 \varphi \paren{x} \\
+                \vdots \\
+                \partial_n \varphi \paren{x}
+            \end{pmatrix}
+        \dx
+        = \int_\Omega \begin{pmatrix} 0 \\ \vdots \\ 0 \end{pmatrix} \dx
+        = 0 \in \RealNums^n
+    \end{equation*}
+\end{document}

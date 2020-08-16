@@ -1,0 +1,100 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Komplexe Partialbruchzerlegung]{4}
+
+    Gegeben sind
+    \begin{gather*}
+        f \paren{z}
+        = \frac{2z}{\paren{z - 1}^2}
+        = \frac{2z - 2 + 2}{\paren{z - 1}^2}
+        = \frac{2 \paren{z - 1} + 2}{\paren{z - 1}^2}
+        = \frac{2}{z - 1} + \frac{2}{\paren{z - 1}^2}
+        \displaybreak[0] \\
+        \gamma \colon \IntervalClosed{0}{2 \pi} \to \ComplexNums
+        , \enspace
+        t \mapsto 2 \eEuler^{\iComplex t}
+        , \qquad
+        \gamma' \paren{t} = 2 \iComplex \eEuler^{\iComplex t}
+    \end{gather*}
+
+    \SolutionType{Residuensatz}
+
+    Aus der Partialbruchzerlegung ist sofort ersichtlich
+    dass~\( \Res_1 f = 2 \).
+    Weil~\( \gamma \) geschlossen ist
+    und den Punkt~\( 1 \) einmal
+    in mathematisch positiver Richtung uml\"auft,
+    gilt also
+    \begin{equation*}
+        \int_\gamma f \ds[z]
+        = \paren{+1} \cdot 2 \iComplex \pi \Res_1 f
+        = 4 \iComplex \pi
+    \end{equation*}
+
+    \SolutionType{Integration}
+
+    Wir halten fest, dass
+    \begin{gather*}
+        f \paren[\big]{\gamma \paren{t}} \gamma' \paren{t}
+        = \frac
+            {8 \iComplex \eEuler^{2 \iComplex t}}
+            {\paren{2 \eEuler^{\iComplex t} - 1}^2}
+        = \WithCondition*
+            {\frac{8 \iComplex u^2}{4 u^2 - 4u + 1}}
+            {u = \eEuler^{\iComplex t}}
+        = 2 \iComplex + \frac{8 \iComplex u - 2 \iComplex}{\paren{2u - 1}^2}
+        = 2 \iComplex \paren[\Big]{1 + \frac{4u - 1}{\paren{2u - 1}^2}}
+        \displaybreak[0] \\
+        \frac{4u - 1}{\paren{2u - 1}^2}
+        = \frac{A}{2u - 1} + \frac{B}{\paren{2u - 1}^2}
+        = \frac{2A u - A + B}{\paren{2u - 1}^2}
+        , \qquad
+        \begin{pmatrix} 4u \\ -1 \end{pmatrix}
+        = \begin{pmatrix} 2A u \\ B - A \end{pmatrix}
+        \enspace \Rightarrow \enspace
+        \begin{pmatrix} A \\ B \end{pmatrix}
+        = \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+    \end{gather*}
+
+    Damit k\"onnen wir~\( \int_\gamma f \dx[z] \) berechnen.
+    \begin{align*}
+        \int_\gamma f \dx[z] &
+        = 2 \iComplex \int_0^{2 \pi}
+            1 + \frac{2}{2 \eEuler^{\iComplex t} - 1}
+            + \frac{1}{\paren{2 \eEuler^{\iComplex t} - 1}^2}
+        \dx[t]
+        = 4 \iComplex \pi
+        + 2 \iComplex \int_0^{2 \pi}
+            \frac{2}{2 \eEuler^{\iComplex t} - 1}
+            + \frac{1}{\paren{2 \eEuler^{\iComplex t} - 1}^2}
+        \dx[t]
+        \displaybreak[0] \\ &
+        = 4 \iComplex \pi + 2 \iComplex \WithCondition*{
+                \int_0^{-2 \pi}
+                    \frac{-2}{2 \eEuler^{-\iComplex u} - 1}
+                    + \frac{-1}{\paren{2 \eEuler^{-\iComplex u} - 1}^2}
+                \dx[u]
+            }
+            {u = -t}
+        \displaybreak[0] \\ &
+        = 4 \iComplex \pi + 2 \iComplex \int_0^{-2 \pi}
+            \frac{2 \eEuler^{\iComplex u}}{\eEuler^{\iComplex u} - 2}
+            + \iComplex \frac{
+                    \iComplex \eEuler^{\iComplex u}
+                    \paren[\big]{\paren{\eEuler^{\iComplex u} - 2} + 2}
+                }
+                {\paren{\eEuler^{\iComplex u} - 2}^2}
+        \dx[u]
+        \displaybreak[0] \\ &
+        = 4 \iComplex \pi + 2 \iComplex \WithCondition*{
+                \int_{-1}^{-1}
+                    \frac{-2 \iComplex}{v} + \iComplex \frac{v + 2}{v^2}
+                \dx[v]
+            }
+            {v = \eEuler^{\iComplex u} - 2}
+        = 4 \iComplex \pi + 2 \iComplex \cdot 0
+        = 4 \iComplex \pi
+    \end{align*}
+\end{document}

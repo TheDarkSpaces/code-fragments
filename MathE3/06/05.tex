@@ -1,0 +1,48 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Volumina von Parallelotopen]{2}
+
+    Zu gegebenen Vektoren aus~\( \RealNums^4 \)
+    \begin{equation*}
+        x_1 = \begin{pmatrix} 1 \\ 0 \\ 1 \\ 0 \end{pmatrix}
+        , \quad
+        x_2 = \begin{pmatrix} 1 \\ 1 \\ 0 \\ 1 \end{pmatrix}
+        , \quad
+        x_3 = \begin{pmatrix}
+            \phantom{-}1 \\ -1 \\ -1 \\ \phantom{-}0
+        \end{pmatrix}
+    \end{equation*}
+    suchen wir die Volumina von aufgespannten Parallelotopen.
+
+    \begin{align*}
+        \volume[\big]{P \paren{x_1, x_2}} &
+        = \sqrt{ \det \paren[\Bigger]{
+            \begin{pmatrix} 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 \end{pmatrix}
+            \begin{pmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}
+        } }
+        = \sqrt{ \begin{vmatrix} 2 & 1 \\ 1 & 3 \end{vmatrix} }
+        = \sqrt{5}
+        \\
+        \volume[\big]{P \paren{x_1, x_2, x_3}} &
+        = \sqrt{ \det \paren[\Bigger]{
+            \begin{pmatrix}
+                1 & \phantom{-}0 & \phantom{-}1 & 0 \\
+                1 & \phantom{-}1 & \phantom{-}0 & 1 \\
+                1 & -1 & -1 & 0
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & 1 & \phantom{-}1 \\
+                0 & 1 & -1 \\
+                1 & 0 & -1 \\
+                0 & 1 & \phantom{-}0
+            \end{pmatrix}
+        } }
+        = \sqrt{
+            \begin{vmatrix} 2 & 1 & 0 \\ 1 & 3 & 0 \\ 0 & 0 & 3 \end{vmatrix}
+        }
+        = \sqrt{15}
+        = \sqrt{3} \sqrt{5}
+    \end{align*}
+\end{document}

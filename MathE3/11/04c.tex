@@ -1,0 +1,110 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Cauchy-Riemann'sche Differentialgleichungen]{6}
+
+    \begin{equation*}
+        \Phi \colon \ComplexNums \to \RealNums^2
+        , \enspace
+        z = x + y \iComplex \mapsto \begin{pmatrix} x \\ y \end{pmatrix}
+        , \qquad
+        \Phi \paren{f \colon \ComplexNums \to \ComplexNums}
+        \coloneqq \begin{pmatrix} u \paren{x, y} \\ v \paren{x, y} \end{pmatrix}
+    \end{equation*}
+    Eine Abbildung~\( f \) ist genau dann holomorph,
+    wenn die Cauchy-Riemann'schen Differentialgleichungen erf\"ullt sind:
+    \begin{equation*}
+        \nabla u
+        = \begin{pmatrix} \partial_x u \\ \partial_y u \end{pmatrix}
+        = \begin{pmatrix} \phantom{-}\partial_y v \\ -\partial_x v \end{pmatrix}
+        = \paren{\nabla v}^\perp
+    \end{equation*}
+
+
+    \PartEx[Bruch]{2}
+
+    \begin{gather*}
+        f \colon \ComplexNums \setminus \set{0} \to \ComplexNums
+        \\
+        f \paren{z}
+        = \frac{1}{z}
+        = \frac{1}{x + y \iComplex}
+        = \frac{x - y \iComplex}{x^2 + y^2}
+        , \qquad
+        \Phi \paren[\big]{f \paren{x + y \iComplex}}
+        = \begin{pmatrix}
+            \frac{x}{x^2 + y^2} \\ \frac{-y}{x^2 + y^2}
+        \end{pmatrix}
+        \\
+        \partial_x u \paren{x, y}
+        = \frac{y^2 - x^2}{\paren[\big]{x^2 + y^2}^2}
+        = \partial_y v \paren{x, y}
+        , \qquad
+        -\partial_y u \paren{x, y}
+        = \frac{2xy}{\paren[\big]{x^2 + y^2}^2}
+        = \partial_x v \paren{x, y}
+    \end{gather*}
+    Damit ist~\( \frac{1}{z} \) holomorph.
+
+
+    \PartEx[Sinus]{2}
+
+    \begin{gather*}
+        \begin{aligned}
+            f \paren{z} &
+            = \sin z
+            = \frac{\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}{2 \iComplex}
+            = \frac
+                {\eEuler^{\iComplex x - y} - \eEuler^{-\iComplex x + y}}
+                {2 \iComplex}
+            = \frac{
+                    \eEuler^{-y} \cos x + \eEuler^{-y} \iComplex \sin x
+                    - \eEuler^y \cos \paren{-x}
+                        - \eEuler^y \iComplex \sin \paren{-x}
+                }{2 \iComplex}
+            \\ &
+            = \frac{
+                    \eEuler^{-y} \cos x + \eEuler^{-y} \iComplex \sin x
+                    - \eEuler^y \cos x + \eEuler^y \iComplex \sin x
+                }{2 \iComplex}
+            = \frac{
+                    \paren{\eEuler^{-y} - \eEuler^y} \cos x
+                    + \paren{\eEuler^y + \eEuler^{-y}} \iComplex \sin x
+                }{2 \iComplex}
+            \\ &
+            = \frac{\eEuler^y + \eEuler^{-y}}{2} \sin x
+                - \frac{\eEuler^{-y} - \eEuler^y}{2} \iComplex \cos x
+            = \frac{\eEuler^y + \eEuler^{-y}}{2} \sin x
+                + \frac{\eEuler^y - \eEuler^{-y}}{2} \iComplex \cos x
+        \end{aligned}
+        \\
+        \Phi \paren[\big]{f \paren{x + y \iComplex}}
+        = \frac{1}{2} \begin{pmatrix}
+            \paren{\eEuler^y + \eEuler^{-y}} \sin x \\
+            \paren{\eEuler^y - \eEuler^{-y}} \cos x
+        \end{pmatrix}
+        \\
+        \partial_x u \paren{x, y}
+        = \frac{\eEuler^y + \eEuler^{-y}}{2} \cos x
+        = \partial_y v \paren{x, y}
+        , \qquad
+        \partial_y u \paren{x, y}
+        = \frac{\eEuler^y - \eEuler^{-y}}{2} \sin x
+        = -\partial_x v \paren{x, y}
+    \end{gather*}
+    Damit ist~\( \sin z \) holomorph.
+
+
+    \PartEx[Imagin\"arteil]{2}
+
+    \begin{gather*}
+        f \paren{z} = \ImagPart z = \ImagPart \paren{x + y \iComplex} = y
+        , \qquad
+        \Phi \paren[\big]{f \paren{x + y \iComplex}}
+        = \begin{pmatrix} y \\ 0 \end{pmatrix}
+        \\
+        \partial_y u \paren{x, y} = 1 \neq 0 = -\partial_x v \paren{x, y}
+    \end{gather*}
+    Damit ist~\( \ImagPart z \) nicht holomorph.
+\end{document}

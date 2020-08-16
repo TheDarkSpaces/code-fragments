@@ -1,0 +1,29 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Holomorphe Harmonie-Anforderung]{2}
+
+    Jede holomorphe Funktion~\( f \colon \ComplexNums \to \ComplexNums \)
+    muss im Realteil und im Imagin\"arteil harmonisch sein,
+    das hei\ss t
+    \begin{equation*}
+        \partial_{xx} \paren{\RealPart f} \paren{x, y}
+        = \partial_{yy} \paren{\ImagPart f} \paren{x, y}
+    \end{equation*}
+
+    Wir betrachten eine Funktion~\( f \paren{x + y \iComplex} \)
+    bei der der Realteil beschrieben wird durch~\( u \paren{x, y} \)
+    \begin{gather*}
+        \RealPart f \paren{x + y \iComplex}
+        \coloneqq u \paren{x, y}
+        = \sin x + \eEuler^y
+        \\
+        \partial_{xx} u \paren{x, y}
+        = -\sin x
+        \neq \eEuler^y
+        = \partial_{yy} u \paren{x, y}
+    \end{gather*}
+    Da die Harmonie im Realteil nicht gegeben ist,
+    kann~\( f \) nicht holomorph sein.
+\end{document}

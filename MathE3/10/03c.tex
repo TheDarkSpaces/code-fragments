@@ -1,0 +1,95 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Parametrisierung nach Stokes]{4}
+
+    \begin{gather*}
+        F = \set[\Bigger]{
+            \begin{pmatrix} x \\ y \\ z \end{pmatrix} \in \RealNums^3
+            \given \begin{array}{ @{} c @{} }
+                x^2 + y^2 - 2z = 0, \\ z \leq 2
+            \end{array}
+        }
+        \\
+        A \colon \RealNums^3 \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+            \mapsto \begin{pmatrix} 3y \\ -xz \\ y z^2 \end{pmatrix}
+    \end{gather*}
+
+
+    \PartEx[Kurve]{2}
+
+    \begin{gather*}
+        \gamma \colon \IntervalClosed{0}{2 \pi} \to \RealNums^3
+        , \enspace
+        t \mapsto \begin{pmatrix}
+                2 \cos \paren{-t} \\ 2 \sin \paren{-t} \\ 2
+            \end{pmatrix}
+            = \begin{pmatrix}
+                \phantom{-}2 \cos t \\ -2 \sin t \\ 2
+            \end{pmatrix}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \int_\gamma A \vecds &
+            = \int_0^{2 \pi}
+                \InnerProd[\Big]
+                    {\begin{pmatrix}
+                        -6 \sin t \\ -4 \cos t \\ -8 \sin t
+                    \end{pmatrix}}
+                    {\begin{pmatrix} -2 \sin t \\ -2 \cos t \\ 0 \end{pmatrix}}
+            \dx[t]
+            = 12 \int_0^{2 \pi} \sin^2 t \dx[t]
+                + 8 \int_0^{2 \pi} \cos^2 t \dx[t]
+            \\ &
+            = 12 \FunctionBounds{\frac{t}{2} - \frac{\sin 2t}{4}}{0}{2 \pi}
+                + 8 \FunctionBounds{\frac{t}{2} + \frac{\sin 2t}{4}}{0}{2 \pi}
+            = 12 \pi + 8 \pi
+            = 20 \pi
+        \end{aligned}
+    \end{gather*}
+
+
+    \PartEx[Fl\"ache]{2}
+
+    \begin{gather*}
+        \Phi \colon \IntervalClosed{0}{2 \pi} \times \IntervalClosed{0}{2}
+        , \enspace
+        \begin{pmatrix} \varphi \\ z \end{pmatrix}
+        \mapsto \begin{pmatrix}
+            \sqrt{2z} \cos \varphi \\ \sqrt{2z} \sin \varphi \\ z
+        \end{pmatrix}
+        \displaybreak[0] \\
+        \OuterProd[\big]{\TotalD{\Phi}{\varphi, z}}
+        = \begin{pmatrix}
+            \sqrt{2z} \cos \varphi \\ \sqrt{2z} \sin \varphi \\ -1
+        \end{pmatrix}
+        , \qquad
+        \curl A \paren{x, y, z}
+        = \begin{pmatrix} x + z^2 \\ 0 \\ -z - 3 \end{pmatrix}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \int_F \curl A \vecdF &
+            = \int_0^{2 \pi} \int_0^2
+                \InnerProd[\Big]
+                    {\begin{pmatrix}
+                        \sqrt{2z} \cos \varphi + z^2 \\ 0 \\ -z - 3
+                    \end{pmatrix}}
+                    {\begin{pmatrix}
+                        \sqrt{2z} \cos \varphi \\ \sqrt{2z} \sin \varphi \\ -1
+                    \end{pmatrix}}
+            \dx[z] \dx[\varphi]
+            \\ &
+            = \int_0^{2 \pi} \int_0^2
+                2z \cos^2 \varphi + z^2 \sqrt{2z} \cos \varphi + z + 3
+            \dx[z] \dx[\varphi]
+            \\ &
+            = 2 \int_0^{2 \pi} \cos^2 \varphi \dx[\varphi] \int_0^2 z \dx[z]
+                + 2 \pi \int_0^2 z \dx[z]
+                + 12 \pi
+            = 4 \pi + 4 \pi + 12 \pi
+            = 20 \pi
+        \end{aligned}
+    \end{gather*}
+\end{document}

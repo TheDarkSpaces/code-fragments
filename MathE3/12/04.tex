@@ -1,0 +1,68 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Geschlossene Nullhomotopie]{3}
+
+    Es sei~\( G \coloneqq \ComplexNums \setminus \set{0} \).
+
+
+    \PartEx[Geschlossene Kurve]{1}
+
+    Wir suchen eine geschlossene Kurve~\( \gamma \) in~\( G \).
+    Diese soll nullhomotop sein, und die Punkte~\( 1 \) und~\( -1 \) ber\"uhren.
+    \begin{equation*}
+        \gamma \colon \IntervalClosed{-\pi}{\pi} \to G
+        , \enspace
+        t \mapsto \eEuler^{i \abs{t}}
+    \end{equation*}
+
+
+    \PartEx[Homotopie]{1}
+
+    Wir suchen eine Homotopie~\( H \),
+    die~\( \gamma \) auf einen
+    einzelnen Punkt~\( r \eEuler^{\iComplex \varphi} \in G \) zusammenzieht.
+    \begin{equation*}
+        H \colon \IntervalClosed{0}{1} \times \IntervalClosed{-\pi}{\pi} \to G
+        , \enspace
+        \begin{pmatrix} s \\ t \end{pmatrix} \mapsto
+            \paren[\big]{sr + \paren{1 - s}}
+            \eEuler^{\iComplex s \varphi}
+            \eEuler^{\iComplex \paren{1 - s} \abs{t}}
+    \end{equation*}
+
+
+    \PartEx[Kurvenintegral]{1}
+
+    Es sei~\( f \colon G \to \ComplexNums \) holomorph,
+    dann wissen wir nach Cauchy dass~\( \int_\gamma f \ds[z] = 0 \).
+    \begin{align*}
+        \int_\gamma f \ds[z] &
+        = \int_{-\pi}^0
+            -\iComplex \eEuler^{-\iComplex t} f \paren{\eEuler^{-\iComplex t}}
+        \dx[t]
+        + \int_0^\pi
+            \iComplex \eEuler^{\iComplex t} f \paren{\eEuler^{\iComplex t}}
+        \dx[t]
+        = \iComplex \paren[\Big]{
+            \int_0^{-\pi}
+                \eEuler^{-\iComplex t} f \paren{\eEuler^{-\iComplex t}}
+            \dx[t]
+            + \int_0^\pi
+                \eEuler^{\iComplex t} f \paren{\eEuler^{\iComplex t}}
+            \dx[t]
+        }
+        \\ &
+        = \iComplex \paren[\Big]{
+            \int_0^\pi
+                \eEuler^{\iComplex t} f \paren{\eEuler^{\iComplex t}}
+            \dx[t]
+            - \int_0^\pi
+                \eEuler^{\iComplex t} f \paren{\eEuler^{\iComplex t}}
+            \dx[t]
+        }
+        = 0 \iComplex
+        = 0
+    \end{align*}
+\end{document}

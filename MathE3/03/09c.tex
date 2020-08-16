@@ -1,0 +1,137 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Torus in 3D]{4}
+    \label{task:torus:3d}
+
+    Wir definieren wir einen Torus um den Ursprung~\( 0 \in \RealNums^3 \)
+    mit~\( R_1 > R_2 \geq 0 \),
+    parametrisiert durch
+    \begin{equation*}
+        \Phi \colon
+            \IntervalClosed{0}{R_2}
+                    \times \IntervalCO{0}{2 \pi}
+                    \times \IntervalCO{0}{2 \pi}
+                \to \RealNums^3,
+            \enspace
+            \begin{pmatrix} r \\ \varphi \\ \psi \end{pmatrix}
+                \mapsto
+                R_1 \begin{pmatrix}
+                    \cos \varphi \\ \sin \varphi \\ 0
+                \end{pmatrix}
+                + r \paren[\Bigg]{
+                    \cos \psi \begin{pmatrix}
+                        \cos \varphi \\ \sin \varphi \\ 0
+                    \end{pmatrix}
+                    + \sin \psi \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}
+                }
+    \end{equation*}
+
+
+    \PartEx[Skizze und Jacobi-Matrix]{2}
+    \label{task:torus:3d:sketch}
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Sketch]{Torus}
+
+        \caption*{%
+            Skizze zu
+            \hyperref[task:torus:3d:sketch]{%
+                \ref*{task:torus:3d}%
+                ~\ref*{task:torus:3d:sketch}%
+            }%
+        }
+        \label{task:torus:3d:sketch:visual}
+    \end{figure}
+
+    \begin{gather*}
+        \TotalD{\Phi}{r, \varphi, \psi}
+        = \begin{pmatrix}
+            \cos \paren{\psi} \cos \paren{\varphi}
+                & -R_1 \sin \paren{\varphi}
+                    - r \cos \paren{\psi}  \sin \paren{\varphi}
+                & -r \sin \paren{\psi} \cos \paren{\varphi}
+            \\
+            \cos \paren{\psi} \sin \paren{\varphi}
+                & \phantom{-} R_1 \cos \paren{\varphi}
+                    + r \cos \paren{\psi} \cos \paren{\varphi}
+                & -r \sin \paren{\psi} \sin \paren{\varphi}
+            \\
+            \sin \paren{\psi}
+                & 0
+                & r \cos \paren{\psi}
+        \end{pmatrix}
+        \\
+        \det \paren[\big]{\TotalD{\Phi}{r, \varphi, \psi}}
+        = \paren[\Big]{
+            \paren[\big]{r^2 \cos \paren{\psi} + R_1 r}
+            \paren[\big]{\cos^2 \paren{\psi} + \sin^2 \paren{\psi}}
+        } \paren[\big]{\cos^2 \paren{\varphi} + \sin^2 \paren{\varphi}}
+        = r^2 \cos \paren{\psi} + R_1 r
+    \end{gather*}
+    Eine Skizze befindet sich auf \hyperref[task:torus:3d:sketch:visual]{%
+        Seite~\pageref*{task:torus:3d:sketch:visual}%
+    }.
+
+
+    \PartEx[Volumenberechnung]{2}
+
+    Das Volumen~\( V_{R_1, R_2} \) des Torus berechnet sich durch
+    \begin{equation*}
+        V_{R_1, R_2}
+        = \int_{r = 0}^{R_2}
+            \int_{\varphi = 0}^{2 \pi}
+                \int_{\psi = 0}^{2 \pi}
+                    \abs[\Big]
+                        {\det \paren[\big]{\TotalD{\Phi}{r, \varphi, \psi}}}
+                \dx[\psi]
+            \dx[\varphi]
+        \dx[r]
+        = \int_{r = 0}^{R_2}
+            \int_{\varphi = 0}^{2 \pi}
+                \int_{\psi = 0}^{2 \pi}
+                    \abs[\big]{R_1 r + r^2 \cos \psi}
+                \dx[\psi]
+            \dx[\varphi]
+        \dx[r]
+    \end{equation*}
+    Weil~\( \cos \psi \in \IntervalClosed{-1}{1} \) gilt,
+    wissen wir aus der Eigenschaft~\( R_1 > R_2 \),
+    dass
+    \begin{gather*}
+        \forall r \in \IntervalClosed{0}{R_2} \colon R_1 r > r^2
+        \enspace \Rightarrow \enspace
+        \forall \psi \in \IntervalClosed{0}{2 \pi} \colon
+            0 = r^2 - r^2 < R_1 r - r^2 \leq R_1 r + r^2 \cos \psi
+        \\
+        \det \paren[\big]{\TotalD{\Phi}{r, \varphi, \psi}}
+        = R_1 r + r^2 \cos \psi
+        > 0
+        \enspace \Rightarrow \enspace
+        \abs[\Big]{\det \paren[\big]{\TotalD{\Phi}{r, \varphi, \psi}}}
+        = \det \paren[\big]{\TotalD{\Phi}{r, \varphi, \psi}}
+    \end{gather*}
+
+    Damit ergibt sich
+    \begin{align*}
+        V_{R_1, R_2} &
+        = \int_{r = 0}^{R_2}
+            \int_{\varphi = 0}^{2 \pi}
+                \int_{\psi = 0}^{2 \pi} R_1 r + r^2 \cos \psi \dx[\psi]
+            \dx[\varphi]
+        \dx[r]
+        = 2 \pi \int_{r = 0}^{R_2}
+            2 R_1 r \pi + r^2 \int_{\psi = 0}^{2 \pi}
+                \cos \psi
+            \dx[\psi]
+        \dx[r]
+        \\ &
+        = 2 \pi \int_0^{R_2} 2 R_1 r \pi + r^2 \cdot 0 \dx[r]
+        = 4 R_1 \pi^2 \int_0^{R_2} r \dx[r]
+        = 4 R_1 \pi^2 \FunctionBounds{\frac{r^2}{2}}{0}{R_2}
+        = 2 R_1 R_2^2 \pi^2
+        = \paren{2 R_1 \pi} \paren{R_2^2 \pi}
+    \end{align*}
+\end{document}

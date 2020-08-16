@@ -1,0 +1,471 @@
+\documentclass[article, a4paper, twoside, openany]{book}
+
+% !TEX jobname = Math E3
+% !TEX enableShellEscape = yes
+
+\usepackage{iftex}
+
+\iftutex
+    \usepackage{fontspec}
+    \usepackage{polyglossia}
+    \setdefaultlanguage[spelling=new]{german}
+\else
+    \usepackage[ngerman]{babel}
+    \usepackage[utf8]{inputenx}
+\fi
+\usepackage{csquotes}
+
+\usepackage{etoolbox}
+\usepackage{xparse}
+\ifluatex
+    \usepackage{luatextra}
+\fi
+
+\usepackage[usenames, dvipsnames, svgnames, table]{xcolor}
+
+\usepackage{pgf, pgffor, pgfplots, tikz, tikzpagenodes}
+\usetikzlibrary{fpu, tikzmark, calc, positioning, shapes.misc, math}
+\usepgfplotslibrary{groupplots, colormaps, patchplots}
+\pgfplotsset{
+    compat=1.17,
+    graph 3d/.style={
+        width=\textwidth,
+        xlabel={\( x \)},
+        ylabel={\( y \)},
+        zlabel={\( z \)},
+        every axis x label/.append style={at=(ticklabel* cs:1)},
+        every axis y label/.append style={at=(ticklabel* cs:1)},
+        every axis z label/.append style={at=(ticklabel* cs:1)},
+    },
+    retain aspect ratio/.style={
+        width=\textwidth,
+        height=\textheight,
+        axis equal image,
+    },
+    precise surf/.style={
+        surf,
+        surf shading/precision=pdf,
+    },
+}
+
+% AMSmath packages
+\usepackage{%
+    amsmath,
+    amstext,
+    amsgen,
+    amsbsy,
+    amsgen,
+    amsopn,
+    amsgen,
+    amssymb,
+    amsfonts,
+    amsthm
+}
+% auxiliary math packages
+\usepackage{%
+    mathtools,
+    latexsym,
+    scalerel,
+    mathrsfs
+}
+% more math stuff
+\usepackage{array}
+\usepackage{xfp}
+% vector arrows
+\usepackage{esvect}
+% degree symbol
+\usepackage{textcomp}
+\usepackage{gensymb}
+
+\usepackage{fmtcount} % for context-less inline enumeration, such as "2nd type"
+
+% for environment wrapping of some AMSMath environments
+% see https://tex.stackexchange.com/questions/3169/
+% Making a new environment combining equation and split
+\usepackage{environ}
+
+\usepackage[%
+    top=0.5cm,
+    bottom=2cm,
+    left=2cm,
+    right=2cm,
+    headheight=17pt,
+    includehead,
+    includefoot
+]{geometry}
+
+
+\newcommand\MyName{Daniel Kinnst\"atter}
+\newcommand\MyStudentID{[ID]}
+\usepackage{fancyhdr}
+% clear default headers
+\fancyhf{}
+% define header styles
+\fancypagestyle{nonprint-pagestyle}{%
+    % clear header and footer
+    \fancyhf{}%
+    \renewcommand \headrulewidth {0pt}
+    \renewcommand \footrulewidth {0pt}
+    % if this is a single file submission,
+    % include my name, my student ID, and the course
+    \fancyhead[LO,LE]{\iftoggle{SingleFile}{\MyName}{}}%
+    \fancyhead[RO,RE]{\iftoggle{SingleFile}{\MyStudentID}{}}%
+    \fancyfoot[LO,LE]{\iftoggle{SingleFile}{Mathematik E3}{}}%
+    % always include page number and chapter information
+    \fancyfoot[CO,CE]{\thepage}%
+    \fancyfoot[RO,RE]{\chaptername~\arabic{chapter}}%
+    % change the chapter page style
+    \fancypagestyle{plain}{\pagestyle{nonprint-pagestyle}}%
+}
+\fancypagestyle{print-pagestyle}{%
+    % clear header and footer
+    \fancyhf{}%
+    \renewcommand \headrulewidth {0pt}
+    \renewcommand \footrulewidth {0pt}
+    % if this is a single file submission,
+    % include my name, my student ID, and the course
+    \fancyhead[LO,RE]{\iftoggle{SingleFile}{\MyName}{}}
+    \fancyhead[RO,LE]{\iftoggle{SingleFile}{\MyStudentID}{}}
+    \fancyfoot[LO,RE]{\iftoggle{SingleFile}{Mathematik E3}{}}%
+    % always include page number and chapter information
+    \fancyfoot[CO,CE]{\thepage}%
+    \fancyfoot[RO,LE]{\chaptername~\arabic{chapter}}%
+    % change the chapter page style
+    \fancypagestyle{plain}{\pagestyle{print-pagestyle}}%
+}
+% enable headers
+\pagestyle{nonprint-pagestyle}
+
+\usepackage{caption}
+
+\usepackage{subfiles}
+
+\usepackage[unicode=true, hidelinks]{hyperref}
+\usepackage{bookmark}
+\hypersetup{%
+    pdfstartview=FitH,
+    pdfnewwindow,
+    pdfdisplaydoctitle
+}
+\bookmarksetup{depth=3}
+
+% figure placement defaults
+\makeatletter
+\def\fps@figure{htbp}
+\def\fps@table{htbp}
+\makeatother
+
+
+% additional delimiter sizes
+% see https://tex.stackexchange.com/questions/389989/
+% How to get really big curly braces
+\makeatletter
+\newcommand\MakeDelimSize[2]{%
+    \@xp\newcommand\@xp*\csname#1\endcsname{\bBigg@{#2}}%
+    \@xp\newcommand\@xp*\csname#1l\endcsname{\@xp\mathopen\csname#1\endcsname}%
+    \@xp\newcommand\@xp*\csname#1r\endcsname{\@xp\mathclose\csname#1\endcsname}%
+}
+\makeatother
+\MakeDelimSize{Bigger} {3.0}
+\MakeDelimSize{VeryBig}{3.5}
+
+
+\protected\def\PROTECTEDphantom{\phantom}
+\newcommand\Points[1]{%
+    #1
+    \iftoggle{bonuspoints}{\emph{Zusatz-}}{}%
+    Punkt\ifnumequal{#1}{1}{\PROTECTEDphantom}{}{e}%
+}
+
+\newtoggle{bonuspoints}
+\newsavebox{\PointBox}%
+\newcounter{PointCounter}%
+\newcommand\PointFill[2]{%
+    \savebox{\PointBox}{%
+        \Points{#2}%
+    }%
+    \deflength{\rightskip}{\wd\PointBox + 2em}%
+    %
+    \stepcounter{PointCounter}%
+    \newcommand\PointMark{PointMark\arabic{PointCounter}}%
+    \newcommand\PointSpot{PointSpot\arabic{PointCounter}}%
+    %
+    \tikzmark{\PointMark}%
+    #1%
+    %
+    \begin{tikzpicture}[remember picture, overlay]
+        \path
+            let
+                \p0 = (pic cs:\PointMark),
+                \p1 = (current page text area.north east)
+            in
+                coordinate (\PointSpot) at (\x1, \y0);
+        \node [inner sep=0, outer sep=0, above left]
+            at (\PointSpot) {\usebox{\PointBox}};
+    \end{tikzpicture}%
+}
+\newcommand\ShortFill[2]{%
+    [#2 \iftoggle{bonuspoints}{B}{}P]\ifblank{#1}{}{\ #1}%
+}
+
+
+\newcommand\SkipMainEx[1][1]{%
+    \addtocounter{section}{#1}%
+}
+\newcommand\SkipToMainEx[1]{%
+    \defcounter{section}{#1 - 1}%
+}
+
+\ifluatex
+    \addto\captionsgerman{\renewcommand{\chaptername}{Blatt}}
+\else
+    \renewcommand\chaptername{Blatt}
+\fi
+\renewcommand\thesection{Aufgabe \arabic{section}}
+\renewcommand\thesubsection{\alph{subsection})}
+
+\newcommand\ExPattern[3][\section]{%
+    #1[\ShortFill{#2}{#3}]{\PointFill{#2}{#3}}%
+}
+% https://tex.stackexchange.com/questions/281590
+% Adding starred section and subsection to table of content without numbering
+\newcommand\NoExPattern[3][subsection]{%
+    \csname #1\endcsname *{\PointFill{#2}{#3}}%
+    \addcontentsline{toc}{#1}{\ShortFill{#2}{#3}}%
+}
+
+\newcommand\MainEx[2][]{%
+    \togglefalse{bonuspoints}%
+    \ExPattern[\section]{#1}{#2}%
+}
+\newcommand\MainExBonus[2][]{%
+    \toggletrue{bonuspoints}%
+    \ExPattern[\section]{#1}{#2}%
+}
+
+\newcommand\PartEx[2][]{%
+    \ExPattern[\subsection]{#1}{#2}%
+}
+\newcommand\PartExNoScore[1][]{%
+    \subsection{#1}%
+}
+\newcommand\NoPartExScore[2][]{%
+    \NoExPattern[subsection]{#1}{#2}%
+}
+
+\newcommand\SolutionType[1]{%
+    \subsubsection*{L\"osungsweg: #1}%
+    \addcontentsline{toc}{subsubsection}{L\"osung: #1}%
+}
+
+
+\renewcommand\arraystretch{1.25}
+
+
+\newcommand\NatNums        {\texorpdfstring{\mathbb{N}}{ℕ}}
+\newcommand\NatNumsZero    {\texorpdfstring{\mathbb{N}_{0}}{ℕ₀}}
+\newcommand\IntNums        {\texorpdfstring{\mathbb{Z}}{ℤ}}
+\newcommand\RationalNums   {\texorpdfstring{\mathbb{Q}}{ℚ}}
+\newcommand\RealNums       {\texorpdfstring{\mathbb{R}}{ℝ}}
+\newcommand\RealNumsZeroPos{\texorpdfstring{\mathbb{R}_{0}^{+}}{ℝ₀⁺}}
+\newcommand\RealNumsPos    {\texorpdfstring{\mathbb{R}^{+}}{ℝ⁺}}
+\newcommand\RealNumsZeroNeg{\texorpdfstring{\mathbb{R}_{0}^{-}}{ℝ₀⁻}}
+\newcommand\RealNumsNeg    {\texorpdfstring{\mathbb{R}^{-}}{ℝ⁻}}
+\newcommand\ComplexNums    {\texorpdfstring{\mathbb{C}}{ℂ}}
+
+\newcommand\Transpose{\mathrm{T}}
+
+\newcommand\HesseMatrix[1][]{\mathrm{H}_{#1}}
+
+\newcommand\TaylorFactor[1]{\mathrm{T}_{#1}}
+\newcommand\TaylorPoly[3]{\mathrm{T}_{#1, #2, #3}}
+
+\newcommand\dx[1][x]{
+    \mathop{}\! \mathrm{d} \mspace{1mu plus 0.4mu minus 0.2mu} #1
+}
+\NewDocumentCommand\dudx { O{u} O{x} } {
+    \frac{\dx[#1]}{\dx[#2]}
+}
+% bigger cdot, see
+% https://tex.stackexchange.com/questions/235118
+% Making a thicker \cdot for dot product (that is thinner than \bullet)
+\makeatletter
+\newcommand*{\bigcdot}{}% Check if undefined
+\DeclareRobustCommand*{\bigcdot}{%
+    \mathbin{\mathpalette\bigcdot@{}}%
+}
+\newcommand*{\bigcdot@scalefactor}{.5}
+\newcommand*{\bigcdot@widthfactor}{1.15}
+\newcommand*{\bigcdot@}[2]{%
+    % #1: math style
+    % #2: unused
+    \sbox0{\( #1\vcenter{} \)}% math axis
+    \sbox2{\( #1\cdot\m@th \)}%
+    \hbox to \bigcdot@widthfactor\wd2{%
+        \hfil
+        \raise\ht0\hbox{%
+            \scalebox{\bigcdot@scalefactor}{%
+                \lower\ht0\hbox{\( #1\bullet\m@th \)}%
+            }%
+        }%
+        \hfil
+    }%
+}
+\makeatother
+\newcommand\ds[1][s]{
+    \dx[#1]
+}
+\newcommand\vecds[1][s]{
+    {} \bigcdot \vv{\ds[#1]}
+}
+\newcommand\dF[1][F]{
+    \dx[#1]
+}
+\newcommand\vecdF[1][F]{
+    {} \bigcdot \vv{\dF[#1]}
+}
+
+\NewDocumentCommand\FunctionBounds { ss O{\Big} m o m m } {
+    \begingroup
+        \def\BoundsL{}
+        \def\BoundsR{}
+        \def\BoundsPre{\IfValueT{#5} {#5 = }}
+        \IfBooleanTF{#1}
+                { \IfBooleanF{#2} {\def\BoundsL{\left} \def\BoundsR{\right}} }
+                { \def\BoundsL{#3} \def\BoundsR{#3} }
+        \BoundsL\lbrack #4 \BoundsR\rbrack
+            _{\BoundsPre #6}
+            ^{\BoundsPre #7}
+    \endgroup
+}
+
+\DeclarePairedDelimiter{\paren}{\lparen}{\rparen}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+\DeclarePairedDelimiterX\InnerProd[2]{\langle}{\rangle}{#1, #2}
+\DeclarePairedDelimiterXPP\OuterProd[1]{\wedge}{\lparen}{\rparen}{}{#1}
+
+% Set with auto-resizing pipe character as \given
+% adapted from the mathtools documentation
+% just to make sure it exists
+\providecommand\given{\mid}
+% can be useful to refer to this outside \Set
+\newcommand\SetSymbol[1][]{%
+    \nonscript\:#1\vert%
+    \allowbreak%
+    \nonscript\:%
+    \mathopen{}%
+}
+\DeclarePairedDelimiterX\set[1]{\lbrace}{\rbrace}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    #1%
+}
+
+\DeclarePairedDelimiterX\IntervalOpen[2]{\lparen}{\rparen}{#1, #2}
+\DeclarePairedDelimiterX\IntervalClosed[2]{\lbrack}{\rbrack}{#1, #2}
+\DeclarePairedDelimiterX\IntervalOC[2]{\lparen}{\rbrack}{#1, #2}
+\DeclarePairedDelimiterX\IntervalCO[2]{\lbrack}{\rparen}{#1, #2}
+
+\DeclarePairedDelimiterXPP\TotalD[2]{\mathcal{D} #1}
+    {\lparen}{\rparen}{}{#2}
+\DeclarePairedDelimiterXPP\TotalDMulti[3]{\mathcal{D}^{#3} #1}
+    {\lparen}{\rparen}{}{#2}
+
+\DeclarePairedDelimiterX\Sequence[2]{\lparen}{\rparen}{{#1}_{#2}}
+
+\NewDocumentCommand \WithCondition { s O{} m m } {
+    \IfBooleanTF{#1} {\left. #3 \right\rvert} {#3 #2\rvert}
+    _{#4}
+}
+
+\newcommand\toGT{\mathbin{\searrow}}
+\newcommand\toLT{\mathbin{\nearrow}}
+
+% unit standard vectors
+\newcommand\StandardVect[1]{
+    \vv*{\mathrm{e}}{#1}
+}
+
+\DeclarePairedDelimiterXPP\volume[1]{\operatorname{vol}}{\lparen}{\rparen}{}{#1}
+
+% vector field rotation, curl
+\DeclareMathOperator{\curl}{rot}
+% function divergence
+\DeclareMathOperator{\fdiv}{div}
+
+\DeclareMathOperator{\RealPart}{\mathfrak{Re}}
+\DeclareMathOperator{\ImagPart}{\mathfrak{Im}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\arcosh}{arcosh}
+
+\DeclareMathOperator{\Res}{Res}
+
+\newcommand\eEuler{
+    \mathrm{e} \mkern 1mu \relax
+}
+\newcommand\iComplex{
+    \mathrm{i} \mkern 1mu \relax
+}
+
+
+\newtoggle  {SingleFile}
+\togglefalse{SingleFile}
+
+\newtoggle  {ApplyCorrections}
+\toggletrue {ApplyCorrections}
+
+\providecommand \HomeworkFilePre {}
+\providecommand \HomeworkFileDir {}
+
+\NewDocumentCommand \NewHomework { m O{#1} m }{%
+    \iftoggle{SingleFile}
+        {\setcounter{chapter}{#1}}
+        {\chapter[\chaptername{}~\arabic{chapter}]{}}%
+    \notblank{#2} {\edef\HomeworkFilePre{\HomeworkFilePre #2/}} {}%
+    \SkipToMainEx{#3}%
+}
+\makeatletter
+\newcommand \HomeworkPart[2][] {%
+    \begingroup%
+        \notblank{#1} {\edef\HomeworkFilePre{\HomeworkFilePre #1/}} {}%
+        \edef\HomeworkFileDir{\HomeworkFileDir \HomeworkFilePre}%
+        \edef\HomeworkFileLoc{\HomeworkFileDir #2}%
+        \edef\HomeworkFileSub{\HomeworkFilePre #2}%
+        \iftoggle{ApplyCorrections} {%
+            \IfFileExists{\HomeworkFileLoc c} {%
+                \edef\HomeworkFileLoc{\HomeworkFileLoc c}%
+                \edef\HomeworkFileSub{\HomeworkFileSub c}%
+            } {}%
+        } {}%
+        \def \HomeworkFilePre{}%
+        \subfile{\ifundef{\subfiles@split}{\HomeworkFileLoc}{\HomeworkFileSub}}%
+    \endgroup%
+}
+\makeatother
+
+
+\begin{document}
+    \HomeworkPart{title}
+    \HomeworkPart{01}
+    \HomeworkPart{02}
+    \HomeworkPart{03}
+    \HomeworkPart{04}
+    \HomeworkPart{05}
+    \HomeworkPart{06}
+    \HomeworkPart{07}
+    \HomeworkPart{08}
+    \HomeworkPart{09}
+    \HomeworkPart{10}
+    \HomeworkPart{11}
+    \HomeworkPart{12}
+\end{document}
+
+\toggletrue{SingleFile}
+\togglefalse{ApplyCorrections}
+\pagestyle{print-pagestyle}

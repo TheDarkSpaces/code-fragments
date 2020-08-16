@@ -1,0 +1,110 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Kurvenintegrale]{4}
+
+    F\"ur~\( n \in \IntNums \) sei
+    \begin{equation*}
+        \gamma_n \colon
+            \IntervalClosed{0}{2 \pi} \to \RealNums^2
+            , \enspace
+            t \mapsto \begin{pmatrix}
+                \cos \paren{nt} \\ \sin \paren{nt}
+            \end{pmatrix}
+    \end{equation*}
+    Au\ss erdem seien~\( f_1, f_2 \colon  \RealNums^2 \to \RealNums^2 \)
+    gegeben durch
+    \begin{equation*}
+        f_1 \paren{x, y} = \frac{1}{x^2 + y^2}
+            \begin{pmatrix} x \\ y \end{pmatrix}
+        , \qquad
+        f_2 \paren{x, y} = \frac{1}{x^2 + y^2}
+            \begin{pmatrix} -y \\ x \end{pmatrix}
+    \end{equation*}
+
+    Wir bemerken dass
+    \begin{gather*}
+        f_1 \paren[\big]{\gamma_n \paren{t}}
+        = \begin{pmatrix} \cos \paren{nt} \\ \sin \paren{nt} \end{pmatrix}
+        , \enspace
+        f_2 \paren[\big]{\gamma_n \paren{t}}
+        = \begin{pmatrix} -\sin \paren{nt} \\ \cos \paren{nt} \end{pmatrix}
+        \displaybreak[0] \\
+        \forall n \colon \gamma_n' \paren{t} = n \begin{pmatrix}
+            -\sin \paren{nt} \\ \cos \paren{nt}
+        \end{pmatrix}
+        , \qquad
+        \forall t \colon
+        \norm[\big]{\gamma_n' \paren{t}} = \abs{n}
+    \end{gather*}
+
+
+    \PartEx{1}
+
+    \begin{equation*}
+        \int_{\gamma_n} f_1 \dx[s]
+        = \int_0^{2 \pi}
+            \abs{n}
+            \begin{pmatrix} \cos \paren{nt} \\ \sin \paren{nt} \end{pmatrix}
+        \dx[t]
+        = \abs{n} \int_0^{2 \pi}
+            \begin{pmatrix} \cos \paren{nt} \\ \sin \paren{nt} \end{pmatrix}
+        \dx[t]
+        = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+    \end{equation*}
+
+
+    \PartEx{1}
+
+    \begin{equation*}
+        \int_{\gamma_n} f_2 \dx[s]
+        = \int_0^{2 \pi}
+            \abs{n}
+            \begin{pmatrix} -\sin \paren{nt} \\ \cos \paren{nt} \end{pmatrix}
+        \dx[t]
+        = \abs{n} \int_0^{2 \pi}
+            \begin{pmatrix} -\sin \paren{nt} \\ \cos \paren{nt} \end{pmatrix}
+        \dx[t]
+        = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+    \end{equation*}
+
+
+    \PartEx{1}
+
+    \begin{equation*}
+        \int_{\gamma_n} f_1 \vecds
+        = \int_0^{2 \pi}
+            \InnerProd[\Big]{
+                \begin{pmatrix}
+                    \cos \paren{nt} \\ \sin \paren{nt}
+                \end{pmatrix}
+            }{
+                n \begin{pmatrix}
+                    -\sin \paren{nt} \\ \cos \paren{nt}
+                \end{pmatrix}
+            }
+        \dx[t]
+        = 0
+    \end{equation*}
+
+
+    \PartEx{1}
+
+    \begin{equation*}
+        \int_{\gamma_n} f_2 \vecds
+        = \int_0^{2 \pi}
+            \InnerProd[\Big]{
+                \begin{pmatrix}
+                    -\sin \paren{nt} \\ \cos \paren{nt}
+                \end{pmatrix}
+            }{
+                n \begin{pmatrix}
+                -\sin \paren{nt} \\ \cos \paren{nt}
+                \end{pmatrix}
+            }
+        \dx[t]
+        = \int_0^{2 \pi} n \dx[t]
+        = 2n \pi
+    \end{equation*}
+\end{document}

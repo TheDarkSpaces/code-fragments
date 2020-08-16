@@ -1,0 +1,151 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Masse und Schwerpunkt von Mengen]{4}
+
+
+    \PartEx[Zusammengesetzten Mengen]{2}
+
+    Es seien \( \Omega_1, \Omega_2 \in \RealNums^n \)~disjunkt und messbar,
+    mit Massen~\( M_{\Omega_1}, M_{\Omega_2} \)
+    und Schwerpunkten~\( S_{\Omega_1}, S_{\Omega_2} \),
+    und es sei~\( \Omega \coloneqq \Omega_1 \cup \Omega_2 \).
+
+    Weil~\( \Omega_1, \Omega_2 \) disjunkt sind,
+    wissen wir dass
+    \begin{equation*}
+        \chi_{\Omega_1} \paren{x} = 1
+        \enspace \Rightarrow \enspace
+        \chi_{\Omega_2} \paren{x} = 0
+        \qquad \land \qquad
+        \chi_{\Omega_2} \paren{x} = 1
+        \enspace \Rightarrow \enspace
+        \chi_{\Omega_1} \paren{x} = 0
+    \end{equation*}
+    Damit l\"asst sich die characteristische Funktion von~\( \Omega \)
+    schreiben als
+    \begin{equation*}
+        \chi_\Omega \paren{x}
+        = \chi_{\Omega_1 \cup \Omega_2} \paren{x}
+        = \chi_{\Omega_1} \paren{x} + \chi_{\Omega_2} \paren{x}
+    \end{equation*}
+    Es sei nun~\( I \subset \RealNums^n \) ein mehrdimensionales Intervall,
+    so dass~\( \Omega \subset I \).
+    Damit gilt
+    \begin{equation*}
+        \int_\Omega f \paren{x} \dx
+        = \int_I \chi_\Omega \paren{x} f \paren{x} \dx
+        = \int_I
+            \paren[\big]{\chi_{\Omega_1} \paren{x} + \chi_{\Omega_2} \paren{x}}
+            f \paren{x}
+        \dx
+        = \int_I
+            \chi_{\Omega_1} \paren{x} f \paren{x}
+            + \chi_{\Omega_2} \paren{x} f \paren{x}
+        \dx
+    \end{equation*}
+    Aus der Linearit\"atseigenschaft des Integrals folgt dass
+    \begin{equation*}
+        \int_I
+            \chi_{\Omega_1} \paren{x} f \paren{x}
+            + \chi_{\Omega_2} \paren{x} f \paren{x}
+        \dx
+        = \int_I \chi_{\Omega_1} \paren{x} f \paren{x} \dx
+            + \int_I \chi_{\Omega_2} \paren{x} f \paren{x} \dx
+        = \int_{\Omega_1} f \paren{x} \dx + \int_{\Omega_2} f \paren{x} \dx
+    \end{equation*}
+
+    Dann ergibt sich f\"ur~\( \Omega \) als Masse und Schwerpunkt
+    \begin{align*}
+        M_\Omega &
+        = \int_\Omega \rho \paren{x} \dx
+        = \int_{\Omega_1 \cup \Omega_2} \rho \paren{x} \dx
+        = \int_{\Omega_1} \rho \paren{x} \dx
+            + \int_{\Omega_2} \rho \paren{x} \dx
+        = M_{\Omega_1} + M_{\Omega_2}
+        \\
+        S_\Omega &
+        = \begin{aligned}[t]
+            \frac{1}{M_\Omega} \int_\Omega x \rho \paren{x} \dx &
+            = \frac{1}{M_{\Omega_1} + M_{\Omega_2}}
+            \paren[\Big]{
+            \int_{\Omega_1} x \rho \paren{x} \dx
+            + \int_{\Omega_2} x \rho \paren{x} \dx
+            }
+            \\ &
+            = \frac{1}{M_{\Omega_1} + M_{\Omega_2}}
+            \paren[\Big]{
+            M_{\Omega_1}
+            \frac{1}{M_{\Omega_1}} \int_{\Omega_1} x \rho \paren{x} \dx
+            + M_{\Omega_2}
+            \frac{1}{M_{\Omega_2}} \int_{\Omega_2} x \rho \paren{x} \dx
+            }
+            \\ &
+            = \frac{1}{M_{\Omega_1}
+                + M_{\Omega_2}} \paren[\big]{
+                    M_{\Omega_1} S_{\Omega_1} + M_{\Omega_2} S_{\Omega_2}
+                }
+        \end{aligned}
+    \end{align*}
+
+
+    \PartEx[Untermengen]{2}
+
+    Zur Bestimmung der Fl\"ache~\( M \)
+    und des geometrischen Schwerpunkts~\( S \) von Mengen
+    setzen wir die Dichtefunktion~\( \rho \colon x \mapsto 1 \) an.
+
+    Zu~\( R, a > 0 \) mit~\( 2 a^2 \leq R^2 \) definieren wir die Mengen
+    \begin{equation*}
+        D = \set[\big]{ x \in \RealNums^2 \given \norm{x}_2 \leq R },
+        \qquad
+        Q = \IntervalClosed{-a}{a} \times \IntervalClosed{0}{a},
+        \qquad
+        X = D \setminus Q
+    \end{equation*}
+    F\"ur~\( D \) und~\( Q \) sind Fl\"ache und gemetrischer Schwerpunkt
+    sofort ersichtlich als
+    \begin{equation*}
+        \begin{aligned}
+            M_D &= \pi R^2
+            \\
+            S_D &= \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+            = 0 \StandardVect{2}
+        \end{aligned}
+        \qquad \text{und} \qquad
+        \begin{aligned}
+            M_Q &= 2 a^2
+            \\
+            S_Q &= \frac{1}{2} \begin{pmatrix} 0 \\ a \end{pmatrix}
+            = \frac{a}{2} \StandardVect{2}
+        \end{aligned}
+    \end{equation*}
+
+    Wir sehen, dass~\( Q \subset D \)
+    weil~\( \max_{x \in Q} \norm{x}_2 = a \sqrt{2} \leq R \).
+    Das erlaubt uns, \( D = Q \cup X \) zu setzen,
+    wobei \( Q \)~und~\( X \) disjunkt sind.
+    Damit gilt f\"ur Fl\"ache und Schwerpunkt von~\( X \)
+    \begin{gather*}
+        M_X = M_D - M_Q
+        = \pi R^2 - 2 a^2
+        \\
+        S_X = \frac{1}{M_X} \paren[\big]{M_D S_D - M_Q S_Q}
+        = \frac{a^3}{2 a^2 - \pi R^2} \StandardVect{2}
+    \end{gather*}
+    Im Fall~\( a = \frac{R}{2} \) ergibt sich dann
+    \begin{gather*}
+        \begin{aligned}
+            M_Q &= \frac{R^2}{2}
+            \\
+            S_Q &= \frac{R}{4} \StandardVect{2}
+        \end{aligned}
+        \qquad \text{und} \qquad
+        \begin{aligned}
+        M_X &= \paren[\Big]{\pi - \frac{1}{2}} R^2
+        \\
+        S_X &= \frac{R}{4 \paren{1 - 2 \pi}} \StandardVect{2}
+        \end{aligned}
+    \end{gather*}
+\end{document}

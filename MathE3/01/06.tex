@@ -1,0 +1,33 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Mehrdimensionale Integration]{2}
+
+    \begin{gather*}
+        \Omega
+        \coloneqq \IntervalClosed{0}{1} \times \IntervalClosed{1}{2}
+            \times \IntervalClosed{-1}{0} \times \IntervalClosed{-5}{5}
+        \\
+        \begin{aligned}
+            I &= \int_\Omega
+                    2 + \sin \paren{\pi x_1} x_2 x_3
+                    \dx[\paren{x_1, x_2, x_3, x_4}]
+            \\ &
+            = 2 \volume{\Omega}
+            + \volume{\IntervalClosed{-5}{5}}
+                \cdot \int_0^1 \sin \pi x_1 \dx[x_1]
+                \cdot \int_1^2 x_2 \dx[x_2]
+                \cdot \int_{-1}^0 x_3 \dx[x_3]
+            \\ &
+            = 20
+            + 10 \cdot \FunctionBounds{-\frac{1}{\pi} \cos \pi x_1}{0}{1}
+                \cdot \FunctionBounds{\frac{x_2^2}{2}}{1}{2}
+                \cdot \FunctionBounds{\frac{x_3^2}{2}}{-1}{0}
+            \\ &
+            = 20 + \frac{5}{2 \pi} \cdot 2 \cdot 3 \cdot \paren{-1}
+            = 20 - \frac{15}{\pi}
+            = 5 \paren[\Big]{4 - \frac{3}{\pi}}
+        \end{aligned}
+    \end{gather*}
+\end{document}

@@ -1,0 +1,75 @@
+\documentclass[../full]{subfiles}
+
+
+\newcommand\RiemannR{\mathcal{R}}
+% https://tex.stackexchange.com/questions/9691/
+% Avoid hyphenation in “2-D”
+\newcommand\RiemannAttrib[1]{%
+    \( \RiemannR \)%
+    \nobreak\mbox{-}\nobreak\hskip0pt\relax%
+    #1%
+}
+
+% https://tex.stackexchange.com/questions/207056/
+% Wrong (too much) vertical space above \vdots in small matrix
+\newcommand\AllXs{%
+    \begin{psmallmatrix}
+        x_1 \\ \vphantom{\int\limits^x} \smash{\vdots} \\ x_n
+    \end{psmallmatrix}
+}
+
+\newcommand\IdentityMatrix[1][]{\mathrm{E}_{#1}}
+
+\begin{document}
+    \MainEx[Matrix der Zweiten Momente]{2}
+
+    Die Matrix der zweiten Momente f\"ur eine \RiemannAttrib{messbare}
+    Menge~\( \Omega \subset \RealNums^n \) sei definiert als
+    \begin{equation*}
+        M_{ij} = \int_\Omega x_i x_j \dx[\AllXs],
+        \quad
+        \text{mit}\ i, j = 1, \dotsc, n
+    \end{equation*}
+    Wir betrachten den Fall
+    dass~\( \Omega \coloneqq \IntervalClosed{-a}{a}^n \) mit~\( a > 0 \).
+    (Falls~\( a \leq 0 \) gilt dass~\( \IntervalClosed{-a}{a}^n = \emptyset \)
+    und~\( \int_\emptyset f \paren{x} \dx = 0 \), was recht langweilig ist.)
+
+    Zun\"achst wissen wir, dass allgemein gilt:
+    \begin{align*}
+        \int_{-a}^a x \dx &
+        = \FunctionBounds{\frac{a^2}{2}}{-a}{a}
+        = \frac{1}{2} \paren[\big]{a^2 - \paren{-a}^2}
+        = \frac{1}{2} \paren{a^2 - a^2}
+        = 0
+        \\
+        \int_{-a}^a x^2 \dx &
+        = \FunctionBounds{\frac{a^3}{3}}{-a}{a}
+        = \frac{1}{3} \paren[\big]{a^3 - \paren{-a}^3}
+        = \frac{1}{3} \paren{a^3 + a^3}
+        = \frac{2}{3} a^3
+    \end{align*}
+    Damit erhalten wir bereits unser Ergebnis,
+    wobei~\( \IdentityMatrix[n] \) die Einheitsmatrix
+    in~\( \RealNums^{n \times n} \) bezeichnet:
+    \begin{gather*}
+        M_{ij} = \int_\Omega x_i x_j \dx[\AllXs]
+        =
+        \begin{dcases}
+            \volume[\big]{\IntervalClosed{-a}{a}^{n - 1}}
+                \int_{-a}^a x_i^2 \dx[x_i]
+            = \paren{2a}^{n - 1} \FunctionBounds{\frac{x_i^3}{3}}{-a}{a}
+            = \paren{2a}^{n - 1} \cdot \frac{2}{3} a^3
+            = \frac{2^n a^{n + 2}}{3}
+            & i = j
+            \\
+            \volume[\big]{\IntervalClosed{-a}{a}^{n - 2}}
+                \int_{-a}^a x_i \dx[x_i]
+                \int_{-a}^a x_j \dx[x_j]
+            = 0
+            & i \neq j
+        \end{dcases}
+        \\
+        M = \frac{2^n a^{n + 2}}{3} \IdentityMatrix[n]
+    \end{gather*}
+\end{document}

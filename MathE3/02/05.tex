@@ -1,0 +1,133 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Integration auf Allgemeineren Gebieten]{4}
+    \label{task:3dint:generic}
+
+    Es sei~\( D \subset \RealNums^3 \)
+    die Menge die begrenzt wird durch
+    \begin{align*}
+        E_1 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given x = 0
+        }
+        \\
+        E_2 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given y = 0
+        }
+        \\
+        E_3 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given z = 0
+        }
+        \\
+        E_4 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given x - y - z = 0
+        }
+        \\
+        E_5 &= \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given y + z = 1
+        }
+    \end{align*}
+
+
+
+    \PartEx[Skizze]{2}
+    \label{task:3dint:generic:sketch}
+
+    Wir bezeichnen den Schnittpunkt der drei Mengen~\( E_i, E_j, E_k \)
+    mit~\( 1 \leq i < j < k \leq 5 \) als~\( p_{ijk} \).
+    Dies geschieht ohne Einschr\"ankung der Allgemeinheit
+    weil mit der Kommutativit\"at gilt dass~\( E_i \cap E_j = E_j \cap E_i \).
+
+    Wir stellen fest dass~\( \forall k \leq 4 \colon p_{ijk} = 0 \).
+    Weiterhin existieren weder~\( p_{145} \) noch~\( p_{235} \).
+    \begin{equation*}
+        p_0 \coloneqq
+        p_{ijk} = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix},
+        \; k \leq 4,
+        \qquad
+        p_{125} = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix},
+        \qquad
+        p_{135} = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix},
+        \qquad
+        p_{245} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
+        \qquad
+        p_{345} = \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}
+    \end{equation*}
+    Mit diesen Punkten k\"onnen wir die Skizze von~\( D \)
+    auf \hyperref[task:3dint:generic:sketch:visual]{%
+        Seite~\pageref*{task:3dint:generic:sketch:visual}%
+    } anfertigen.
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Sketch]{Tetraeder}
+
+        \caption*{%
+            Skizze zu
+            \hyperref[task:3dint:generic:sketch]{%
+                \ref*{task:3dint:generic}~\ref*{task:3dint:generic:sketch}%
+            }%
+        }
+        \label{task:3dint:generic:sketch:visual}
+    \end{figure}
+
+
+    \PartEx[Integration mit Fubini]{2}
+
+    Wir erkennen dass wir~\( D \) schreiben k\"onnen als
+    \begin{equation*}
+        D = \set[\Big]{
+            \begin{psmallmatrix} x \\y \\z \end{psmallmatrix} \in \RealNums^3
+            \given x, y, z \geq 0 \enspace \land \enspace x \leq y + z \leq 1
+        }
+        = \set[\Big]{
+            \begin{psmallmatrix} x \\y \\z \end{psmallmatrix} \in \RealNums^3
+            \given z \in \IntervalClosed{0}{1}, \;
+                y \in \IntervalClosed{0}{1 - z}, \;
+                x \in \IntervalClosed{0}{z + y}
+        }
+    \end{equation*}
+    Damit k\"onnen wir recht einfach integrieren und erhalten
+    \begin{align*}
+        \int_D x \dx[\paren{x, y, z}] &
+        = \int_{z = 0}^1
+            \int_{y = 0}^{1 - z}
+                \int_{x = 0}^{z + y} x \dx
+            \dx[y]
+        \dx[z]
+        \\ &
+        = \int_{z = 0}^1
+            \int_{y = 0}^{1 - z} \frac{\paren{z + y}^2}{2} \dx[y]
+        \dx[z]
+        = \int_{z = 0}^1
+            \int_{y = 0}^{1 - z} \frac{z^2}{2} + \frac{y^2}{2} + zy \dx[y]
+        \dx[z]
+        \\ &
+        = \int_{z = 0}^1
+            \int_{y = 0}^{1 - z} zy \dx[y]
+            + \int_{y = 0}^{1 - z} \frac{z^2}{2} \dx[y]
+            + \int_{y = 0}^{1 - z} \frac{y^2}{2} \dx[y]
+        \dx[z]
+        \\ &
+        = \int_0^1
+            \frac{\paren{1 - z} z^2}{2}
+            + \frac{\paren{1 - z}^2 z}{2}
+            + \frac{\paren{1 - z}^3}{6}
+        \dx[z]
+        \\ &
+        = \int_0^1
+            \frac{ \paren{1 - z} \paren{3 z^2 + 3z - 3 z^2 + 1 - 2z + z^2} }{6}
+        \dx[z]
+        \\ &
+        = \frac{1}{6} \int_0^1 1 - z^3 \dx[z]
+        = \frac{1}{6} \paren[\Big]{1 - \frac{1}{4}}
+        = \frac{3}{24}
+        = \frac{1}{8}
+    \end{align*}
+\end{document}

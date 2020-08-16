@@ -1,0 +1,103 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Kurven mit Stokes]{4}
+
+    \begin{equation*}
+        v \colon \RealNums^3 \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+        \mapsto \begin{pmatrix}
+            y \paren{1 + z} \\ z \paren{2 + x} \\ x \paren{y - 1}
+        \end{pmatrix}
+        = \begin{pmatrix}
+            y + yz \\ xz + 2z \\ xy - x
+        \end{pmatrix}
+    \end{equation*}
+
+
+    \PartEx[Kurve]{2}
+
+    \begin{gather*}
+        \gamma \colon \IntervalClosed{0}{2 \pi} \to \RealNums^3
+        , \enspace
+        t \mapsto \begin{pmatrix}
+            \frac{a}{\sqrt{2}} \cos t \\ \frac{a}{\sqrt{2}} \sin t \\ a \sin t
+        \end{pmatrix}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \int_\gamma v \vecds &
+            = \int_0^{2 \pi}
+                \InnerProd[\Big]
+                    {\begin{pmatrix}
+                        \frac{a}{\sqrt{2}} \sin \paren{t}
+                            \paren[\big]{1 + a \sin t} \\
+                        a \sin \paren{t}
+                            \paren[\big]{2 + \frac{a}{\sqrt{2}} \cos t} \\
+                        \frac{a}{\sqrt{2}} \cos \paren{t}
+                            \paren[\big]{\frac{a}{\sqrt{2}} \sin t - 1}
+                    \end{pmatrix}}
+                    {\begin{pmatrix}
+                        -\frac{a}{\sqrt{2}} \sin t \\
+                        \phantom{-}\frac{a}{\sqrt{2}} \cos t \\
+                        a \cos t
+                    \end{pmatrix}}
+            \dx[t]
+            \\ &
+            = \int_0^{2 \pi}
+                a^2 \sqrt{2} \sin t \cos t
+                + a^3 \sin t \cos^2 t
+                - \frac{a^2}{\sqrt{2}} \cos^2 t
+                - \frac{a^2}{2} \sin^2 t
+                - \frac{a^3}{2} \sin^3 t
+            \dx[t]
+            \\ &
+            = \paren[\big]{\sqrt{2} - 1} \frac{a^2}{2} \int_0^{2 \pi}
+                    \sin^2 t
+                \dx[t]
+                - a^2 \sqrt{2} \pi
+            = \paren[\big]{\sqrt{2} - 1} \frac{a^2}{2} \pi
+                - a^2 \sqrt{2} \pi
+            = -\frac{\sqrt{2} + 1}{2} a^2 \pi
+        \end{aligned}
+    \end{gather*}
+
+
+    \PartEx[Fl\"ache]{2}
+
+    \begin{gather*}
+        \Phi \colon \IntervalClosed{0}{2 \pi} \times \IntervalClosed{0}{1}
+        , \enspace
+        \begin{pmatrix} \varphi \\ s \end{pmatrix}
+        \mapsto \paren{1 - s} \gamma \paren{\varphi}
+        , \qquad
+        F \coloneqq \Phi \paren[\big]
+            {\IntervalClosed{0}{2 \pi} \times \IntervalClosed{0}{1}}
+        \displaybreak[0] \\
+        \OuterProd[\big]{\TotalD{\Phi}{\varphi, s}}
+        = a^2 \begin{pmatrix}
+            0 \\ \frac{s - 1}{\sqrt{2}} \\ \frac{1 - s}{2}
+        \end{pmatrix}
+        , \qquad
+        \curl v \paren{x, y, z}
+        = \begin{pmatrix} -2 \\ \phantom{-}1 \\ -1 \end{pmatrix}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \int_F \curl v \vecdF &
+            = \int_0^{2 \pi} \int_0^1
+                \InnerProd[\Big]
+                    {\begin{pmatrix}
+                        -2 \\ \phantom{-}1 \\ -1
+                    \end{pmatrix}}
+                    {a^2 \begin{pmatrix}
+                        0 \\ \frac{s - 1}{\sqrt{2}} \\ \frac{1 - s}{2}
+                    \end{pmatrix}}
+            \dx[s] \dx[\varphi]
+            = 2 a^2 \pi \int_0^1 \frac{s - 1}{\sqrt{2}} + \frac{s - 1}{2} \dx[s]
+            \\ &
+            = \paren[\big]{\sqrt{2} + 1} a^2 \pi \int_0^1 s - 1 \dx[s]
+            = -\frac{\sqrt{2} + 1}{2} a^2 \pi
+        \end{aligned}
+    \end{gather*}
+\end{document}

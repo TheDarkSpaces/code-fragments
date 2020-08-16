@@ -1,0 +1,181 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Koordinatentransformation und Dichte]{6}
+    \label{task:coordinate_transform:cylinder}
+
+    Zu~\( H > 0 \) sei ein K\"orper
+    mit Dichtefunktion~\( \rho \paren{x, y, z} \)
+    beschrieben durch
+    \begin{equation*}
+        K = \set[\Bigger]{
+            \begin{pmatrix} x \\ y \\ z \end{pmatrix} \in \RealNums^3
+            \given
+                \begin{matrix}
+                    1 \leq x^2 + y^2 \leq 2, \\ 0 \leq z \leq H
+                \end{matrix}
+        }
+    \end{equation*}
+
+
+    \PartEx[Skizze]{1}
+    \label{task:coordinate_transform:cylinder:sketch}
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Sketch]{Pipe}
+
+        \caption*{
+            Skizze zu
+            \hyperref[task:coordinate_transform:cylinder:sketch]{%
+                \ref*{task:coordinate_transform:cylinder}%
+                ~\ref*{task:coordinate_transform:cylinder:sketch}%
+            }
+        }
+        \label{task:coordinate_transform:cylinder:sketch:visual}
+    \end{figure}
+
+    \( K \)~beschreibt einen Hohlzylinder
+    entlang der \( z \)\nobreak\mbox{-}\nobreak\hskip0pt\relax Achse
+    mit H\"ohe~\( H \), Innenradius~\( 1 \), Au\ss enradius~\( \sqrt{2} \).
+    Eine entsprechende Skizze findet sich auf
+    \hyperref[task:coordinate_transform:cylinder:sketch:visual]{%
+        Seite~\pageref*{task:coordinate_transform:cylinder:sketch:visual}%
+    }.
+
+
+    \PartEx[Koordinatentransformation]{2}
+
+    Durch die Struktur von~\( K \)
+    bietet sich die Transformation in Zylinerkoordinaten an.
+    \begin{gather*}
+        \Phi \colon
+            \RealNumsZeroPos \times \IntervalCO{0}{2 \pi} \times \RealNums
+            \to \RealNums^3,
+        \enspace
+        \begin{pmatrix} r \\ \varphi \\ z \end{pmatrix}
+        \mapsto \begin{pmatrix}
+            r \cos \varphi \\ r \sin \varphi \\ z
+        \end{pmatrix}
+        \displaybreak[0] \\
+        \TotalD{\Phi}{r, \varphi, z}
+        = \begin{pmatrix}
+            \cos \varphi & -r \sin \varphi           & 0 \\
+            \sin \varphi & \phantom{-}r \cos \varphi & 0 \\
+            0            & 0                         & 1
+        \end{pmatrix}
+        , \qquad
+        \det \paren[\big]{\TotalD{\Phi}{r, \varphi, z}}
+        = r \cos^2 \paren{\varphi} + r \sin^2 \paren{\varphi}
+        = r
+    \end{gather*}
+    Wir sehen dass f\"ur die Transformation~\( \Phi \)
+    eine Menge~\( \widetilde{K} \) existiert
+    so dass~\( \Phi \paren{\widetilde{K}} = K \).
+    \begin{equation*}
+        \widetilde{K} = \IntervalClosed[\big]{1}{\sqrt{2}}
+            \times \IntervalCO[\big]{0}{2 \pi}
+            \times \IntervalClosed[\big]{0}{H}
+    \end{equation*}
+
+    Damit k\"onnen wir zu gegebener Dichtefunktion~\( \rho \)
+    die Masse~\( M_K \) beschreiben.
+    Hierbei sei~\( \widetilde{\rho} \coloneqq \rho \circ \Phi \).
+    \begin{equation*}
+        M_K = \int_K \rho \paren{x} \dx
+        = \int_{\widetilde{K}}
+            \widetilde{\rho} \paren{\widetilde{x}}
+            \abs[\Big]{\det \paren[\big]{\TotalD{\Phi}{\widetilde{x}}}}
+        \dx[\widetilde{x}]
+        = \int_{z = 0}^H
+            \int_{r = 1}^{\sqrt{2}}
+                r
+                \int_{\varphi = 0}^{2 \pi}
+                    \rho \paren[\big]{
+                        r \cos \paren{\varphi}, r \sin \paren{\varphi}, z
+                    }
+                \dx[\varphi]
+            \dx[r]
+        \dx[z]
+    \end{equation*}
+
+
+    \PartEx[Produktform der Dichtefunktion]{1}
+
+    Wenn die Dichtefunktion~\(
+        \rho \paren{x, y, z} = \rho_1 \paren{z} \rho_2^* \paren{x, y}
+    \) dann l\"asst sich dieses Integral weiter vereinfachen:
+    \begin{equation*}
+        M_K
+        = \int_0^H \rho_1 \paren{z} \dx[z]
+        \int_{r = 1}^{\sqrt{2}}
+            r
+            \int_{\varphi = 0}^{2 \pi}
+                \rho_2^* \paren{
+                    r \cos \paren{\varphi}, r \sin \paren{\varphi}
+                }
+            \dx[\varphi]
+        \dx[r]
+    \end{equation*}
+    Wenn weiterhin gilt dass~\(
+        \rho_2^* \paren{x, y} = \rho_2 \paren[\big]{\sqrt{x^2 + y^2}}
+    \), dann erhalten wir
+    \begin{equation*}
+        M_K = 2 \pi \int_0^H \rho_1 \paren{z} \dx[z]
+            \int_1^{\sqrt{2}} r \rho \paren{r} \dx[r]
+    \end{equation*}
+
+
+    \PartEx[Masse und Schwerpunkt]{2}
+
+    Wenn die Dichtefunktion gegeben ist durch~\(
+        \rho \paren{x, y, z} = z \paren{x^2 + y^2}
+    \),
+    dann ist~\( \rho_1 \paren{x} = x \) und~\( \rho_2 \paren{x} = x^2 \).
+    Damit ergeben sich Masse und Schwerpunkt zu
+    \begin{align*}
+        M_K &= 2 \pi \int_0^H z \dx[z] \int_1^{\sqrt{2}} r^3 \dx[r]
+        = 2 \pi
+            \FunctionBounds{\frac{z^2}{2}}{0}{H}
+            \FunctionBounds{\frac{r^4}{4}}{1}{\sqrt{2}}
+        = \paren[\Big]{1 - \frac{1}{4}} H^2 \pi
+        = \frac{3}{4} H^2 \pi
+        \displaybreak[0] \\
+        S_K &= \frac{1}{M_K} \int_K x \rho \paren{x} \dx
+        = \frac{4}{3 H^2 \pi} \int_{\widetilde{K}}
+            \Phi \paren{\widetilde{x}}
+            \rho \paren[\big]{\Phi \paren{\widetilde{x}}}
+            \abs[\Big]{\det \paren[\big]{\TotalD{\Phi}{\widetilde{x}}}}
+        \dx[\widetilde{x}]
+        = \frac{4}{3 H^2 \pi} \int_{\widetilde{K}}
+            \begin{psmallmatrix}
+                \paren{z r^3} r \cos \varphi \\
+                \paren{z r^3} r \sin \varphi \\
+                \paren{z r^3} z
+            \end{psmallmatrix}
+        \dx[\paren{r, \varphi, z}]
+        \\ &
+        = \frac{4}{3 H^2 \pi} \int_0^H \int_1^{\sqrt{2}} \int_0^{2 \pi}
+            \begin{psmallmatrix}
+                z r^4 \cos \varphi \\
+                z r^4 \sin \varphi \\
+                z^2 r^3
+            \end{psmallmatrix}
+        \dx[\varphi] \dx[r] \dx[z]
+        = \frac{4}{3 H^2 \pi} \int_0^H \int_1^{\sqrt{2}}
+            \begin{psmallmatrix}
+                0 \\ 0 \\ 2 z^2 r^3 \pi
+            \end{psmallmatrix}
+        \dx[r] \dx[z]
+        \\ &
+        = \frac{8}{3 H^2} \StandardVect{3}
+            \int_0^H z^2 \dx[z]
+            \int_1^{\sqrt{2}} r^3 \dx[r]
+        = \frac{8}{3 H^2} \StandardVect{3}
+            \cdot \FunctionBounds{\frac{z^3}{3}}{0}{H}
+            \cdot \FunctionBounds{\frac{r^4}{4}}{1}{\sqrt{2}}
+        = \frac{8}{3 H^2} \StandardVect{3} \cdot \frac{H^3}{3} \cdot \frac{3}{4}
+        = \frac{2}{3} H \StandardVect{3}
+    \end{align*}
+\end{document}

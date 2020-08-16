@@ -1,0 +1,85 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Homotopie von Kurven]{5}
+
+    Wir suchen Kurven von~\( \IntervalClosed{0}{2} \) nach~\( \RealNums^2 \),
+    gegeben durch die Punkte
+    \begin{equation*}
+        p_0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+        , \quad
+        p_1 = \begin{pmatrix} 2 \\ 3 \end{pmatrix}
+        , \quad
+        p_2 = \begin{pmatrix} -1 \\ -1 \end{pmatrix}
+    \end{equation*}
+
+
+    \PartEx[Polygonzug]{2}
+
+    Ein Polygonzug durch diese Punkte ist gegeben durch
+    \begin{equation*}
+        \gamma_1 \colon \IntervalClosed{0}{2} \to \RealNums^2
+        , \enspace
+        t \mapsto \begin{cases}
+            \paren{1 - t} p_0 + t p_1 & t \in \IntervalClosed{0}{1} \\
+            \paren{2 - t} p_1 + \paren{t - 1} p_2 & t \in \IntervalOC{1}{2}
+        \end{cases}
+    \end{equation*}
+
+
+    \PartEx[Stetig Differenzierbare Kurve]{2}
+
+    Eine beliebig oft differenzierbare Kurve durch diese Punkte
+    erhalten wir beispielsweise
+    indem wir die Komponenten durch Polynome beschreiben.
+
+    Wir betrachten ein Polynom~\( a x^2 + bx + c = y_x \)
+    zu den gew\"unschten Werten
+    und erhalten auf diese Weise ein Lineares Gleichungssystem:
+    \begin{equation*}
+        \left. \begin{array}{ @{} r @{{}+{}} r @{{}+{}} r @{{}={}} l @{} }
+            \multicolumn{2}{c}{} & c & y_0 \\
+             a &  b & c & y_1 \\
+            4a & 2b & c & y_2
+        \end{array} \right\rbrace
+        \left. \begin{array}{ @{} r @{{}+{}} r @{{}={}} l @{} }
+             a &  b & y_1 - y_0 \\
+            4a & 2b & y_2 - y_0
+        \end{array} \right\rbrace
+        \begin{array}{ @{} r @{{}={}} l @{} }
+            2a & y_2 + y_0 - 2 y_1 \\
+            2b & 4 y_1 - y_2 - 3 y_0
+        \end{array}
+    \end{equation*}
+    So erhalten wir eine unendlich oft differenzierbare Kurve
+    \begin{equation*}
+        \gamma_2 \colon \IntervalClosed{0}{2} \to \RealNums^2
+        , \enspace
+        t \mapsto \begin{pmatrix}
+            -2 t^2 + 3t + 1 \\
+            -\frac{7}{2} t^2 + \frac{13}{2} t
+        \end{pmatrix}
+        , \qquad
+        \gamma_2 \paren{i} = \gamma_1 \paren{i} = p_i, \enspace i = 0, 1, 2
+    \end{equation*}
+
+
+
+    \PartEx[Homotopie]{1}
+
+    Wir suchen eine stetig verlaufende Homotopie~\(
+        \Phi \colon
+            \IntervalClosed{0}{2} \times \IntervalClosed{0}{1} \to \RealNums^2
+    \)
+    mit~\( \Phi \paren{t, 0} = \gamma_1 \paren{t} \)
+    und~\( \Phi \paren{t, 1} = \gamma_2 \paren{t} \).
+    Eine solche Homotopie ist
+    \begin{equation*}
+        \Phi \colon
+            \IntervalClosed{0}{2} \times \IntervalClosed{0}{1} \to \RealNums^2
+        , \enspace
+        \begin{pmatrix} t \\ s \end{pmatrix}
+        \mapsto \paren{1 - s} \gamma_1 \paren{t} + s \gamma_2 \paren{t}
+    \end{equation*}
+\end{document}

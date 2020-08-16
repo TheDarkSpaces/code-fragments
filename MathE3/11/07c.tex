@@ -1,0 +1,472 @@
+\documentclass[../full]{subfiles}
+
+
+\def\arcsinh{\arsinh}
+\def\arccosh{\arcosh}
+
+\newenvironment{FunctionLevels}[3]
+    {%
+        \begin{itemize}%
+            % save the formulae
+            % https://tex.stackexchange.com/questions/116823/
+            % Partially expanding a command
+            \edef\AbsFunc {\unexpanded\expandafter{#1}}%
+            \edef\RealFunc{\unexpanded\expandafter{#2}}%
+            \edef\ImagFunc{\unexpanded\expandafter{#3}}%
+    }  {\end{itemize}}
+
+\newenvironment{ResultLevel}[1]
+    {\item Niveau~\( c = #1 \) \begin{itemize}\edef\CurrentLevel{#1}}
+    {\end{itemize}}
+
+\NewEnviron{AbsLevel}[1][gather*]{%
+    \item \( \abs[\big]{f \paren{x + y \iComplex}} = \AbsFunc = \CurrentLevel \)
+    \begin{#1} \BODY \end{#1}%
+}
+\NewEnviron{RealLevel}[1][gather*]{%
+    \item \( \RealPart f \paren{x + y \iComplex} = \RealFunc = \CurrentLevel \)
+    \begin{#1} \BODY \end{#1}%
+}
+\NewEnviron{ImagLevel}[1][gather*]{%
+    \item \( \ImagPart f \paren{x + y \iComplex} = \ImagFunc = \CurrentLevel \)
+    \begin{#1} \BODY \end{#1}%
+}
+
+\begin{document}
+    \MainEx[Niveaulinien in der Gauss-Ebene]{6}
+    \label{task:function_levels:complex}
+
+
+    \PartEx[Sinus]{3}
+    \label{task:function_levels:complex:Sine}
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Plots]{Sine}
+
+        \caption*{Skizzen zu \hyperref[task:function_levels:complex:Sine]{%
+            \ref*{task:function_levels:complex}%
+            ~\ref*{task:function_levels:complex:Sine}%
+        }, mit~\( f \paren{z} = \sin z \)}
+        \label{task:function_levels:complex:Sine:Plots}
+    \end{figure}
+
+    Skizzen befinden sich auf~\hyperref[task:function_levels:complex:Sine:Plots]{%
+        Seite~\pageref*{task:function_levels:complex:Sine:Plots}%
+    }.
+
+    Wir definieren die Ausdr\"ucke
+    \begin{align*}
+        \sinh x \coloneqq \frac{\eEuler^x - \eEuler^{-x}}{2}
+        & , \qquad
+        \cosh x \coloneqq \frac{\eEuler^x + \eEuler^{-x}}{2}
+        \\
+        \shortintertext{
+            Offensichtlich gilt damit, analog zu~\( \sin \) und~\( \cos \)
+        }
+        \sinh \paren{-x} = \frac{\eEuler^{-x} - \eEuler^x}{2} = -\sinh x
+        & , \qquad
+        \cosh \paren{-x} = \frac{\eEuler^{-x} + \eEuler^x}{2} = \cosh x
+    \end{align*}
+
+    Wir bemerken dass~\( \sinh \) auf ganz~\( \RealNums \)
+    streng monoton w\"achst.
+    Damit existiert im Reellen eine Umkehrfunktion,
+    die wir~\( \arsinh \) nennen.
+    \begin{gather*}
+        a = \sinh b = \frac{\eEuler^b - \eEuler^{-b}}{2}
+            = \frac{\eEuler^b - \frac{1}{\eEuler^b}}{2}
+        \enspace \Leftrightarrow \enspace
+        0 = \paren{\eEuler^b}^2 - 2a \eEuler^b - 1
+        \enspace \Leftrightarrow \enspace
+        \eEuler^b = \frac{2a \pm 2 \sqrt{a^2 + 1}}{2} = a \pm \sqrt{a^2 + 1}
+        \\
+        \shortintertext{
+            Wir wissen, dass~\( \sqrt{a^2 + 1} > \sqrt{a^2} = \abs{a} \).
+            Weil aber~\( \eEuler^b > 0 \) gilt,
+            f\"allt die L\"osung~\( \eEuler^b = a - \sqrt{a^2 + 1} < 0 \) weg.
+        }
+        \eEuler^b = a + \sqrt{a^2 + 1}
+        \enspace \Leftrightarrow \enspace
+        b = \arsinh \paren{\sinh b}
+            = \arsinh a = \ln \paren[\big]{a + \sqrt{a^2 + 1}}
+        \displaybreak[0] \\
+        \shortintertext{
+            Aus der ungeraden Parit\"at von~\( \sinh \)
+            folgt die ungerade Parit\"at von~\( \arsinh \).
+        }
+        \arsinh \paren{-\sinh x} = \arsinh \paren[\big]{\sinh \paren{-x}}
+            = -x = -\arsinh \paren{\sinh x}
+    \end{gather*}
+
+    Ebenso w\"achst~\( \cosh \) streng monoton auf~\(\RealNumsZeroPos \).
+    Damit existiert eine Umkehrfunktion auf diese Werte,
+    die wir~\( \arcosh \) nennen.
+    \begin{gather*}
+        a = \cosh b = \frac{\eEuler^b + \eEuler^{-b}}{2}
+            = \frac{\eEuler^b + \frac{1}{\eEuler^b}}{2}
+        \enspace \Leftrightarrow \enspace
+        0 = \paren{\eEuler^b}^2 - 2a \eEuler^b + 1
+        \enspace \Leftrightarrow \enspace
+        \eEuler^b = \frac{2a \pm 2 \sqrt{a^2 - 1}}{2} = a \pm \sqrt{a^2 - 1}
+        \\
+        \shortintertext{
+            Weil~\( \cosh b = a \) streng monoton w\"achst,
+            muss mit~\( b \) auch~\( a \) gr\"o\ss er werden.
+            W\"ahrend aber~\( \eEuler^b \) streng monoton w\"achst,
+            ist das Ergebnis~\( a - \sqrt{a^2 - 1} \) streng monoton fallend,
+            also f\"allt diese L\"osung weg.
+        }
+        \eEuler^b = a + \sqrt{a^2 - 1}
+        \enspace \Leftrightarrow \enspace
+        b = \arcosh \paren{\cosh b}
+            = \arcosh a = \ln \paren[\big]{a + \sqrt{a^2 - 1}}
+        \displaybreak[0] \\
+        \shortintertext{
+            Weil~\( \cosh x \) von gerader Parit\"at ist,
+            ist~\( \arcosh \) nur bis auf das Vorzeichen bestimmt.
+        }
+        x = \cosh \paren{\arcosh x} = \cosh \paren{-\arcosh x}
+    \end{gather*}
+
+    Wir erkennen dass
+    \begin{gather*}
+        \cosh^2 x = \frac{\eEuler^{2x} + \eEuler^{-2x} + 2}{4}
+        = \frac{\cosh 2x + 1}{2} = \frac{\cosh 2x - 1}{2} + 1
+        = \frac{\eEuler^{2x} + \eEuler^{-2x} - 2}{4} + 1 = \sinh^2 x + 1
+    \end{gather*}
+
+    Mit diesem Wissen k\"onnen wir die komplexe Sinus-Funktion beschreiben:
+    \begin{align*}
+        f \paren{x + y \iComplex} &
+        = \sin \paren{x + y \iComplex}
+        = \frac{\eEuler^y + \eEuler^{-y}}{2} \sin x
+            + \frac{\eEuler^y - \eEuler^{-y}}{2} \iComplex \cos x
+        = \cosh \paren{y} \sin \paren{x}
+            + \iComplex \sinh \paren{y} \cos \paren{x}
+        \displaybreak[0] \\
+        \abs[\big]{f \paren{x + y \iComplex}} &
+        = \sqrt{
+            \cosh^2 \paren{y} \sin^2 \paren{x}
+            + \sinh^2 \paren{y} \cos^2 \paren{x}
+        }
+        = \sqrt{
+            \sinh^2 \paren{y} \cos^2 \paren{x}
+            + \paren[\big]{\sinh^2 \paren{y} + 1} \sin^2 \paren{x}
+        }
+        \\ &
+        = \sqrt{\sinh^2 y + \sin^2 x}
+    \end{align*}
+
+    \begin{FunctionLevels}
+                {\sqrt{\sinh^2 y + \sin^2 x}}
+                {\cosh \paren{y} \sin \paren{x}}
+                {\sinh \paren{y} \cos \paren{x}}
+        \begin{ResultLevel}{-1}
+            \begin{AbsLevel}[equation*]
+                x, y \in \emptyset
+            \end{AbsLevel}
+
+            \begin{RealLevel}
+                \cosh y = \frac{-1}{\sin x}
+                \enspace \Rightarrow \enspace
+                y = \pm \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                \\
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                \sin x < 0
+                \enspace \Leftrightarrow \enspace
+                x \in \paren[\Big]
+                    {\bigcup_{n \in \IntNums} \IntervalOpen{2n - 1}{2n}}
+                    \pi
+                \\
+                \lim_{x \toGT -\pi} \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                = \lim_{x \toLT 0} \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                = \infty
+            \end{RealLevel}
+
+            \begin{ImagLevel}
+                \sinh y = \frac{-1}{\cos x}
+                \enspace \Leftrightarrow \enspace
+                y = \arcsinh \paren[\Big]{\frac{-1}{\cos x}}
+                = -\arcsinh \paren[\Big]{\frac{1}{\cos x}}
+                \\
+                x \in \RealNums \setminus \frac{\paren{2 \IntNums + 1} \pi}{2}
+                \\
+                \lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    -\arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{\pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = -\lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    -\arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{3 \pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = \pm \infty
+            \end{ImagLevel}
+        \end{ResultLevel}
+
+        \begin{ResultLevel}{0}
+            \begin{AbsLevel}
+                \sinh^2 y + \sin^2 x = 0
+                \enspace \Leftrightarrow \enspace
+                \sinh^2 y = -\sin^2 x
+                \enspace \Rightarrow \enspace
+                \sinh^2 y = 0
+                \enspace \Leftrightarrow \enspace
+                y = 0
+                \\
+                \sinh^2 y = 0 = -\sin^2 x
+                \enspace \Rightarrow \enspace
+                \sin x = 0
+                \enspace \Leftrightarrow \enspace
+                x \in \IntNums \pi
+            \end{AbsLevel}
+
+            \begin{RealLevel}
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                y \in \RealNums
+                \\
+                \sin x = 0
+                \enspace \Leftrightarrow \enspace
+                x \in \IntNums \pi
+            \end{RealLevel}
+
+            \begin{ImagLevel}
+                \sinh y = 0
+                \enspace \Leftrightarrow \enspace
+                y = 0, \enspace x \in \RealNums
+                \\
+                \cos x = 0
+                \enspace \Leftrightarrow \enspace
+                x \in \frac{\paren{2 \IntNums + 1} \pi}{2}
+                    , \enspace
+                    y \in \RealNums
+            \end{ImagLevel}
+        \end{ResultLevel}
+
+        \begin{ResultLevel}{1}
+            \begin{AbsLevel}[align*]
+                    \sinh^2 y + \sin^2 x = 1 &
+                    \enspace \Leftrightarrow \enspace
+                    \sinh^2 y = 1 - \sin^2 x = \cos^2 x
+                    \enspace \Leftrightarrow \enspace
+                    \sinh y = \pm \cos x
+                    \\ &
+                    \enspace \Leftrightarrow \enspace
+                    y = \arcsinh \paren{\pm \cos x} = \pm \arcsinh \paren{\cos x}
+            \end{AbsLevel}
+
+            \begin{RealLevel}
+                \cosh y = \frac{1}{\sin x}
+                \enspace \Rightarrow \enspace
+                y = \pm \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                \\
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                \sin x > 0
+                \enspace \Leftrightarrow \enspace
+                x \in \paren[\Big]
+                    {\bigcup_{n \in \IntNums} \IntervalOpen{2n}{2n + 1}}
+                    \pi
+                \\
+                \lim_{x \toGT 0} \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                = \lim_{x \toLT \pi} \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                = \infty
+            \end{RealLevel}
+
+            \begin{ImagLevel}
+                \sinh y = \frac{1}{\cos x}
+                \enspace \Leftrightarrow \enspace
+                y = \arcsinh \paren[\Big]{\frac{1}{\cos x}}
+                \\
+                \cos x \neq 0
+                \enspace \Rightarrow \enspace
+                x \in \RealNums \setminus \frac{\paren{2 \IntNums + 1} \pi}{2}
+                \\
+                \lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    \arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{\pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = -\lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    \arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{3 \pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = \mp \infty
+            \end{ImagLevel}
+        \end{ResultLevel}
+    \end{FunctionLevels}
+
+
+    \PartEx[Bruch]{3}
+    \label{task:function_levels:complex:Fraction}
+
+    \begin{figure}
+        \centering
+        \HomeworkPart[Plots]{Fraction}
+
+        \caption*{Skizzen zu \hyperref[task:function_levels:complex:Fraction]{%
+            \ref*{task:function_levels:complex}%
+            ~\ref*{task:function_levels:complex:Fraction}%
+        }, mit~\( f \paren{z} = \frac{1}{z} \)}
+        \label{task:function_levels:complex:Fraction:Plots}
+    \end{figure}
+
+    Skizzen befinden sich
+    auf~\hyperref[task:function_levels:complex:Fraction:Plots]{%
+        Seite~\pageref*{task:function_levels:complex:Fraction:Plots}%
+    }.
+
+    \begin{gather*}
+        f \paren{x + y \iComplex}
+        = \frac{1}{x + y \iComplex}
+        = \frac{x}{x^2 + y^2} - \frac{y}{x^2 + y^2} \iComplex
+        \\
+        \abs[\big]{f \paren{z}}
+        = \abs[\big]{f \paren{x + y \iComplex}}
+        = \sqrt{
+            \paren[\Big]{\frac{x}{x^2 + y^2}}^2
+            + \paren[\Big]{\frac{-y}{x^2 + y^2}}^2
+        }
+        = \sqrt{\frac{x^2 + y^2}{\paren[\big]{x^2 + y^2}^2}}
+        = \frac{1}{\sqrt{x^2 + y^2}}
+        = \frac{1}{\abs{z}}
+    \end{gather*}
+
+    \begin{FunctionLevels}
+                {\frac{1}{\sqrt{x^2 + y^2}}}
+                {\frac{x}{x^2 + y^2}}
+                {-\frac{y}{x^2 + y^2}}
+        \begin{ResultLevel}{-1}
+            \begin{AbsLevel}[equation*]
+                x, y \in \emptyset
+            \end{AbsLevel}
+
+            \begin{RealLevel}
+                x < 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = -x
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + x + y^2
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + x + \paren[\Big]{\frac{1}{2}}^2 + y^2
+                = \paren[\Big]{x + \frac{1}{2}}^2 + y^2
+                \\
+                x < 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        - \frac{1}{2} \StandardVect{1}
+                    \given
+                    \varphi \in
+                        \IntervalOpen[\Big]{\frac{\pi}{2}}{\frac{3 \pi}{2}}
+                }
+            \end{RealLevel}
+
+            \begin{ImagLevel}
+                y > 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = y
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + y^2 - y
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + y^2 - y + \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + \paren[\Big]{y - \frac{1}{2}}^2
+                \\
+                y > 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        + \frac{1}{2} \StandardVect{2}
+                    \given
+                    \varphi \in \IntervalOpen[\big]{0}{\pi}
+                }
+            \end{ImagLevel}
+        \end{ResultLevel}
+
+        \begin{ResultLevel}{0}
+            \begin{AbsLevel}[equation*]
+                x, y \in \emptyset
+            \end{AbsLevel}
+
+            \begin{RealLevel}[equation*]
+                x = 0
+                \enspace \Rightarrow \enspace
+                y \in \RealNums \setminus \set{0}
+            \end{RealLevel}
+
+            \begin{ImagLevel}[equation*]
+                y = 0
+                \enspace \Rightarrow \enspace
+                x \in \RealNums \setminus \set{0}
+            \end{ImagLevel}
+        \end{ResultLevel}
+
+        \begin{ResultLevel}{1}
+            \begin{AbsLevel}[equation*]
+                \frac{1}{x^2 + y^2} = 1
+                \enspace \Leftrightarrow \enspace
+                x^2 + y^2 = 1
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                    \given
+                    \varphi \in \IntervalCO[\big]{0}{2 \pi}
+                }
+            \end{AbsLevel}
+
+            \begin{RealLevel}
+                x > 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = x
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 - x + y^2
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 - x + \paren[\Big]{\frac{1}{2}}^2 + y^2
+                = \paren[\Big]{x - \frac{1}{2}}^2 + y^2
+                \\
+                x > 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        + \frac{1}{2} \StandardVect{1}
+                    \given
+                    \varphi \in
+                        \IntervalOpen[\Big]{-\frac{\pi}{2}}{\frac{\pi}{2}}
+                }
+            \end{RealLevel}
+
+            \begin{ImagLevel}
+                y < 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = -y
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + y^2 + y
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + y^2 + y + \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + \paren[\Big]{y + \frac{1}{2}}^2
+                \\
+                y < 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        - \frac{1}{2} \StandardVect{2}
+                    \given
+                    \varphi \in \IntervalOpen[\big]{-\pi}{0}
+                }
+            \end{ImagLevel}
+        \end{ResultLevel}
+    \end{FunctionLevels}
+\end{document}

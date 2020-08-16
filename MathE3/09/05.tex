@@ -1,0 +1,68 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Satz von Green]{4}
+
+    \begin{gather*}
+        T = \set{
+            x \in \RealNums^2
+            \given x_1, x_2 \geq 0
+                , \enspace
+                x_1 + x_2 \leq 1
+        }
+        \\
+        f \colon \RealNums^2 \to \RealNums^2
+        , \enspace
+        x \mapsto \begin{pmatrix} -x_2 \\ x_1 \end{pmatrix}
+    \end{gather*}
+
+
+    \PartEx[Rotation]{1}
+
+    \begin{equation*}
+        \int_T \paren[\big]{\curl f} \paren{x} \dx
+        = \int_T \partial_1 f_2 \paren{x} - \partial_2 f_1 \paren{x} \dx
+        = \int_T 1 + 1 \dx
+        = 2 \volume{T}
+        = 2 \cdot \frac{1}{2}
+        = 1
+    \end{equation*}
+
+
+    \PartEx[Kurvenintegral]{3}
+
+    Wir parametrisieren den Rand~\( \partial T \)
+    durch 3 Kurven~\( \gamma \colon \IntervalClosed{0}{1} \to \RealNums^2 \):
+    \begin{align*}
+        \gamma_1 \paren{t} = \begin{pmatrix} t \\ 0 \end{pmatrix}
+        , \quad
+        \gamma_2 \paren{t} = \begin{pmatrix} 1 - t \\ t \end{pmatrix}
+        , \quad
+        \gamma_3 \paren{t} = \begin{pmatrix} 0 \\ 1 - t \end{pmatrix}
+    \end{align*}
+    Diese Parametrisierung verl\"auft so,
+    dass~\( T \) stets links der Kurve liegt.
+
+    \begin{align*}
+        \int_{\partial T} f \vecds &
+        = \sum_{i = 1}^3 \int_{\gamma_i} f \vecds
+        = \int_0^1
+            \InnerProd[\Big]
+                {\begin{pmatrix} 0 \\ t \end{pmatrix}}
+                {\begin{pmatrix} 1 \\ 0 \end{pmatrix}}
+        \dx[t] + \int_0^1
+            \InnerProd[\Big]
+                {\begin{pmatrix} -t \\ 1 - t \end{pmatrix}}
+                {\begin{pmatrix} -1 \\ 1 \end{pmatrix}}
+        \dx[t] + \int_0^1
+            \InnerProd[\Big]
+                {\begin{pmatrix} t - 1 \\ 0 \end{pmatrix}}
+                {\begin{pmatrix} 0 \\ -1 \end{pmatrix}}
+        \dx[t]
+        \\ &
+        = \int_0^1 t + 1 - t \dx[t]
+        = \volume[\big]{\IntervalClosed{0}{1}}
+        = 1
+    \end{align*}
+\end{document}

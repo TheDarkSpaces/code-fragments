@@ -1,0 +1,54 @@
+\documentclass[../../full]{subfiles}
+
+
+\providecommand\PyramidColor{DarkOliveGreen}
+
+\pgfplotsset{
+    pyramid line/.style={
+        \PyramidColor,
+        no marks,
+        thick,
+        densely dashed,
+    },
+    pyramid mark/.style={
+        \PyramidColor,
+        only marks,
+    },
+}
+
+\begin{document}
+    \begin{tikzpicture}
+        \begin{axis}[
+            graph 3d,
+            min=0, max=1,
+            enlargelimits=0.1,
+        ]
+            \def\A{(0, 0, 0)}
+            \def\B{(0, 0, 1)}
+            \def\C{(0, 1, 0)}
+            \def\D{(1, 0, 1)}
+            \def\E{(1, 1, 0)}
+
+            \addplot3 [pyramid line] coordinates {(0, 0, 0) (0, 0, 1)};
+            \addplot3 [pyramid line] coordinates {(0, 0, 0) (0, 1, 0)};
+            \addplot3 [pyramid line] coordinates {(0, 0, 0) (1, 0, 1)};
+            \addplot3 [pyramid line] coordinates {(0, 0, 0) (1, 1, 0)};
+
+            \addplot3 [pyramid line] coordinates {(0, 0, 1) (0, 1, 0)};
+            \addplot3 [pyramid line] coordinates {(0, 0, 1) (1, 0, 1)};
+
+            \addplot3 [pyramid line] coordinates {(0, 1, 0) (1, 1, 0)};
+
+            \addplot3 [pyramid line] coordinates {(1, 0, 1) (1, 1, 0)};
+
+            \addplot3 [pyramid mark] coordinates
+                    {(0, 0, 0) (0, 0, 1) (0, 1, 0) (1, 0, 1) (1, 1, 0)};
+
+            \node [\PyramidColor, below right] at (0, 0, 0) {\( p_0 \)};
+            \node [\PyramidColor, above right] at (0, 0, 1) {\( p_{125} \)};
+            \node [\PyramidColor, above right] at (0, 1, 0) {\( p_{135} \)};
+            \node [\PyramidColor, above right] at (1, 0, 1) {\( p_{245} \)};
+            \node [\PyramidColor, above right] at (1, 1, 0) {\( p_{345} \)};
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

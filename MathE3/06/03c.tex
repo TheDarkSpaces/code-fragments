@@ -1,0 +1,73 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Kreuzprodukt, Norm, und Skalarprodukt]{2}
+
+    F\"ur~\( x, y \in \RealNums^3 \) gilt
+    \begin{equation*}
+        \norm{x \times y}^2 = \norm{x}^2 \norm{y}^2 - \InnerProd{x}{y}^2
+    \end{equation*}
+    Das soll durch Ausmultiplizieren gezeigt werden.
+
+    \begin{proof}
+        Wir definieren der \"Ubersichtlichkeit halber dass
+        \begin{equation*}
+            z_i \coloneqq x_i y_i
+            , \qquad
+            \text{wodurch} \quad
+            \InnerProd{x}{y}^2
+            = \paren{z_1 + z_2 + z_3}^2
+        \end{equation*}
+        und halten fest, dass
+        \begin{equation*}
+            \paren{a + b + c}^2
+            = \paren[\big]{\paren{a + b} + c}^2
+            = \paren{a + b}^2 + 2 \paren{a + b} c + c^2
+            = a^2 + b^2 + c^2 + 2 \paren{ab + ac + bc}
+        \end{equation*}
+
+        Damit erhalten wir
+        \begin{align*}
+            \norm{x \times y}^2 &
+            = \norm[\Bigger]{ \begin{pmatrix}
+                    x_2 y_3 - x_3 y_2 \\ x_3 y_1 - x_1 y_3 \\ x_1 y_2 - x_2 y_1
+                \end{pmatrix} }^2
+            = \paren{x_2 y_3 - x_3 y_2}^2
+                + \paren{x_3 y_1 - x_1 y_3}^2
+                + \paren{x_1 y_2 - x_2 y_1}^2
+            \\ &
+            = x_2^2 y_3^2 + x_3^2 y_2^2
+                + x_3^2 y_1^2 + x_1^2 y_3^2
+                + x_1^2 y_2^2 + x_2^2 y_1^2
+                - 2 x_2 x_3 y_2 y_3 - 2 x_1 x_3 y_1 y_3 - 2 x_1 x_2 y_1 y_2
+            \\ &
+            = x_1^2 \paren{y_2^2 + y_3^2}
+                + x_2^2 \paren{y_1^2 + y_3^2}
+                + x_3^2 \paren{y_1^2 + y_1^2}
+                - 2 \paren[\big]{
+                    \paren{x_1 y_1} \paren{x_2 y_2}
+                    + \paren{x_1 y_1} \paren{x_3 y_3}
+                    + \paren{x_2 y_2} \paren{x_3 y_3}
+                }
+            \\ &
+            = x_1^2 \paren[\big]{\norm{y}^2 - y_1^2}
+                + x_2^2 \paren[\big]{\norm{y}^2 - y_2^2}
+                + x_3^2 \paren[\big]{\norm{y}^2 - y_3^2}
+                - 2 \paren{z_1 z_2 + z_1 z_3 + z_2 z_3}
+            \\ &
+            = \norm{x}^2 \norm{y}^2 - \paren[\big]{
+                \paren{x_1 y_1}^2 + \paren{x_2 y_2}^2 + \paren{x_3 y_3}^2
+                + 2 \paren{z_1 z_2 + z_1 z_3 + z_2 z_3}
+            }
+            \\ &
+            = \norm{x}^2 \norm{y}^2 - \paren[\big]{
+                z_1^2 + z_2^2 + z_3^2 + 2 \paren{z_1 z_2 + z_1 z_3 + z_2 z_3}
+            }
+            \\ &
+            = \norm{x}^2 \norm{y}^2 - \paren{z_1 + z_2 + z_3}^2
+            = \norm{x}^2 \norm{y}^2 - \InnerProd{x}{y}^2
+            \qedhere
+        \end{align*}
+    \end{proof}
+\end{document}

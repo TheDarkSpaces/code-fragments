@@ -1,0 +1,87 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Volumen von Ellipsoiden]{2}
+
+
+    \PartEx[Ellipsen]{1}
+
+    Zu~\( a, b > 0 \) beschreiben wir
+    eine Ellipse mit Halbachsen~\( a \) und~\( b \)
+    durch
+    \begin{equation*}
+        E \paren{a, b} = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given \frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1
+        }
+    \end{equation*}
+    Wir sehen sofort dass im Fall~\( a = b \)
+    ein Kreis mit Radius~\( a \) und Volumen~\( a^2 \pi \) vorliegt.
+    \begin{equation*}
+        E \paren{a, a} = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given \frac{1}{a^2} \paren[\big]{x^2 + y^2} \leq 1
+        }
+    \end{equation*}
+
+    In jedem Fall k\"onnen wir
+    einen Faktor~\( \alpha \coloneqq \frac{b}{a} \) finden
+    sodass wir das Volumen bestimmen von
+    \begin{equation*}
+        E \paren{a, b} = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given \frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1
+        }
+        = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given \frac{x^2}{a^2} + \frac{y^2}{\paren{\alpha a}^2} \leq 1
+        }
+        = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given \frac{1}{a^2}
+                \paren[\big]{x^2 + \paren{\tfrac{y}{\alpha}}^2} \leq 1
+        }
+    \end{equation*}
+    Wir erkennen dass
+    \begin{gather*}
+        \Phi \paren{x}
+        = \begin{pmatrix} 1 & 0 \\ 0 & \alpha \end{pmatrix} x
+        \eqqcolon A x
+        \\
+        \begin{aligned}
+            \volume[\big]{E \paren{a, b}} &
+            = \int_{E \paren{a, b}} 1 \dx
+            = \int_{\Phi \paren{E \paren{a, a}}} 1 \dx
+            = \int_{E \paren{a, a}} \abs[\big]{\det \TotalD{\Phi}{x}} \dx
+            \\ &
+            = \abs{\det A} \volume[\big]{E \paren{a, a}}
+            = \alpha a^2 \pi
+            = a \paren{\alpha a} \pi
+            = ab \pi
+        \end{aligned}
+    \end{gather*}
+
+
+    \PartEx[Erwartung an 3D]{1}
+
+    Analog zum zweidimensionalen Fall definieren wir zu~\( a, b, c > 0 \)
+    einen Ellipsoid~\( E \paren{a, b, c} \subset \RealNums^3 \)
+    mit Halbachsen~\( a, b, c \).
+    Auch hier sehen wir sofort dass im Fall~\( a = b = c \)
+    eine Kugel vorliegt, diesmal mit Volumen~\( \frac{4}{3} a^3 \pi \).
+
+    Ebenso k\"onnen wir Faktoren~\( \alpha \coloneqq \frac{a}{b} \)
+    und~\( \beta \coloneqq \frac{a}{c} \) finden
+    um den Ellipsoiden in eine Kugel zu transformieren.
+    \begin{equation*}
+        \Phi \paren{x}
+        = \begin{pmatrix}
+            1 & 0 & 0 \\ 0 & \alpha & 0 \\ 0 & 0 & \beta
+        \end{pmatrix} x
+        \eqqcolon A x
+    \end{equation*}
+    Somit erwarten wir analog zum zweidimensionalen Fall, dass~\(
+        \volume[\big]{E \paren{a, b, c}} = \frac{4}{3} abc \pi
+    \).
+\end{document}

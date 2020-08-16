@@ -1,0 +1,16 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Divergenz und Gradient]{1}
+
+    \begin{equation*}
+        \fdiv \paren{u \nabla v}
+        = \sum_{i = 1}^n \partial_i \paren{u \partial_i v}
+        = \sum_{i = 1}^n
+            \paren[\big]{\partial_i u \partial_i v + u \partial_i \partial_i v}
+        = \sum_{i = 1}^n \partial_i u \partial_i v
+            + u \sum_{i = 1}^n \partial_{ii} v
+        = \InnerProd{\nabla u}{\nabla v} + u \Delta v
+    \end{equation*}
+\end{document}

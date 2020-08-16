@@ -1,0 +1,71 @@
+\documentclass[../../full]{subfiles}
+
+
+\begin{document}
+    \begin{tikzpicture}
+        \def\zHeight{2}
+        \def\rMin{1}
+        \def\rMax{sqrt(2)}
+        \begin{axis}[
+            graph 3d,
+            retain aspect ratio,
+            xmin=-sqrt(2), xmax=sqrt(2),
+            ymin=-sqrt(2), ymax=sqrt(2),
+            zmin=0, zmax=\zHeight,
+            xtick={-sqrt(2), -1, 0, 1, sqrt(2)},
+            ytick={-sqrt(2), -1, 0, 1, sqrt(2)},
+            ztick={0, \zHeight},
+            xticklabels={\( -\sqrt{2} \), \( -1 \), \( 0 \), \( 1 \), \( \sqrt{2} \)},
+            yticklabels={\( -\sqrt{2} \), \( -1 \), \( 0 \), \( 1 \), \( \sqrt{2} \)},
+            zticklabels={\( 0 \), \( H \)},
+            enlargelimits=0.075,
+            z buffer=sort,
+            domain y=0:360,
+            samples y=101,
+            variable y=phi,
+            smooth,
+            colormap/winter,
+            colormap/viridis high res,
+            cylinder/.style={
+                precise surf,
+                shader=faceted,
+                point meta=sqrt(x^2 + y^2 + z^2),
+            },
+            cylinder base/.style={
+                cylinder,
+                domain=\rMin:\rMax,
+                samples=101,
+                variable=r,
+                colormap name=winter,
+                opacity=0.25,
+            },
+            cylinder wall/.style={
+                cylinder,
+                domain=0:\zHeight,
+                samples=101,
+                variable=z,
+                colormap name=viridis high res,
+                opacity=0.4,
+            },
+            cylinder wall half/.style={
+                cylinder wall,
+                samples y=51,
+            },
+            cylinder wall back/.style={
+                cylinder wall half,
+                domain y=0:180,
+            },
+            cylinder wall front/.style={
+                cylinder wall half,
+                domain y=180:360,
+            },
+        ]
+            \addplot3 [cylinder base] ({r*cos(phi)}, {r*sin(phi)}, 0);
+            \addplot3 [cylinder wall back] ({sqrt(2)*cos(phi)}, {sqrt(2)*sin(phi)},  z);
+            \addplot3 [cylinder wall] ({1*cos(phi)}, {1*sin(phi)},  z);
+            \addplot3 [cylinder wall front] ({sqrt(2)*cos(phi)}, {sqrt(2)*sin(phi)},  z);
+            % if \zHeight changes, this needs to be adapted
+            \addplot3 [cylinder base] ({r*cos(phi)}, {r*sin(phi)}, 2);
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

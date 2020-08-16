@@ -1,0 +1,72 @@
+\documentclass[../../full]{subfiles}
+
+
+\begin{document}
+    \begin{tikzpicture}
+        % colors
+        \definecolor{Omega1} {named}{Chartreuse}
+        \definecolor{Omega2} {named}{MediumSlateBlue}
+        \definecolor{Omega12}{named}{Fuchsia}
+
+        \begin{axis}[
+            graph 3d,
+            retain aspect ratio,
+            xmin=-1, xmax=1,
+            ymin=-1, ymax=1,
+            zmin=-2, zmax=1,
+            enlargelimits={abs=0.15,},
+            smooth,
+            point meta=sqrt(x^2 + y^2),
+            domain=0:360,
+            samples=101,
+            variable=phi,
+            declare function={
+                rSphere(\psi) = cos(\psi);
+                zSphere(\psi) = sin(\psi);
+                rCone(\z) = abs(1 + (\z)/2);
+                zCone(\z) = \z;
+            },
+            Omega/.style={
+                precise surf,
+                area legend,
+                z buffer=sort,
+                opacity=0.35,
+                colormap/viridis high res,
+            },
+            Omega Cone/.style={
+                Omega,
+                color=Omega2,
+                fill=Omega2,
+                domain y=-2:0,
+                samples y=51,
+                variable y=z,
+            },
+            Omega Sphere/.style={
+                Omega,
+                color=Omega1,
+                fill=Omega1,
+                domain y=0:90,
+                samples y=31,
+                variable y=psi,
+            },
+            Omega Overlap/.style={
+                line legend,
+                color=Omega12,
+                samples y=0,
+                thin,
+            },
+            legend pos=north east,
+            reverse legend,
+        ]
+            \addplot3 [Omega Cone] ({rCone(z)*cos(phi)}, {rCone(z)*sin(phi)}, {zCone(z)});
+            \addlegendentry{\( \Omega_2 \)}
+
+            \addplot3 [Omega Overlap] ({rCone(0)*cos(phi)}, {rCone(0)*sin(phi)}, {zCone(0)});
+            \addlegendentry{\( \Omega_1 \cap \Omega_2 \)}
+
+            \addplot3 [Omega Sphere]
+                    ({rSphere(psi)*cos(phi)}, {rSphere(psi)*sin(phi)}, {zSphere(psi)});
+            \addlegendentry{\( \Omega_1 \)}
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,46 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Darstellung \( \ComplexNums \)omplexer Zahlen]{3}
+
+
+    \PartEx[]{1}
+
+    \begin{equation*}
+        \paren{1 + \iComplex}^{10}
+        = \paren[\big]{\sqrt{2} \eEuler^{\frac{\pi}{4} \iComplex}}^{10}
+        = \paren[\big]{2 \eEuler^{\frac{\pi}{2} \iComplex}}^5
+        = 32 \eEuler^{\frac{5 \pi}{2} \iComplex}
+        = 32 \eEuler^{\frac{\pi}{2} \iComplex}
+        = 32 \cos \frac{\pi}{2} + 32 \iComplex \sin \frac{\pi}{2}
+        = 0 + 32 \iComplex
+        = 32 \iComplex
+    \end{equation*}
+
+
+    \PartEx[]{1}
+
+    \begin{equation*}
+        \sqrt{\iComplex}
+        = \iComplex^{\frac{1}{2}}
+        = \paren[\big]{\eEuler^{\frac{\pi}{2} \iComplex}}^{\frac{1}{2}}
+        = \eEuler^{\frac{\pi}{4} \iComplex}
+        = \cos \frac{\pi}{4} + \iComplex \sin \frac{\pi}{4}
+        = \frac{\sqrt{2}}{2} + \frac{\sqrt{2}}{2} \iComplex
+        = \frac{\sqrt{2}}{2} \paren{1 + \iComplex}
+    \end{equation*}
+
+
+    \PartEx[]{1}
+
+    \begin{equation*}
+        \frac{1 + \iComplex}{1 - \iComplex}
+        = \frac{\paren{1 + \iComplex}^2}{1 - \iComplex^2}
+        = \frac{2 \eEuler^{\frac{\pi}{2} \iComplex}}{2}
+        = \eEuler^{\frac{\pi}{2} \iComplex}
+        = \cos \frac{\pi}{2} + \iComplex \sin \frac{\pi}{2}
+        = 0 + 1 \iComplex
+        = \iComplex
+    \end{equation*}
+\end{document}

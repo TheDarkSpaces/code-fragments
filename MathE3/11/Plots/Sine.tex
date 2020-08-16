@@ -1,0 +1,232 @@
+\documentclass[../../full]{subfiles}
+
+
+\providecommand\ColorAbs {Cerulean}
+\providecommand\ColorReal{LimeGreen}
+\providecommand\ColorImag{OrangeRed}
+
+\newcommand\xmax{2.75*pi}
+\newcommand\xmin{-\xmax}
+\newcommand\ymax{6.25}
+\newcommand\ymin{-\ymax}
+
+\pgfplotsset{
+    lua support=false, % TODO why does the lua portion fail?
+    only points/.style={
+        only marks,
+    },
+    include points/.style={
+        mark=*,
+    },
+    function levels/.style={
+        thick,
+        no marks,
+    },
+    abs levels/.style={
+        function levels,
+        \ColorAbs,
+    },
+    real levels/.style={
+        function levels,
+        \ColorReal,
+    },
+    imag levels/.style={
+        function levels,
+        \ColorImag,
+    },
+    % see https://tex.stackexchange.com/a/396298
+    % Axis with trigonometric labels in PGFPlots
+    x axis in pi/.style={
+        xtick distance={pi/#1},
+        xticklabel={
+            \tikzmath{
+                % Calculate this tick's multiple of pi/#1
+                int \numorig, \gcd, \num, \denom, \absnum;
+                \numorig = round(\tick*#1 / pi);
+                % Calculate reduced fraction for \numorig/#1
+                \gcd = gcd(\numorig, #1);
+                \num = \numorig / \gcd;
+                \absnum = abs(\num);
+                \denom = #1 / \gcd;
+                % Build label text
+                if \num < 0 then {
+                    let \sign = -;
+                } else {
+                    let \sign =;
+                };
+                if \absnum == 1 then {
+                    let \numpi = \pi;
+                } else {
+                    let \numpi = \absnum\pi;
+                };
+                % the strut ensures that all labels have the same baseline
+                % without it, the fractional entries are different
+                if \denom == 1 then {
+                    if \num == 0 then {
+                        { \strut\( 0 \) };
+                    } else {
+                        { \strut\( \sign\numpi \) };
+                    };
+                } else {
+                    { \strut\( \sign\frac{\numpi}{\denom} \) };
+                    % Other style with all pi symbols same and aligned:
+                    %{ \strut\( \sign\frac{\absnum}{\denom}\pi \) };
+                };
+            }
+        },
+    },
+}
+\pgfkeys{
+    pgf/declare function={
+        asinh(\x) = ln(\x + sqrt((\x)^2 + 1));
+        acosh(\x) = ln(\x + sqrt((\x)^2 - 1));
+        % analogous: sec(x) = 1/cos(x), cosec(x) = 1/sin(x)
+        sech(\x) = reciprocal(cosh(\x));
+        cosech(\x) = reciprocal(sinh(\x));
+    },
+}
+
+\begin{document}
+    \begin{tikzpicture}
+        \begin{groupplot}[
+                    group style={
+                        group size=1 by 3,
+                        group name=Sine Plots,
+                        every plot/.append style={
+                            smooth,
+                            samples=401,
+                        },
+                    },
+                    width=0.8*\textwidth,
+                    height=0.3*(\textheight
+                                - 2*\pgfkeysvalueof{/pgfplots/group/horizontal sep}),
+                    xlabel={\( \RealPart f \)},
+                    ylabel={\( \ImagPart f \)},
+                    xmin=\xmin, xmax=\xmax,
+                    ymin=\ymin, ymax=\ymax,
+                    x axis in pi=2,
+                    minor x tick num=2,
+                    minor y tick num=1,
+                    axis lines=center,
+                ]
+            % c = -1
+            \nextgroupplot[
+                    title={\( c = -1 \)},
+                    declare function={
+                        % we want to change sign when x = -pi/2
+                        %                             (or a periodic multiple thereof)
+                        % we observe that sin(-pi/2) is a minimum
+                        % so we use sin' x = cos x
+                        %           to determine whether we have passed this point
+                        % a value smaller than 0 means that the point is yet to come,
+                        % a value greater than 0 means that the point has passed
+                        RealYSign(\x) = sign(-cos(\x r));
+                        RealYRaw(\x) = acosh(-cosec(\x r));
+                        RealY(\x) = RealYSign(\x) * RealYRaw(\x);
+                        RealXCutoff(\y) = rad( asin(sech(\y)) );
+                        RealXBoundMin(\y,\n) = (2*\n - 1)*pi + RealXCutoff(\y);
+                        RealXBoundMax(\y,\n) = (2*\n + 0)*pi - RealXCutoff(\y);
+                        ImagY(\x) = -asinh(sec(\x r));
+                        ImagXCutoff(\y) = rad( acos(-cosech(\y)) );
+                        ImagXBoundMin(\y,\n,\s) = (2*\n - 1 + \s)*pi + ImagXCutoff(\y);
+                        ImagXBoundMax(\y,\n,\s) = (2*\n + 1 + \s)*pi - ImagXCutoff(\y);
+                    },
+                    legend columns=1,
+                    legend cell align=right,
+                    legend to name=Sine Legend,
+                ]
+            % list line styles for the legend, where no one sees them
+            \addplot [only points, include points] coordinates {(\xmin-1, \ymin-1)};
+                \addlegendentry{mit Punkt}
+            \addplot [abs levels] coordinates {(\xmin-1, \ymin-1)};
+                \addlegendentry{\( \abs[\big]{f \paren{z}} = c \)}
+            \addplot [real levels] coordinates {(\xmin-1, \ymin-1)};
+                \addlegendentry{\( \RealPart f \paren{z} = c \)}
+            \addplot [imag levels] coordinates {(\xmin-1, \ymin-1)};
+                \addlegendentry{\( \ImagPart f \paren{z} = c \)}
+            % end legend
+            \def\Plots#1{
+                % Real
+                \pgfmathsetmacro\xDMin{RealXBoundMin(\ymax+0.25, #1)}
+                \pgfmathsetmacro\xDMax{RealXBoundMax(\ymax+0.25, #1)}
+                \addplot [real levels, domain=\xDMin:\xDMax] { RealY(x)};
+                \addplot [real levels, domain=\xDMin:\xDMax] {-RealY(x)};
+                % Imag
+                \pgfmathsetmacro\xDMin{ImagXBoundMin(\ymax+0.25, #1, 0)}
+                \pgfmathsetmacro\xDMax{ImagXBoundMax(\ymax+0.25, #1, 0)}
+                \addplot [imag levels, domain=\xDMin:\xDMax] { ImagY(x)};
+                % Imag Shifted
+                \pgfmathsetmacro\xDMin{ImagXBoundMin(\ymax+0.25, #1, 1)}
+                \pgfmathsetmacro\xDMax{ImagXBoundMax(\ymax+0.25, #1, 1)}
+                \addplot [imag levels, domain=\xDMin:\xDMax] { ImagY(x)};
+            }
+            \foreach \Period in {-2, ..., 1} {
+                \edef\Temp{\noexpand\Plots{\Period}}
+                \Temp
+            }
+            % c = 0
+            \nextgroupplot[
+                    title={\( c = 0 \)},
+                ]
+            \def\Plots#1{
+                % Abs
+                \addplot [abs levels, only points, include points] coordinates {(#1*pi, 0)};
+                % Real
+                \addplot [real levels] coordinates {(#1*pi, \ymin) (#1*pi, \ymax)};
+                % Imag
+                \addplot [imag levels] coordinates {((#1+0.5)*pi, \ymin) ((#1+0.5)*pi, \ymax)};
+            }
+            \foreach \Period in {-3, ..., 2} {
+                \edef\Temp{\noexpand\Plots{\Period}}
+                \Temp
+            }
+            \nextgroupplot[
+                    title={\( c = 1 \)},
+                    declare function={
+                        % we want to change sign when x = pi/2
+                        %                             (or a periodic multiple thereof)
+                        % we observe that sin(pi/2) is a maximum
+                        % so we use sin' x = cos x
+                        %           to determine whether we have passed this point
+                        % a value greater than 0 means that the point is yet to come,
+                        % a value smaller than 0 means that the point has passed
+                        AbsY(\x) = asinh(cos(\x r));
+                        RealYSign(\x) = sign(cos(\x r));
+                        RealYRaw(\x) = acosh(cosec(\x r));
+                        RealY(\x) = RealYSign(\x) * RealYRaw(\x);
+                        RealXCutoff(\y) = rad( asin(sech(\y)) );
+                        RealXBoundMin(\y,\n) = (2*\n - 0)*pi + RealXCutoff(\y);
+                        RealXBoundMax(\y,\n) = (2*\n + 1)*pi - RealXCutoff(\y);
+                        ImagY(\x) = asinh(sec(\x r));
+                        ImagXCutoff(\y) = rad( acos(-cosech(\y)) );
+                        ImagXBoundMin(\y,\n,\s) = (2*\n - 1 + \s)*pi + ImagXCutoff(\y);
+                        ImagXBoundMax(\y,\n,\s) = (2*\n + 1 + \s)*pi - ImagXCutoff(\y);
+                    },
+                ]
+            % 13 points of interest, meaning I want 13+12*n samples, and 613 samples fits nicely
+            \addplot [abs levels, domain=-3*pi:3*pi, samples=613] { AbsY(x)};
+            \addplot [abs levels, domain=-3*pi:3*pi, samples=613] {-AbsY(x)};
+            \def\Plots#1{
+                % Real
+                \pgfmathsetmacro\xDMin{RealXBoundMin(\ymax+0.25, #1)}
+                \pgfmathsetmacro\xDMax{RealXBoundMax(\ymax+0.25, #1)}
+                \addplot [real levels, domain=\xDMin:\xDMax] { RealY(x)};
+                \addplot [real levels, domain=\xDMin:\xDMax] {-RealY(x)};
+                % Imag
+                \pgfmathsetmacro\xDMin{ImagXBoundMin(\ymax+0.25, #1, 0)}
+                \pgfmathsetmacro\xDMax{ImagXBoundMax(\ymax+0.25, #1, 0)}
+                \addplot [imag levels, domain=\xDMin:\xDMax] { ImagY(x)};
+                % Imag Shifted
+                \pgfmathsetmacro\xDMin{ImagXBoundMin(\ymax+0.25, #1, 1)}
+                \pgfmathsetmacro\xDMax{ImagXBoundMax(\ymax+0.25, #1, 1)}
+                \addplot [imag levels, domain=\xDMin:\xDMax] { ImagY(x)};
+            }
+            \foreach \Period in {-2, ..., 1} {
+                \edef\Temp{\noexpand\Plots{\Period}}
+                \Temp
+            }
+        \end{groupplot}
+        \node at ($(Sine Plots c1r1.north east)!0.5!(Sine Plots c1r3.south east)$)
+                [right=2em] {\ref{Sine Legend}};
+    \end{tikzpicture}
+\end{document}

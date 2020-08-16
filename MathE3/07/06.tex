@@ -1,0 +1,203 @@
+\documentclass[../full]{subfiles}
+
+
+\newcommand\Unit[2][\,]{
+    \, \mathrm{#2}^{#1}
+}
+\newcommand\kg{\Unit{kg}}
+\newcommand\m[1][]{\Unit[#1]{m}}
+\newcommand\km[1][]{\Unit[#1]{km}}
+\newcommand\Celsius{\Unit{\degree C}}
+\newcommand\Kelvin{\Unit{K}}
+
+\begin{document}
+    \MainEx[Theobald's Ballonfahrt]{4}
+
+    Der Drache Theobald m\"ochte mit einem Hei\ss luftballon verreisen,
+    wozu er den Radius~\( R \) des kugelf\"ormigen Ballons ermitteln muss.
+    Er wei\ss\ Folgendes:
+    \begin{itemize}
+        \item
+        Er kennt das Volumen
+        und die Oberfl\"ache einer Kugel mit Radius~\( R \).
+        \begin{equation*}
+            V \paren{R}
+            \coloneqq \volume[\big]{S^2 \paren{R}} = \frac{4 R^3}{3} \pi
+            , \qquad
+            O \paren{R}
+            \coloneqq \volume[\big]{\partial S^2 \paren{R}} = 4 R^2 \pi
+        \end{equation*}
+        Diese Werte sind die einzig relevanten f\"ur ihn.
+
+        \item
+        Das zu transportierende Gesamtgewicht betr\"agt
+        in Abh\"angigkeit vom Radius des Ballons
+        \begin{equation*}
+            m \paren{R}
+            = 2 200 \kg + \frac{3 \kg}{20 \m[2]} O \paren{R}
+            = 2 200 \kg + \frac{3 \pi \kg R^2}{5 \m[2]}
+        \end{equation*}
+
+        \item
+        Die Luftdichte auf der H\"ohe~\( h \) gen\"ugt der Formel
+        \begin{equation*}
+            \rho \paren{h}
+            = \frac{13 \kg}{10 \m[3]} \cdot 2^{-\frac{2h}{11 \km}}
+        \end{equation*}
+
+        \item
+        Theobald m\"ochte eine H\"ohe von wenigstens~\( 4 \km \) erreichen.
+
+        Weiterhin reicht es ihm aus,
+        die vertikale Ausdehnung zu vernachl\"assigen,
+        also so zu rechnen
+        als bef\"ande sich der Ballon auf einer einzigen H\"ohe.
+
+        \item
+        Die Temperatur-Differenz die Theobald
+        zwischen der Luft innerhalb und au\ss erhalb des Ballons erreichen kann
+        ist abh\"angig von der Oberfl\"ache des Ballons, also vom Radius.
+        \begin{equation*}
+            \Delta T \paren{R} = \frac{5 \cdot 10^4 \m[2]}{R^2} \Celsius
+        \end{equation*}
+
+        \item
+        Die Au\ss entemperatur h\"angt ab von der H\"ohe,
+        auf der sich Theobald befindet.
+        \begin{equation*}
+            T \paren{h} = 15 \Celsius - \frac{13h \Celsius}{2 \km}
+        \end{equation*}
+
+        \item
+        Die Luftdichte im Inneren des Ballons~\( \rho_i \)
+        ist abh\"angig von der Dichte der Au\ss enluft~\( \rho \),
+        der Au\ss entemperatur~\( T_K \) in Kelvin,
+        und der Temperaturdifferenz zwischen innen und au\ss en~\( \Delta T \).
+        \begin{equation*}
+            \rho_i \paren{\rho, T_K, \Delta T}
+            = \frac{\rho}{1 + \frac{\Delta T}{T_K}}
+        \end{equation*}
+
+        Wir halten fest, dass f\"ur die Umrechnung der Temperatur gilt
+        \begin{equation*}
+            a \Celsius = \paren[\big]{a + \frac{5463}{20}} \Kelvin
+        \end{equation*}
+        Weil wir in~\( \Delta T \) nur einen Temperatur-Unterschied bestimmen
+        und die Umrechnung von Grad Celsius nach Kelvin
+        mit einem Faktor~\( 1 \) linear verl\"auft,
+        \"andert sich mit der Umrechnung in Kelvin nur die Einheit.
+        Damit erhalten wir nach Einsetzen der Parameter
+        \begin{equation*}
+            \rho_i \paren{R, h}
+            = \frac
+                {2^{-\frac{2h}{11 \km}} \frac{13 \kg}{10 \m[3]}}
+                {
+                    1 + \frac
+                        {\frac{5 \cdot 10^4 \m[2]}{R^2} \Kelvin}
+                        {
+                            \paren{
+                                \frac{30 \km - 13h}{2 \km} + \frac{5463}{20}
+                            } \Kelvin
+                        }
+                }
+            = 2^{-\frac{2h}{11 \km}} \frac{13 \kg}{10 \m[3]}
+                \cdot \frac
+                    {1}
+                    {
+                        1 + \frac
+                            {1 \km \cdot 10^6 \m[2]}
+                            {R^2 \paren{5763 \km - 130h}}
+                    }
+        \end{equation*}
+
+        \item
+        Damit der Ballon auf einer bestimmten H\"ohe bleibt,
+        muss das Gewicht der Au\ss enluft
+        genauso gro\ss\ sein wie das Gesamtgewicht des Ballons.
+    \end{itemize}
+
+    Wir fassen zusammen, dass sich das Gesamtgewicht des Ballons
+    auf einer H\"ohe~\( h \) berechnet als
+    \begin{align*}
+        m \paren{r, h} &
+        = m \paren{R} + V \paren{R} \cdot \rho_i \paren{R, h}
+        = \paren[\Big]{2200 + \frac{3 \pi R^2}{5 \m[2]}} \kg
+        + 2^{-\frac{2h}{11 \km}} \frac{4 R^3 \pi}{3} \frac{13 \kg}{10 \m[3]}
+            \frac
+                {1}
+                {1 + \frac{1 \km \cdot 10^6 \m[2]}{R^2 \paren{5763 \km - 130h}}}
+        \\ &
+        = 2200 \kg + \frac{3 R^2}{5 \m[2]} \pi \kg
+            + 4^{1 - \frac{h}{11 \km}} \frac{13 R^3}{30 \m[3]} \cdot \frac
+                {1}
+                {
+                    1 + \frac
+                        {1 \km \cdot 10^6 \m[2]}
+                        {R^2 \paren{5763 \km - 130h}}
+                } \pi \kg
+    \end{align*}
+    Gleichzeitig ist das Gewicht der Au\ss enluft auf H\"ohe~\( h \),
+    die durch den Ballon verdr\"angt werden soll,
+    gleich
+    \begin{equation*}
+        M \paren{R, h}
+        \coloneqq V \paren{R} \cdot \rho \paren{h}
+        = \frac{4 R^3 \pi}{3}
+            \cdot 4^{-\frac{h}{11 \km}} \frac{13 \kg}{10 \m[3]}
+        = 4^{1 - \frac{h}{11 \km}} \frac{13 R^3}{30 \m[3]} \pi \kg
+    \end{equation*}
+
+    Wir kennen die H\"ohe, die Theobald mindestens erreichen will,
+    und k\"onnen diese Information einsetzen.
+    \begin{align*}
+        M \paren{R, 4 \km} &
+        = 4^{1 - \frac{4 \km}{11 \km}} \frac{13 R^3}{30 \m[3]} \pi \kg
+        = 4^{\frac{7}{11}} \frac{13 R^3}{30 \m[3]} \pi \kg
+        \eqqcolon \widetilde{M} \paren{R}
+        \displaybreak[0] \\
+        m \paren{r, 4 \km} &
+        = 2200 \kg + \frac{3 R^2}{5 \m[2]} \pi \kg
+            + 4^{1 - \frac{4 \km}{11 \km}}
+                \frac{13 R^3}{30 \m[3]} \cdot \frac
+                    {1}
+                    {
+                        1 + \frac
+                            {1 \km \cdot 10^6 \m[2]}
+                            {R^2 \paren{5763 \km - 130 \cdot 4 \km}}
+                    }
+                \pi \kg
+        \\ &
+        = 2200 \kg + \frac{3 R^2}{5 \m[2]} \pi \kg
+            + 4^{\frac{7}{11}} \frac{13 R^3}{30 \m[3]}
+                \cdot \frac{1}{1 + \frac{10^6 \m[2]}{5243 R^2}}
+            \pi \kg
+        \\ &
+        = 2200 \kg + \frac{3 R^2}{5 \m[2]} \pi \kg
+            + \widetilde{M} \paren{R} \frac{1}{1 + \frac{10^6 \m[2]}{5243 R^2}}
+        \eqqcolon \widetilde{m} \paren{R}
+    \end{align*}
+    \newcommand\tempR{\widetilde{R}}%
+    Damit der Ballon auf der gew\"unschten H\"ohe bleibt,
+    muss gelten dass~\( \widetilde{M} \paren{R} = \widetilde{m} \paren{R} \).
+    Das verwenden wir, um~\( R \) zu bestimmen.
+    Des Weiteren bestimmen wir dass~\( \tempR \coloneqq \frac{R}{1 \m} \)
+    um die Rechnung zu vereinfachen.
+    \begin{align*}
+        0 &
+        = \widetilde{m} \paren{R} - \widetilde{M} \paren{R}
+        = 2200 \kg + \frac{3 \tempR^2 \m[2]}{5 \m[2]} \pi \kg
+            + \widetilde{M} \paren{R}
+                \paren[\Big]{
+                    \frac{1}{1 + \frac{10^6 \m[2]}{5243 \tempR^2 \m[2]}} - 1
+                }
+        \\ &
+        = 2200 \kg + \frac{3 \tempR^2}{5} \pi \kg
+            - 4^{\frac{7}{11}} \frac{13 \tempR^3}{30}
+                \cdot \frac{10^6}{5243 \tempR^2 + 10^6} \pi \kg
+        \\
+        2200 &
+        = 4^{\frac{7}{11}}
+                \frac{13 \cdot 10^6}{30 \paren{5243 \tempR^2 + 10^6}} \pi \tempR^3
+            - \frac{3}{5} \pi \tempR^2
+    \end{align*}
+\end{document}

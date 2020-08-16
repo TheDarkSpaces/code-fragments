@@ -1,0 +1,37 @@
+\documentclass[../full]{subfiles}
+
+
+\newcommand\ComplexConjugate[1]{\overline{#1}}
+
+\begin{document}
+    \MainEx[Geschlossenes Kurvenintegral]{2}
+
+    \begin{gather*}
+        \gamma \colon \IntervalClosed{0}{2 \pi} \to \ComplexNums
+        , \enspace
+        t \mapsto \eEuler^{\iComplex t}
+        , \qquad
+        f \paren{z} = \ComplexConjugate{z}^2
+        \\
+        \begin{aligned}
+            \int_\gamma f \dx[z]
+            = \int_0^{2 \pi}
+                \iComplex \eEuler^{\iComplex t} f \paren{\eEuler^{\iComplex t}}
+            \dx[t] &
+            = \iComplex \int_0^{2 \pi}
+                \paren{\cos t + \iComplex \sin t}
+                \paren{\cos t - \iComplex \sin t}^2
+            \dx[t]
+            = \iComplex \int_0^{2 \pi}
+                \paren{\cos^2 t + \sin^2 t}
+                \paren{\cos t - \iComplex \sin t}
+            \dx[t]
+            \\ &
+            = \int_0^{2 \pi}
+                \sin t \dx[t] + \iComplex \int_0^{2 \pi} \cos t
+            \dx[t]
+            = 0 + 0 \iComplex
+            = 0
+        \end{aligned}
+    \end{gather*}
+\end{document}

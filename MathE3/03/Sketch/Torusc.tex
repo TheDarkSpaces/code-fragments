@@ -1,0 +1,85 @@
+\documentclass[../../full]{subfiles}
+
+
+\begin{document}
+    \begin{tikzpicture}
+        \providecommand\ZeroLabel{\textcolor{Black}{\( 0 \)}}
+        % colors
+        \definecolor{RLargeColor}{named}{MediumVioletRed}
+        \definecolor{RSmallColor}{RGB}{128,192,102}
+        % Radius
+        \def\RLarge{6}
+        \def\RSmall{1}
+        \pgfmathtruncatemacro\RMax{\RLarge+\RSmall}
+        \pgfmathtruncatemacro\RMin{\RLarge-\RSmall}
+        \pgfmathtruncatemacro\xyCutoff{\RMax+\RSmall}
+        \pgfmathsetmacro\zCutoff{\RSmall*3/2}
+        %
+        \begin{axis}[
+            graph 3d,
+            retain aspect ratio,
+            xmin=-\xyCutoff, xmax=\xyCutoff,
+            ymin=-\xyCutoff, ymax=\xyCutoff,
+            zmin=-\zCutoff, zmax=\zCutoff,
+            x tick label style={color=RLargeColor,},
+            y tick label style={color=RLargeColor,},
+            z tick label style={color=RSmallColor,},
+            xtick={-\RLarge, 0, \RLarge},
+            ytick={-\RLarge, 0, \RLarge},
+            ztick={-\RSmall, 0, \RSmall},
+            extra tick style={
+                tickwidth=\pgfkeysvalueof{/pgfplots/minor tick length},
+                tick label style={
+                    font=\scriptsize, opacity=0.8,
+                },
+                x tick label style={color=RSmallColor,},
+                y tick label style={color=RSmallColor,},
+            },
+            xticklabels={\( -R_1 \), \ZeroLabel, \( R_1 \)},
+            yticklabels={\( -R_1 \), \ZeroLabel, \( R_1 \)},
+            zticklabels={\( -R_2 \), \ZeroLabel, \( R_2 \)},
+            extra x ticks={-\RMax, -\RMin, \RMin, \RMax},
+            extra y ticks={-\RMax, -\RMin, \RMin, \RMax},
+            extra x tick labels={\( {}-R_2 \), \( {}+R_2 \), \( {}-R_2 \), \( {}+R_2 \)},
+            extra y tick labels={\( {}-R_2 \), \( {}+R_2 \), \( {}-R_2 \), \( {}+R_2 \)},
+            smooth,
+            samples=101,
+            samples y=51,
+            domain=0:360,
+            domain y=0:360,
+            variable=phi,
+            variable y=psi,
+            colormap/summer,
+            declare function={
+                % if \RLarge and/or \RSmall changes, this needs to change too
+                % this code is using constants so the lua backend can be used
+                originX(\phi) = 6*cos(\phi);
+                originY(\phi) = 6*sin(\phi);
+                originZ(\phi) = 0;
+                offsetX(\phi,\psi) = 1*cos(\psi)*cos(\phi);
+                offsetY(\phi,\psi) = 1*cos(\psi)*sin(\phi);
+                offsetZ(\phi,\psi) = 1*sin(\psi);
+                hullX(\phi,\psi) = originX(\phi) + offsetX(\phi, \psi);
+                hullY(\phi,\psi) = originY(\phi) + offsetY(\phi, \psi);
+                hullZ(\phi,\psi) = originZ(\phi) + offsetZ(\phi, \psi);
+            },
+        ]
+            \addplot3 [
+                    precise surf,
+                    opacity=0.4,
+                    domain y=180:360,
+                    z buffer=sort,
+                    point meta=sqrt(x^2 + y^2 + z^2),
+                ] ({hullX(phi, psi)}, {hullY(phi, psi)}, {hullZ(phi, psi)});
+            \addplot3 [RLargeColor, thick, densely dashed, samples y=0, opacity=0.6]
+                    ({originX(phi)}, {originY(phi)}, {originZ(phi)});
+            \addplot3 [
+                    precise surf,
+                    opacity=0.4,
+                    domain y=0:180,
+                    z buffer=sort,
+                    point meta=sqrt(x^2 + y^2 + z^2),
+                ] ({hullX(phi, psi)}, {hullY(phi, psi)}, {hullZ(phi, psi)});
+        \end{axis}
+    \end{tikzpicture}
+\end{document}

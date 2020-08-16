@@ -1,0 +1,139 @@
+\documentclass[../full]{subfiles}
+
+
+\newcommand\OrthoVect[2][\omega]{
+    #2_{\perp, #1}
+}
+
+\begin{document}
+    \MainEx[Tr\"agheit von Fl\"achen]{4}
+
+    Wenn~\( \OrthoVect{x}{\omega} = x - \InnerProd{x}{\omega} \omega \)
+
+    Die Tr\"agheit einer Fl\"ache~\( F \in \RealNums^n \)
+    mit Fl\"achendichte~\( 1 \)
+    bez\"uglich der Drehung um eine Achse~\( \omega \in \RealNums^n \)
+    mit~\( \norm{\omega} = 1 \)
+    berechnet sich mittels der orthogonalen Projektion der Ortsvektoren
+    auf eine zu~\( \omega \) orthogonale Ebene.
+    \begin{gather*}
+        \OrthoVect{x} = x - \InnerProd{x}{\omega} \omega
+        \\
+        I \paren{F, \omega} = \int_F \norm{\OrthoVect{x}}^2 \dF
+    \end{gather*}
+    F\"ur Vektoren aus~\( \RealNums^n \) gilt mit~\( \alpha \in \RealNums \)
+    \begin{align*}
+        \norm{x + \alpha y}^2 &
+        = \InnerProd{x + \alpha y}{x + \alpha y}
+        = \InnerProd{x}{x}
+            + 2 \alpha \InnerProd{x}{y}
+            + \alpha^2 \InnerProd{y}{y}
+        = \norm{x}^2 + 2 \alpha \InnerProd{x}{y} + \alpha^2 \norm{y}^2
+        \displaybreak[0] \\
+        \norm{\OrthoVect{x}}^2 &
+        = \InnerProd[\big]
+            {x - \InnerProd{x}{\omega} \omega}{x - \InnerProd{x}{\omega} \omega}
+        = \norm{x}^2
+            - 2 \InnerProd{x}{\omega} \InnerProd{x}{\omega}
+            + \InnerProd{x}{\omega}^2 \norm{\omega}^2
+        \\ &
+        = \norm{x}^2
+            - 2 \InnerProd{x}{\omega}^2
+            + \InnerProd{x}{\omega}^2 \cdot 1
+        = \norm{x}^2 - \InnerProd{x}{\omega}^2
+    \end{align*}
+
+    Wir betrachten die Oberfl\"ache~\( F \) eines Torus in~\( \RealNums^3 \)
+    mit gegebenem Au\ss enradius~\( R \) und Innenradius~\( r \),
+    wobei gilt dass~\( 0 < r < R \).
+    Die Fl\"ache ist parametrisiert durch
+    \begin{gather*}
+        \Phi \colon \IntervalCO{0}{2 \pi}^2 \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} \varphi \\ \psi \end{pmatrix}
+            \mapsto
+            R \begin{pmatrix} \cos \varphi \\ \sin \varphi \\ 0 \end{pmatrix}
+                + r \begin{pmatrix}
+                    \cos \paren{\psi} \cos \paren{\varphi} \\
+                    \cos \paren{\psi} \sin \paren{\varphi} \\
+                    \sin \paren{\psi}
+                \end{pmatrix}
+            = \begin{pmatrix}
+                R \cos \paren{\varphi}
+                    + r \cos \paren{\psi} \cos \paren{\varphi} \\
+                R \sin \paren{\varphi}
+                    + r \cos \paren{\psi} \sin \paren{\varphi} \\
+                r \sin \paren{\psi}
+            \end{pmatrix}
+        \displaybreak[0] \\
+        \TotalD{\Phi}{\varphi, \psi}
+        = \begin{pmatrix}
+            -R \sin \paren{\varphi} - r \cos \paren{\psi} \sin \paren{\varphi}
+                & -r \sin \paren{\psi} \cos \paren{\varphi}
+            \\
+            \phantom{-}
+            R \cos \paren{\varphi} + r \cos \paren{\psi} \cos \paren{\varphi}
+                & -r \sin \paren{\psi} \sin \paren{\varphi}
+            \\
+            0   & r \cos \paren{\psi}
+        \end{pmatrix}
+        \displaybreak[0] \\
+        \det \paren[\Big]{G \paren[\big]{\TotalD{\Phi}{\varphi, \psi}}}
+        = \begin{vmatrix} \paren{R + r \cos \psi}^2 & 0 \\ 0 & r^2 \end{vmatrix}
+        = r^2 \paren{R + r \cos \psi}^2
+    \end{gather*}
+
+    Wir erinnern uns dass
+    \begin{gather*}
+        1 - \sin^2 \alpha
+        = \cos^2 \alpha
+        = \cos \paren{\alpha} \cos \paren{\alpha}
+        = \frac{\cos \paren{\alpha + \alpha} + \cos \paren{\alpha - \alpha}}{2}
+        = \frac{1 + \cos 2 \alpha}{2}
+    \end{gather*}
+    Uns interessiert die Tr\"agheit gegen\"uber einer Drehung um~\(
+        \omega \coloneqq \begin{psmallmatrix} 0 \\ 0 \\ 1 \end{psmallmatrix}
+    \).
+    \begin{align*}
+        I \paren{F, \omega} &
+        = \int_F \norm{\OrthoVect{x}}^2 \dF
+        = \int_F
+            \norm[\Bigg]{
+                \begin{pmatrix}
+                    R \cos \paren{\varphi}
+                        + r \cos \paren{\psi} \cos \paren{\varphi} \\
+                    R \sin \paren{\varphi}
+                        + r \cos \paren{\psi} \sin \paren{\varphi} \\
+                    0
+                \end{pmatrix}
+            }^2
+            \sqrt{\det \paren[\Big]{
+                G \paren[\big]{\TotalD{\Phi}{\varphi, \psi}}
+            }}
+        \dx[\paren{\varphi, \psi}]
+        \\ &
+        = \int_F
+            r \paren{R + r \cos \psi} \paren{R + r \cos \psi}^2
+        \dx[\paren{\varphi, \psi}]
+        = 2r \pi \int_0^{2 \pi}
+            R^3 + 3 R^2 r \cos \psi + 3 R r^2 \cos^2 \psi + r^3 \cos^3 \psi
+        \dx[\psi]
+        \displaybreak[0] \\ &
+        = 4 R^3 r \pi^2
+            + 6R r^3 \pi \int_0^{2 \pi} \cos^2 \psi \dx[\psi]
+            + 2 r^4 \pi \int_0^{2 \pi} \cos^3 \psi \dx[\psi]
+        \\ &
+        = 4 R^3 r \pi^2
+            + 3R r^3 \pi \int_0^{2 \pi} 1 + \cos 2 \psi \dx[\psi]
+            + 2 r^4 \pi \int_0^{2 \pi}
+                \cos \paren{\psi} \paren[\big]{1 - \sin^2 \paren{\psi}}
+            \dx[\psi]
+        \displaybreak[0] \\ &
+        = 4 R^3 r \pi^2 + 2 R r^3 \pi^2
+            + 3R r^3 \pi \int_0^{2 \pi} \cos 2 \psi \dx[\psi]
+            + 2 r^4 \pi \int_0^0 1 - u^2 \dx[u]
+        \\ &
+        = 4 R^3 r \pi^2 + 2 R r^3 \pi^2
+        = 2 R r \pi^2 \paren{2 R^2 + r^2}
+    \end{align*}
+\end{document}

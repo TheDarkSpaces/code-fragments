@@ -1,0 +1,449 @@
+\documentclass[../full]{subfiles}
+
+
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arccosh}{arccosh}
+
+\begin{document}
+    \MainEx[Niveaulinien in der Gauss-Ebene]{6}
+
+
+    \PartEx[Sinus]{3}
+
+    \begin{gather*}
+        f \paren{x + y \iComplex}
+        = \sin \paren{x + y \iComplex}
+        = \frac{\eEuler^y + \eEuler^{-y}}{2} \sin x
+            + \frac{\eEuler^y - \eEuler^{-y}}{2} \iComplex \cos x
+        = \cosh \paren{y} \sin \paren{x}
+            + \iComplex \sinh \paren{y} \cos \paren{x}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \abs[\big]{f \paren{x + y \iComplex}} &
+            = \sqrt{
+                \paren[\Big]{\frac{\eEuler^y + \eEuler^{-y}}{2} \sin x}^2
+                + \paren[\Big]{\frac{\eEuler^y - \eEuler^{-y}}{2} \cos x}^2
+            }
+            = \sqrt{
+                \frac{\eEuler^{2y} + \eEuler^{-2y} + 2}{4} \sin^2 x
+                + \frac{\eEuler^{2y} + \eEuler^{-2y} - 2}{4} \cos^2 x
+            }
+            \\ &
+            = \sqrt{
+                \frac{\eEuler^{2y} + \eEuler^{-2y}}{4}
+                + \frac{1}{2} \sin^2 x
+                - \frac{1}{2} \cos^2 x
+            }
+            = \sqrt{
+                \frac{\eEuler^{2y} + \eEuler^{-2y}}{4} - \frac{1}{2} + \sin^2 x
+            }
+            \\ &
+            = \sqrt{\frac{\eEuler^{2y} + \eEuler^{-2y} - 2}{4} + \sin^2 x}
+            = \sqrt{
+                \paren[\Big]{\frac{\eEuler^y - \eEuler^{-y}}{2}}^2 + \sin^2 x
+            }
+            = \sqrt{\sinh^2 y + \sin^2 x}
+        \end{aligned}
+        \displaybreak[0] \\
+        a = \sinh b = \frac{\eEuler^b - \eEuler^{-b}}{2}
+        \enspace \Leftrightarrow \enspace
+        0 = \paren{\eEuler^b}^2 - 2a \eEuler^b - 1
+        \enspace \Leftrightarrow \enspace
+        \eEuler^b = \frac{2a \pm 2 \sqrt{a^2 + 1}}{2}
+        \enspace \Rightarrow \enspace
+        \arcsinh a = \ln \paren[\big]{a + \sqrt{a^2 + 1}}
+        \\
+        a = \cosh b = \frac{\eEuler^b + \eEuler^{-b}}{2}
+        \enspace \Leftrightarrow \enspace
+        0 = \paren{\eEuler^b}^2 - 2a \eEuler^b + 1
+        \enspace \Leftrightarrow \enspace
+        \eEuler^b = \frac{2a \pm 2 \sqrt{a^2 - 1}}{2}
+        \enspace \Rightarrow \enspace
+        \arccosh a = \ln \paren[\big]{a + \sqrt{a^2 - 1}}
+    \end{gather*}
+
+    \begin{itemize}
+        \item \( c = -1 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \sqrt{\sinh^2 y + \sin^2 x}
+                = -1
+            \)
+            \begin{equation*}
+                x, y \in \emptyset
+            \end{equation*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex}
+                = \cosh \paren{y} \sin \paren{x}
+                = -1
+            \)
+            \begin{gather*}
+                \cosh y = \frac{-1}{\sin x}
+                \enspace \Leftrightarrow \enspace
+                y = \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                \\
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                \sin x < 0
+                \enspace \Leftrightarrow \enspace
+                x \in \paren[\Big]
+                    {\bigcup_{n \in \IntNums} \IntervalOpen{2n - 1}{2n}}
+                    \pi
+                \\
+                \lim_{x \toGT -\pi} \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                = \lim_{x \toLT 0} \arccosh \paren[\Big]{\frac{-1}{\sin x}}
+                = \infty
+            \end{gather*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex}
+                = \sinh \paren{y} \cos \paren{x}
+                = -1
+            \)
+            \begin{gather*}
+                \sinh y = \frac{-1}{\cos x}
+                \enspace \Leftrightarrow \enspace
+                y = \arcsinh \paren[\Big]{\frac{-1}{\cos x}}
+                = -\arcsinh \paren[\Big]{\frac{1}{\cos x}}
+                \\
+                x \in \RealNums \setminus \frac{\paren{2 \IntNums + 1} \pi}{2}
+                \\
+                \lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    -\arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{\pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = -\lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    -\arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{3 \pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = \pm \infty
+            \end{gather*}
+        \end{itemize}
+
+        \item \( c = 0 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \sqrt{\sinh^2 y + \sin^2 x}
+                = 0
+            \)
+            \begin{gather*}
+                \sinh^2 y + \sin^2 x = 0
+                \enspace \Leftrightarrow \enspace
+                \sinh^2 y = -\sin^2 x
+                \enspace \Rightarrow \enspace
+                \sinh^2 y = 0
+                \enspace \Leftrightarrow \enspace
+                y = 0
+                \\
+                x \in \IntNums \pi
+            \end{gather*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex}
+                = \cosh \paren{y} \sin \paren{x}
+                = 0
+            \)
+            \begin{gather*}
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                y \in \RealNums
+                \\
+                \sin x = 0
+                \enspace \Leftrightarrow \enspace
+                x \in \IntNums \pi
+            \end{gather*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex}
+                = \sinh \paren{y} \cos \paren{x}
+                = 0
+            \)
+            \begin{gather*}
+                \sinh y = 0
+                \enspace \Leftrightarrow \enspace
+                y = 0, \enspace x \in \RealNums
+                \\
+                \cos x = 0
+                \enspace \Leftrightarrow \enspace
+                x \in \frac{\paren{2 \IntNums + 1} \pi}{2}
+                    , \enspace
+                    y \in \RealNums
+            \end{gather*}
+        \end{itemize}
+
+        \item \( c = 1 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \sqrt{\sinh^2 y + \sin^2 x}
+                = 1
+            \)
+            \begin{align*}
+                \sinh^2 y + \sin^2 x = 1 &
+                \enspace \Leftrightarrow \enspace
+                \sinh^2 y = 1 - \sin^2 x = \cos^2 x
+                \enspace \Leftrightarrow \enspace
+                \sinh y = \pm \cos x
+                \\ &
+                \enspace \Leftrightarrow \enspace
+                y = \arcsinh \paren{\pm \cos x} = \pm \arcsinh \paren{\cos x}
+            \end{align*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex}
+                = \cosh \paren{y} \sin \paren{x}
+                = 1
+            \)
+            \begin{gather*}
+                \cosh y = \frac{1}{\sin x}
+                \enspace \Leftrightarrow \enspace
+                y = \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                \\
+                \forall y \in \RealNums \colon \cosh y > 0
+                \enspace \Rightarrow \enspace
+                \sin x > 0
+                \enspace \Leftrightarrow \enspace
+                x \in \paren[\Big]
+                    {\bigcup_{n \in \IntNums} \IntervalOpen{2n}{2n + 1}}
+                    \pi
+                \\
+                \lim_{x \toGT 0} \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                = \lim_{x \toLT \pi} \arccosh \paren[\Big]{\frac{1}{\sin x}}
+                = \infty
+            \end{gather*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex}
+                = \sinh \paren{y} \cos \paren{x}
+                = 1
+            \)
+            \begin{gather*}
+                \sinh y = \frac{1}{\cos x}
+                \enspace \Leftrightarrow \enspace
+                y = \arcsinh \paren[\Big]{\frac{1}{\cos x}}
+                \\
+                x \in \RealNums \setminus \frac{\paren{2 \IntNums + 1} \pi}{2}
+                \\
+                \lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    \arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{\pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = -\lim_{\epsilon^+ \toGT 0} \paren[\big]{
+                    \arcsinh \paren[\Big]{
+                        \frac{1}{\cos \paren{\frac{3 \pi}{2} \pm \epsilon^+}}
+                    }
+                }
+                = \mp \infty
+            \end{gather*}
+        \end{itemize}
+    \end{itemize}
+
+
+    \PartEx[Bruch]{3}
+
+    \begin{gather*}
+        f \paren{x + y \iComplex}
+        = \frac{1}{x + y \iComplex}
+        = \frac{x}{x^2 + y^2} - \frac{y}{x^2 + y^2} \iComplex
+        \\
+        \abs[\big]{f \paren{z}}
+        = \abs[\big]{f \paren{x + y \iComplex}}
+        = \sqrt{
+            \paren[\Big]{\frac{x}{x^2 + y^2}}^2
+            + \paren[\Big]{\frac{-y}{x^2 + y^2}}^2
+        }
+        = \sqrt{\frac{x^2 + y^2}{\paren[\big]{x^2 + y^2}^2}}
+        = \frac{1}{\sqrt{x^2 + y^2}}
+        = \frac{1}{\abs{z}}
+    \end{gather*}
+
+    \begin{itemize}
+        \item \( c = -1 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \frac{1}{\sqrt{x^2 + y^2}}
+                = -1
+            \)
+            \begin{equation*}
+                x, y \in \emptyset
+            \end{equation*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex} = \frac{x}{x^2 + y^2} = -1
+            \)
+            \begin{gather*}
+                x < 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = -x
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + x + y^2
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + x + \paren[\Big]{\frac{1}{2}}^2 + y^2
+                = \paren[\Big]{x + \frac{1}{2}}^2 + y^2
+                \\
+                x < 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        - \frac{1}{2} \StandardVect{1}
+                    \given
+                    \varphi \in
+                        \IntervalOpen[\Big]{\frac{\pi}{2}}{\frac{3 \pi}{2}}
+                }
+            \end{gather*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex} = -\frac{y}{x^2 + y^2} = -1
+            \)
+            \begin{gather*}
+                y > 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = y
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + y^2 - y
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + y^2 - y + \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + \paren[\Big]{y - \frac{1}{2}}^2
+                \\
+                y > 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        + \frac{1}{2} \StandardVect{2}
+                    \given
+                    \varphi \in \IntervalOpen[\big]{0}{\pi}
+                }
+            \end{gather*}
+        \end{itemize}
+
+        \item \( c = 0 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \frac{1}{\sqrt{x^2 + y^2}}
+                = 0
+            \)
+            \begin{equation*}
+                x, y \in \emptyset
+            \end{equation*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex} = \frac{x}{x^2 + y^2} = 0
+            \)
+            \begin{equation*}
+                x = 0
+                \enspace \Rightarrow \enspace
+                y \in \RealNums \setminus \set{0}
+            \end{equation*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex} = -\frac{y}{x^2 + y^2} = 0
+            \)
+            \begin{equation*}
+                y = 0
+                \enspace \Rightarrow \enspace
+                x \in \RealNums \setminus \set{0}
+            \end{equation*}
+        \end{itemize}
+
+        \item \( c = 1 \)
+        \begin{itemize}
+            \item
+            \(
+                \abs[\big]{f \paren{x + y \iComplex}}
+                = \frac{1}{\sqrt{x^2 + y^2}}
+                = 1
+            \)
+            \begin{equation*}
+                \frac{1}{x^2 + y^2} = 1
+                \enspace \Leftrightarrow \enspace
+                x^2 + y^2 = 1
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                    \given
+                    \varphi \in \IntervalCO[\big]{0}{2 \pi}
+                }
+            \end{equation*}
+
+            \item
+            \(
+                \RealPart f \paren{x + y \iComplex} = \frac{x}{x^2 + y^2} = 1
+            \)
+            \begin{gather*}
+                x > 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = x
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 - x + y^2
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 - x + \paren[\Big]{\frac{1}{2}}^2 + y^2
+                = \paren[\Big]{x - \frac{1}{2}}^2 + y^2
+                \\
+                x > 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        + \frac{1}{2} \StandardVect{1}
+                    \given
+                    \varphi \in
+                        \IntervalOpen[\Big]{-\frac{\pi}{2}}{\frac{\pi}{2}}
+                }
+            \end{gather*}
+
+            \item
+            \(
+                \ImagPart f \paren{x + y \iComplex} = -\frac{y}{x^2 + y^2} = 1
+            \)
+            \begin{gather*}
+                y < 0
+                \enspace \Rightarrow \enspace
+                x^2 + y^2 = -y
+                \enspace \Leftrightarrow \enspace
+                0 = x^2 + y^2 + y
+                \enspace \Leftrightarrow \enspace
+                \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + y^2 + y + \paren[\Big]{\frac{1}{2}}^2
+                = x^2 + \paren[\Big]{y + \frac{1}{2}}^2
+                \\
+                y < 0
+                \enspace \Rightarrow \enspace
+                \begin{pmatrix} x \\ y \end{pmatrix} \in \set[\Bigg]{
+                    \frac{1}{2}
+                    \begin{pmatrix} \cos \varphi \\ \sin \varphi \end{pmatrix}
+                        - \frac{1}{2} \StandardVect{2}
+                    \given
+                    \varphi \in \IntervalOpen[\big]{-\pi}{0}
+                }
+            \end{gather*}
+        \end{itemize}
+    \end{itemize}
+\end{document}

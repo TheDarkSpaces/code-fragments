@@ -1,0 +1,93 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Koordinatentransformation]{2}
+
+    Es sei~\( B \subset \RealNums^2 \) der trapezf\"ormige Bereich,
+    der begrenzt wird durch die Punkte~\(
+        \begin{psmallmatrix} 1 \\ 0 \end{psmallmatrix},
+        \begin{psmallmatrix} 0 \\ 1 \end{psmallmatrix},
+        \begin{psmallmatrix} 3 \\ 0 \end{psmallmatrix},
+        \begin{psmallmatrix} 0 \\ 3 \end{psmallmatrix}
+    \). Wir erkennen dass wir~\( B \) schreiben k\"onnen als
+    \begin{equation*}
+        B = \set[\Big]{
+            \begin{pmatrix} x \\ y \end{pmatrix} \in \RealNums^2
+            \given x, y \geq 0, \enspace 1 \leq x + y \leq 3
+        }
+    \end{equation*}
+    Um~\( \int_B \cos \paren[\big]{ \frac{x - y}{x + y} } \dx[\paren{x, y}] \)
+    zu integrieren,
+    verwenden wir die Transformation
+    \begin{equation*}
+        \Phi \colon \RealNums^2 \to \RealNums^2, \enspace
+        \begin{pmatrix} x \\ y \end{pmatrix}
+            \mapsto \begin{pmatrix} 1 & \phantom{-}1 \\ 1 & -1 \end{pmatrix}
+            \begin{pmatrix} x \\ y \end{pmatrix}
+            \coloneqq A \begin{pmatrix} x \\ y \end{pmatrix}
+            = \begin{pmatrix} x + y \\ x - y \end{pmatrix}
+    \end{equation*}
+    von~\( \begin{psmallmatrix} x \\ y \end{psmallmatrix} \)
+    nach~\( \begin{psmallmatrix} u \\ v \end{psmallmatrix} \).
+    Hierbei ist~\( A \) offensichtlich invertierbar
+    mit~\( A^{-1} = \frac{1}{2} A \),
+    also ist~\( \Phi \) bijektiv
+    und besitzt eine Umkehrfunktion~\(
+        \Phi^{-1} \paren{u, v}
+        = A^{-1} \begin{psmallmatrix} u \\ v \end{psmallmatrix}
+        = \frac{1}{2} A \begin{psmallmatrix} u \\ v \end{psmallmatrix}
+        = \frac{1}{2} \Phi \paren{u, v}
+    \).
+    \begin{gather*}
+        \left. \begin{array}{ r }
+            x = \frac{u + v}{2} \geq 0 \; \Leftrightarrow \; -u \leq v \\
+            y = \frac{u - v}{2} \geq 0 \; \Leftrightarrow \; \phantom{-}v \leq u \\
+            1 \leq x + y = u \leq 3
+        \end{array} \right\rbrace \,
+        \Phi \paren{B} = \set[\Bigg]{
+            \begin{pmatrix} u \\ v \end{pmatrix} \in \RealNums^2
+            \given \begin{array}{ c }
+                u \in \IntervalClosed{1}{3}, \\
+                -u \leq v \leq u
+            \end{array}
+        }
+        \displaybreak[0] \\
+        B = \Phi^{-1} \paren[\big]{\Phi \paren{B}}
+        , \qquad
+        \det \TotalD{\Phi^{-1}}{u, v}
+        = \det A^{-1}
+        = \det \paren[\Big]{\frac{1}{2} A}
+        = \frac{1}{4} \cdot \paren{-2}
+        = -\frac{1}{2}
+        \displaybreak[0] \\
+        \begin{aligned}
+            \int_B \cos \paren[\Big]{\frac{x - y}{x + y}} \dx[\paren{x, y}] &
+            = \int_{\Phi \paren{B}}
+                \cos \paren[\Big]{\frac{v}{u}}
+                \abs[\big]{\det \TotalD{\Phi^{-1}}{u, v}}
+            \dx[\paren{u, v}]
+            = \int_{\Phi \paren{B}}
+                \cos \paren[\Big]{\frac{v}{u}} \cdot \abs[\Big]{-\frac{1}{2}}
+            \dx[\paren{u, v}]
+            \\ &
+            = \frac{1}{2} \int_{u = 1}^3
+                \int_{v = -u}^u \cos \paren[\Big]{\frac{v}{u}} \dx[v]
+            \dx[u]
+            = \frac{1}{2} \int_{u = 1}^3
+                \FunctionBounds{u \sin \paren[\Big]{\frac{v}{u}}}[v]{-u}{u}
+            \dx[u]
+            \\ &
+            = \frac{1}{2} \int_1^3
+                u \paren[\big]{\sin \paren{1} - \sin \paren{-1}}
+            \dx[u]
+            = \frac{1}{2} \int_1^3 2u \sin \paren{1} \dx[u]
+            \\ &
+            = \sin \paren{1} \int_1^3 u \dx[u]
+            = \FunctionBounds{\frac{u^2}{2}}{1}{3} \cdot \sin \paren{1}
+            = \paren[\Big]{\frac{9}{2} - \frac{1}{2}} \sin \paren{1}
+            = 4 \sin \paren{1}
+            \approx 3.366
+        \end{aligned}
+    \end{gather*}
+\end{document}

@@ -1,0 +1,121 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[\( \ComplexNums \)omplexe Abbildungen]{4}
+
+    \begin{equation*}
+        f \colon \ComplexNums \to \ComplexNums, \enspace z \mapsto  \eEuler^z
+    \end{equation*}
+
+
+    \PartEx[Sinus und Cosinus]{1}
+
+    \begin{gather*}
+        \cos \paren{z}
+        = \frac{\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}{2}
+        , \qquad
+        \sin \paren{z}
+        = \frac{\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}{2 \iComplex}
+        \displaybreak[0] \\
+        \cos z + \iComplex \sin z
+        = \frac{\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}{2}
+            + \iComplex \frac
+                {\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}
+                {2 \iComplex}
+        = \frac{\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}{2}
+            + \frac{\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}{2}
+        = \frac{2 \eEuler^{\iComplex z}}{2}
+        = \eEuler^{\iComplex z}
+    \end{gather*}
+
+
+    \PartEx[\( \ComplexNums \)omplexer Pythagoras]{1}
+
+    \begin{equation*}
+        \cos^2 z + \sin^2 z
+        = \frac
+                {\paren{\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}^2}
+                {4}
+            + \frac
+                {\paren{\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}^2}
+                {4 \iComplex^2}
+        = \frac{\eEuler^{2 \iComplex z} + \eEuler^{-2 \iComplex z} + 2}{4}
+            - \frac{\eEuler^{2 \iComplex z} + \eEuler^{-2 \iComplex z} - 2}{4}
+        = \frac{4}{4}
+        = 1
+    \end{equation*}
+
+
+    \PartEx[Ableitungen]{1}
+
+    \begin{gather*}
+        \paren[\big]{\eEuler^z}' = \eEuler^z
+        \displaybreak[0] \\
+        \sin' z
+        = \paren[\Big]{\frac
+            {\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}
+            {2 \iComplex}
+        }'
+        = \frac
+            {\iComplex \eEuler^{\iComplex z}
+                + \iComplex \eEuler^{-\iComplex z}}
+            {2 \iComplex}
+        = \frac{\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}{2}
+        = \cos z
+        \displaybreak[0] \\
+        \cos' z
+        = \paren[\Big]{\frac
+            {\eEuler^{\iComplex z} + \eEuler^{-\iComplex z}}
+            {2}
+        }'
+        = \frac
+            {\iComplex \eEuler^{\iComplex z}
+                - \iComplex \eEuler^{-\iComplex z}}
+            {2}
+        = \frac
+            {\iComplex^2 \eEuler^{\iComplex z}
+                - \iComplex^2 \eEuler^{-\iComplex z}}
+            {2 \iComplex}
+        = -\frac{\eEuler^{\iComplex z} - \eEuler^{-\iComplex z}}{2 \iComplex}
+        = -\sin z
+    \end{gather*}
+
+
+    \PartEx[Isomorphie]{1}
+
+    \begin{gather*}
+        \eEuler^z
+        = f \paren{z}
+        \coloneqq f \paren{x + y \iComplex}
+        = \eEuler^{x + y \iComplex}
+        = \eEuler^{x} \eEuler^{y \iComplex}
+        = \eEuler^x \cos y + \eEuler^x \iComplex \sin y
+        \coloneqq u \paren{x, y} + v \paren{x, y} \iComplex
+        \displaybreak[0] \\
+        F \colon \RealNums^2 \to \RealNums^2
+        , \enspace
+        \begin{pmatrix} x \\ y \end{pmatrix}
+        \mapsto \begin{pmatrix} u \paren{x, y} \\ v \paren{x, y} \end{pmatrix}
+        = \begin{pmatrix} \eEuler^x \cos y \\ \eEuler^x \sin y \end{pmatrix}
+        = \eEuler^x \begin{pmatrix} \cos y \\ \sin y \end{pmatrix}
+        \displaybreak[0] \\
+        \TotalD{F}{x, y}
+        = \begin{pmatrix}
+            \eEuler^x \cos y & -\eEuler^x \sin y \\
+            \eEuler^x \sin y & \phantom{-}\eEuler^x \cos y
+        \end{pmatrix}
+        = \eEuler^x \begin{pmatrix}
+            \cos y & -\sin y \\ \sin y & \phantom{-}\cos y
+        \end{pmatrix}
+        , \quad
+        f' \paren{z}
+        = f' \paren{x + y \iComplex}
+        = \eEuler^x \eEuler^{y \iComplex}
+    \end{gather*}
+    Wir sehen dass~\( \TotalD{F}{x, y} \)
+    einer Skalierung um~\( \eEuler^x \) entspricht,
+    kombiniert mit einer Rotation um den Winkel~\( y \).
+    Selbiges geht aus der Betrachtung von~\( f' \paren{x + y \iComplex} \)
+    in der \( \ComplexNums \)omplexen Ebene hervor.
+\end{document}

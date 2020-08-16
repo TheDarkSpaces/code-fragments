@@ -1,0 +1,189 @@
+\documentclass[../full]{subfiles}
+
+\newcommand\ValuePoint[1]{\mathtt{#1}}
+\NewDocumentCommand\ValuePoints{ m g }{
+    \ValuePoint{#1}
+    \IfValueT{#2}{, \ValuePoints{#2}}
+}
+
+
+\begin{document}
+    \MainEx[Parametrisierung von Kurven]{3}
+
+    Gegeben sind die Punkte~\( \ValuePoints{P}{Q}{R} \in \RealNums^2 \),
+    die in dieser Reihenfolge durchlaufen werden sollen.
+    Hierbei sind die Werte der Punkte
+    \begin{equation*}
+        \ValuePoint{P} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+        , \qquad
+        \ValuePoint{Q} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+        , \qquad
+        \ValuePoint{R} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+    \end{equation*}
+
+
+    \PartEx[Polygonzug]{1}
+
+    Zu finden sei eine stetige Kurve~\(
+        \gamma \colon \IntervalClosed{a}{b} \to \RealNums^2
+    \), die diese Punkte durchl\"auft.
+
+    Hierbei ist die einfachste L\"osung ein Polygonzug,
+    skaliert auf das Intervall~\( \IntervalClosed{a}{b} \).
+    \begin{gather*}
+        \begin{aligned}
+            P_{\ValuePoints{P}{Q}{R}} \colon
+                \IntervalClosed{0}{2} \to \RealNums^2
+                , \enspace &
+                t \mapsto \begin{dcases}
+                    \paren{1 - t} \ValuePoint{P} + t \, \ValuePoint{Q}
+                        & t \in \IntervalClosed{0}{1}
+                    \\
+                    \paren{2 - t} \ValuePoint{Q} + \paren{t - 1} \ValuePoint{R}
+                        & t \in \IntervalClosed{1}{2}
+                \end{dcases}
+            \\
+            h_{a, b} \coloneqq \widetilde{h} \colon
+                \IntervalClosed{a}{b} \to \IntervalClosed{0}{2}
+                , \enspace &
+                t \mapsto \frac{t - a}{b - a} \cdot 2
+                , \qquad
+                \widetilde{h}^{-1} \paren{t} = \frac{t \paren{b - a}}{2} + a
+        \end{aligned}
+        \displaybreak[0] \\
+        \gamma = P_{\ValuePoints{P}{Q}{R}} \circ \widetilde{h}
+    \end{gather*}
+
+
+    \PartEx[L\"ange der Kurve]{1}
+
+    Weil die Skalierung des Polygonzugs
+    eine simple Form der Umparametrisierung darstellt,
+    gilt
+    \begin{equation*}
+        L \paren{\gamma}
+        = L \paren{P_{\ValuePoints{P}{Q}{R}}}
+        = L \paren{P_{\ValuePoints{P}{Q}} + P_{\ValuePoints{Q}{R}}}
+        = L \paren{P_{\ValuePoints{P}{Q}}} + L \paren{P_{\ValuePoints{Q}{R}}}
+        = \norm[\big]{\ValuePoint{Q} - \ValuePoint{P}}
+            + \norm[\big]{\ValuePoint{R} - \ValuePoint{Q}}
+        = 1 + \sqrt{2}
+    \end{equation*}
+
+
+    \PartEx[Parametrisierung nach der Bogenl\"ange]{1}
+
+    Wir suchen eine Umparametrisierung~\(
+        \widehat{\gamma} \colon
+            \IntervalClosed[\big]{0}{L \paren{\gamma}} \to \RealNums^2
+    \)
+    so dass
+    mit Ausnahme von einer endlichen Zahl an Undefiniertheitsstellen
+    gilt dass~\( \norm[\big]{\widehat{\gamma}' \paren{t}} = 1 \)\footnote{
+        Das Aufgabenblatt verwendet hier~\( \norm{\gamma' \paren{t}} \),
+        was wohl ein Druckfehler ist.
+    }.
+    Hierzu parametrisieren wir der Einfachheit halber den Polygonzug um,
+    den wir bereits verwendet haben um~\( \gamma \) zu erzeugen.
+
+    Wir betrachten die Bogenl\"ange
+    der zwei zusammensetzenden Polygonz\"uge
+    \begin{gather*}
+        \begin{aligned}
+            S_1 \paren{t} & \coloneqq
+            \int_0^t \norm[\big]{P_{\ValuePoints{P}{Q}} \paren{t}} \dx[t]
+            = \int_0^t 1 \dx[t] = t,
+                & \quad & \quad
+                & S_1^{-1} \paren{t} &= t
+            \\
+            S_2 \paren{t} & \coloneqq
+            \int_0^t \norm[\big]{P_{\ValuePoints{Q}{R}} \paren{t}} \dx[t]
+            = \int_0^t \sqrt{2} \dx[t] = t \sqrt{2},
+                & \quad & \quad
+                & S_2^{-1} \paren{t} &= \frac{t}{\sqrt{2}}
+        \end{aligned}
+        \displaybreak[0] \\
+        \widehat{h} \paren{t} \colon
+            \IntervalClosed[\big]{0}{1 + \sqrt{2}} \to \IntervalClosed{0}{2}
+            , \enspace
+            t \mapsto \begin{cases}
+                S_1^{-1} \paren{t} = t
+                    & t \in \IntervalClosed{0}{1}
+                \\
+                1 + S_2^{-1} \paren{t - 1} = 1 + \frac{t - 1}{\sqrt{2}}
+                    & t \in \IntervalClosed{1}{1 + \sqrt{2}}
+            \end{cases}
+        \displaybreak[0] \\
+        \widehat{\gamma}
+        = P_{\ValuePoints{P}{Q}{R}} \circ \widehat{h}
+        = P_{\ValuePoints{P}{Q}{R}} \circ \widetilde{h}
+            \circ \widetilde{h}^{-1} \circ \widehat{h}
+        = \gamma \circ \widetilde{h}^{-1} \circ \widehat{h}
+    \end{gather*}
+
+
+    \PartExNoScore[Stetig Differenzierbare Kurve]
+
+    Wir suchen weiterhin eine stetig differenzierbare Kurve~\(
+        \eta \colon \IntervalClosed{c}{d} \to \RealNums^2
+    \) die ebenfalls diese Punkte in der vorgegebenen Reihenfolge durchl\"auft.
+
+    Zuerst suchen wir nach Funktionen,
+    die auf einem beliebigen Intervall
+    die gew\"unschten Komponenten der Koordinaten durlaufen.
+    Wir finden beispielsweise
+    \begin{gather*}
+        \begin{aligned}
+            x \colon \IntervalClosed{0}{2} \to \RealNums, \enspace &
+            t \mapsto -t \paren{t - 2} \\
+            y \colon \IntervalClosed{0}{2} \to \RealNums, \enspace &
+            t \mapsto \frac{1}{2} t \paren{t - 1}
+        \end{aligned}
+        \displaybreak[1] \\
+        \widetilde{\eta} \colon
+            \IntervalClosed{0}{2} \to \RealNums^2
+            , \enspace
+            t \mapsto \begin{pmatrix} x \paren{t} \\ y \paren{t} \end{pmatrix}
+                = \begin{pmatrix}
+                    -t \paren{t - 2} \\ \frac{1}{2} t \paren{t - 1}
+                \end{pmatrix}
+                = \begin{pmatrix}
+                    -t^2 + 2t \\ \frac{1}{2} t^2 - \frac{1}{2} t
+                \end{pmatrix}
+        \displaybreak[0] \\
+        \eta = \widetilde{\eta} \circ h_{c, d}
+    \end{gather*}
+    Weil~\( \eta \) eine Umparametrisierung von~\( \widetilde{\eta} \) ist,
+    reicht es die L\"ange von~\( \widetilde{\eta} \) zu berechnen.
+    \begin{equation*}
+        \int_0^2 \norm[\big]{\widetilde{\eta}' \paren{t}} \dx[t]
+        = \int_0^2 \sqrt{4 t^2 - 8t + 4 + t^2 - t + \frac{1}{4}} \dx[t]
+        = \int_0^2 \sqrt{5 t^2 - 9t + \frac{17}{4}} \dx[t]
+    \end{equation*}
+    Den resultierenden Ausdruck zu integrieren ist zwar m\"oglich,
+    aber relativ aufw\"andig.
+    Ein Online-Integrator liefert als L\"osung
+    \begin{align*}
+        \int_0^2 \sqrt{5 t^2 - 9t + \frac{17}{4}} \dx[t] &
+        = \FunctionBounds{
+            \frac{
+                4 \sqrt{5}
+                \ln \paren[\big]{\sqrt{5} \sqrt{20 t^2 - 36t + 17} + 10t - 9}
+                + \paren{50t - 45} \sqrt{20 t^2 - 36t + 17}
+            }{200}
+        }{0}{2}
+        \\ &
+        = \frac{1}{200} \paren[\Big]{
+            4 \sqrt{5} \ln \paren[\big]{5 \sqrt{5} + 11} + 275
+            - 4 \sqrt{5} \ln \paren[\big]{\sqrt{85} - 9} + 45 \sqrt{17}
+        }
+        \\ &
+        = \frac{
+            275 + 45 \sqrt{17} + 4 \sqrt{5} \paren[\big]{
+                \ln \paren{5 \sqrt{5} + 11}
+                - \ln \paren{\sqrt{85} - 9}
+            }
+        }{200}
+        \approx 2.509
+    \end{align*}
+\end{document}

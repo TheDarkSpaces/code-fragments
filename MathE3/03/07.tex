@@ -1,0 +1,85 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Grenzwerte Uneigentlicher Integrale]{2}
+
+    Zu \( p \in \RealNums^2 \)~beliebig und~\( R > 0 \) bezeichne~\(
+        B_R \paren{p} = \set[\big]{x \in \RealNums^2 \given \norm{x - p} \leq R}
+    \) die Kreisscheibe um~\( p \) mit Radius~\( R \).
+    Zu berechnen ist
+    \begin{equation*}
+        I_R \coloneqq \int_{B_R \paren{p}} \eEuler^{-\norm{x - p}^2} \dx
+    \end{equation*}
+    unter Verwendung der Euklidischen Norm~\(
+        \norm{{}\cdot{}} \coloneqq \norm{{}\cdot{}}_2
+    \).
+
+    Wir beobachten f\"ur eine Translation~\(
+        T_p \paren{x} \coloneqq x + p,
+    \) um den Punkt~\( p \) dass~\(
+        B_R \paren{p} = T_p \paren[\big]{B_R \paren{0}}
+    \) und somit
+    \begin{equation*}
+        \int_{B_R \paren{p}} \eEuler^{-\norm{x - p}^2} \dx
+        = \int_{B_R \paren{0}}
+            \eEuler^{-\norm{x}^2} \abs[\big]{\TotalD{T_p}{x}}
+        \dx
+        = \int_{B_R \paren{0}} \eEuler^{-\norm{x}^2} \dx
+    \end{equation*}
+    Damit verbleiben wir mit einer Kreisscheibe um den Ursprung,
+    die wir leicht durch Polarkoordinaten ausdr\"ucken k\"onnen:
+    \begin{gather*}
+        \Phi \colon
+            \RealNumsZeroPos \times \IntervalCO{0}{2 \pi} \to \RealNums^2,
+            \enspace
+            \begin{pmatrix} r \\ \varphi \end{pmatrix}
+                \mapsto r \begin{pmatrix}
+                    \cos \varphi \\ \sin \varphi
+                \end{pmatrix}
+        \\
+        \TotalD{\Phi}{r, \varphi} = \begin{pmatrix}
+            \cos \varphi & -r \sin \varphi \\
+            \sin \varphi & \phantom{-}r \cos \varphi
+        \end{pmatrix},
+        \quad
+        \det \TotalD{\Phi}{r, \varphi}
+        = r \paren{\cos^2 \varphi + \sin^2 \varphi} = r
+        \displaybreak[1] \\
+        B_R \paren{0} = \set[\big]{x \in \RealNums^2 \given \norm{x} \leq R}
+        = \Phi \paren[\Big]{
+            \set[\Bigg]{
+                \begin{pmatrix} r \\ \varphi \end{pmatrix}
+                    \in \RealNumsZeroPos \times \IntervalCO{0}{2 \pi}
+                \given r \leq R
+            }
+        }
+        \eqqcolon \Omega_R
+        \displaybreak[0] \\
+        \begin{aligned}
+            I_R &
+            = \int_{B_R \paren{p}} \eEuler^{-\norm{x - p}^2} \dx
+            = \int_{B_R \paren{0}} \eEuler^{-\norm{x}^2} \dx
+            = \int_{\Omega_R}
+                \eEuler^{-\norm{\Phi \paren{r, \varphi}}^2}
+                \abs[\big]{\det \TotalD{\Phi}{r, \varphi}}
+            \dx[\paren{r, \varphi}]
+            \\ &
+            = \int_{\Omega_R}
+                \eEuler^{-r^2 \paren{\cos^2 \varphi + \sin^2 \varphi}} \abs{r}
+            \dx[\paren{r, \varphi}]
+            = \int_{\Omega_R} r \eEuler^{-r^2} \dx[\paren{r, \varphi}]
+            = \pi \int_R^0 -2r \eEuler^{-r^2} \dx[r]
+            \\ &
+            = \pi \int_{-R^2}^0 \eEuler^{u} \dx[u]
+            = \pi \FunctionBounds{\eEuler^u}{-R^2}{0}
+            = \paren[\Big]{1 - \frac{1}{\eEuler^{R^2}}} \pi
+        \end{aligned}
+        \displaybreak[1] \\
+        \int_{\RealNums^2} \eEuler^{-\norm{x - p}^2} \dx
+        = \lim_{R \to \infty} I_R
+        = \lim_{R \to \infty} \paren[\Big]{1 - \frac{1}{\eEuler^{R^2}}} \pi
+        = \paren{1 - 0} \pi
+        = \pi
+    \end{gather*}
+\end{document}

@@ -1,0 +1,108 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Einheitsnormalen der Ebene]{2}
+
+    Die Ebene~\( E \subset \RealNums^4 \) sei aufgespannt von den Vektoren
+    \begin{equation*}
+        x = \begin{pmatrix} 1 \\ 0 \\ 1 \\ 1 \end{pmatrix}
+        , \quad
+        y = \begin{pmatrix}
+            \phantom{-}1 \\ -1 \\ \phantom{-}0 \\ -1
+        \end{pmatrix}
+        , \quad
+        z = \begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \end{pmatrix}
+    \end{equation*}
+    Wir suchen die beiden Einheitsnormalenvektoren zu~\( E \).
+
+
+    \PartEx[Gleichungssystem]{1}
+
+    Wir wissen, dass f\"ur einen Normalenvektor~\( n \in \RealNums^4 \) gilt
+    \begin{equation*}
+        \InnerProd{x}{n} = \InnerProd{y}{n} = \InnerProd{z}{n} = 0
+    \end{equation*}
+    Wenn wir das in ein Lineares Gleichungssystem einsetzen, erhalten wir
+    \begin{gather*}
+        \begin{pmatrix}
+            1 & \phantom{-}0 & 1 & \phantom{-}1 \\
+            1 & -1 & 0 & -1 \\
+            1 & \phantom{-}1 & 1 & \phantom{-}1
+        \end{pmatrix}
+        \to
+        \begin{pmatrix}
+            1 & 0 & 1 & 1 \\
+            0 & 1 & 0 & 0 \\
+            0 & 1 & 1 & 2
+        \end{pmatrix}
+        \to
+        \begin{pmatrix}
+            1 & 0 & 1 & 1 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 2
+        \end{pmatrix}
+        \to
+        \begin{pmatrix}
+            1 & 0 & 0 & -1 \\
+            0 & 1 & 0 & \phantom{-}0 \\
+            0 & 0 & 1 & \phantom{-}2
+        \end{pmatrix}
+        , \quad
+        n = \lambda \begin{pmatrix}
+            \phantom{-}1 \\ \phantom{-}0 \\ -2 \\ \phantom{-}1
+        \end{pmatrix}
+        \eqqcolon \lambda n_*
+        , \enspace
+        \lambda \in \RealNums
+    \end{gather*}
+
+    Weiterhin suchen wir nur die Einheitsnormalen,
+    also muss gelten~\( \norm{n} = \norm{n}^2 = 1 \).
+    \begin{equation*}
+        1 = \norm{n}^2 = \lambda^2 \norm{n_*}^2 = 6 \lambda^2
+        \quad \Rightarrow \quad
+        \lambda = \frac{\sqrt{6}}{6}
+        , \enspace
+        n = \pm \frac{\sqrt{6}}{6} n_*
+    \end{equation*}
+
+
+    \PartEx[\"Au\ss eres Produkt]{1}
+
+    Wir erhalten einen Normalenvektor aus dem \"Au\ss eren Produkt
+    \begin{gather*}
+        n_*
+        \coloneqq \OuterProd{x, y, z}
+        = -\StandardVect{1} \begin{vmatrix}
+            0 & -1 & 1 \\
+            1 &  0 & 1 \\
+            1 & -1 & 1
+        \end{vmatrix} % = -1
+        + \StandardVect{2} \begin{vmatrix}
+            1 &  1 & 1 \\
+            1 &  0 & 1 \\
+            1 & -1 & 1
+        \end{vmatrix} % = 0
+        - \StandardVect{3} \begin{vmatrix}
+            1 &  1 & 1 \\
+            0 & -1 & 1 \\
+            1 & -1 & 1
+        \end{vmatrix} % = 2
+        + \StandardVect{4} \begin{vmatrix}
+            1 &  1 & 1 \\
+            0 & -1 & 1 \\
+            1 &  0 & 1
+        \end{vmatrix} % = 1
+        = \begin{pmatrix}
+            \phantom{-}1 \\ \phantom{-}0 \\ -2 \\ \phantom{-}1
+        \end{pmatrix}
+    \end{gather*}
+    Damit ist der Normaleneinheitsvektor
+    \begin{equation*}
+        n = \pm \frac{\OuterProd{x, y, z}}{\norm[\big]{\OuterProd{x, y, z}}}
+        = \pm \frac{1}{\norm{n_*}} n_*
+        = \pm \frac{1}{\sqrt{6}} n_*
+        = \pm \frac{\sqrt{6}}{6} n_*
+    \end{equation*}
+\end{document}

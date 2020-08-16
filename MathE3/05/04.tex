@@ -1,0 +1,106 @@
+\documentclass[../full]{subfiles}
+
+% https://tex.stackexchange.com/questions/9691/
+% Avoid hyphenation in “2-D”
+\newcommand\NoBreakHyphenate[2]{%
+    #1%
+    \nobreak\mbox{-}\nobreak\hskip0pt\relax%
+    #2%
+}
+
+
+\begin{document}
+    \MainEx[Arbeitsaufwand im Kraftfeld]{4}
+
+    Wir wollen wissen,
+    welche Arbeit aufgewendet werden muss
+    um ein Teilchen durch ein Kraftfeld zu bewegen.
+    Das Kraftfeld ist gegeben durch
+    \begin{equation*}
+        F \colon \RealNums^3 \to \RealNums^3
+        , \enspace
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+            \mapsto
+            \begin{pmatrix}
+                3x - 4y - 2z \\ 4x + 2y - 3 z^2 \\ 2xz - 4 y^2 + z^3
+            \end{pmatrix}
+    \end{equation*}
+    und das Teilchen wird entlang des Randes einer Ellipse bewegt.
+    Die Ellipse liegt in der \NoBreakHyphenate{\( \paren{x, y} \)}{Ebene}
+    um den Nullpunkt
+    mit Halbachsen  \( 4 \)~in \NoBreakHyphenate{\( x \)}{Richtung}
+    und \( 3 \)~in \NoBreakHyphenate{\( y \)}{Richtung}.
+    Daraus ergibt sich f\"ur die Bewegung des Teilchens die Kurve
+    \begin{equation*}
+        \gamma_z \colon \IntervalClosed{\alpha}{\beta} \to \RealNums^3
+            , \enspace
+            t \mapsto \begin{pmatrix} 4 \cos t \\ 3 \sin t \\ z \end{pmatrix}
+    \end{equation*}
+    wobei~\( \alpha \) den Winkel zu Beginn der Bewegung
+    und~\( \beta \) den Winkel am Ende der Bewegung beschreibt.
+    Die Bewegung erfolgt entgegen dem Urzeigersinn,
+    also gilt~\( \alpha < \beta \).
+
+    Zur Berechnung der aufgewendeten Kraft
+    verwenden wir das Kurvenintegral \ordinalnum{2}~Art
+    \begin{align*}
+        \int_{\gamma_z} F \vecds &
+        = \int_\alpha^\beta
+            \InnerProd[\Big]
+                {F \paren[\big]{\gamma_z \paren{t}}}
+                {\gamma_z' \paren{t}}
+        \dx[t]
+        = \int_\alpha^\beta
+            \InnerProd[\Bigg]{
+                \begin{pmatrix}
+                    12 \cos \paren{t} - 12 \sin \paren{t} - 2z \\
+                    16 \cos \paren{t} + 6 \sin \paren{t} - 3 z^2 \\
+                    8z \cos \paren{t} - 36 \sin^2 \paren{t} + z^3
+                \end{pmatrix}
+            }{
+                \begin{pmatrix} -4 \sin t \\ 3 \cos t \\ 0 \end{pmatrix}
+            }
+        \dx[t]
+        \displaybreak[0] \\ &
+        = \int_\alpha^\beta
+            48
+                - 30 \sin \paren{t} \cos \paren{t}
+                + 8z \sin \paren{t}
+                - 9 z^2 \cos \paren{t}
+        \dx[t]
+        \displaybreak[0] \\ &
+        = 48 \paren{\beta - \alpha}
+            - 30 \int_\alpha^\beta \sin \paren{t} \cos \paren{t} \dx[t]
+            + 8z \int_\alpha^\beta \sin t \dx[t]
+            - 9 z^2 \int_\alpha^\beta \cos t \dx[t]
+        \\ &
+        = 48 \paren{\beta - \alpha}
+            - 30 \int_{\sin \alpha}^{\sin \beta} u \dx[u]
+            - 8z \FunctionBounds{\cos t}{\alpha}{\beta}
+            - 9 z^2 \FunctionBounds{\sin t}{\alpha}{\beta}
+        \displaybreak[0] \\ &
+        = 48 \paren{\beta - \alpha}
+            - 30 \FunctionBounds{\frac{u^2}{2}}{\sin \alpha}{\sin \beta}
+            - 8z \paren[\big]{\cos \paren{\beta} - \cos \paren{\alpha}}
+            - 9 z^2 \paren[\big]{\sin \paren{\beta} - \sin \paren{\alpha}}
+        \displaybreak[0] \\ &
+        = 48 \paren{\beta - \alpha}
+            - 15 \paren[\big]{\sin^2 \paren{\beta} - \sin^2 \paren{\alpha}}
+            - 8z \paren[\big]{\cos \paren{\beta} - \cos \paren{\alpha}}
+            - 9 z^2 \paren[\big]{\sin \paren{\beta} - \sin \paren{\alpha}}
+    \end{align*}
+
+    Wir sehen dass sich das Ergebnis
+    bei \( n \in \NatNums \)~vollst\"andigen Umrundungen
+    (also bei~\( \beta \coloneqq \alpha + 2n \pi \))
+    vereinfacht zu~\( 96n \pi \).
+
+    Weiterhin sehen wir,
+    dass wir im Fall~\( z = 0 \) ein einfacheres Ergebnis erhalten
+    f\"ur alle Werte von~\( \alpha, \beta \).
+    \begin{equation*}
+        \int_{\gamma_0} F \vecds
+        = 48 \paren{\beta - \alpha}
+            - 15 \paren[\big]{\sin^2 \paren{\beta} - \sin^2 \paren{\alpha}}
+    \end{equation*}
+\end{document}

@@ -1,0 +1,64 @@
+\documentclass[../full]{subfiles}
+
+
+\begin{document}
+    \MainEx[Integration \"uber Halb-Ellipsoiden]{2}
+
+    Zu berechnen sei das Volumen sowie der Schwerpunkt des K\"orpers~\( K \),
+    gegeben durch
+    \begin{equation*}
+        K = \set[\Big]{
+            \begin{psmallmatrix} x \\ y \\ z \end{psmallmatrix} \in \RealNums^3
+            \given 0 \leq z \leq \frac{1}{2}, \enspace
+                x^2 + y^2 + z^2 \leq 1
+        }
+    \end{equation*}
+    Wir beschreiben den Kreis um den Nullpunkt mit Radius~\( r \) als~\(
+        k \paren{r} \coloneqq \set[\big]{
+            \begin{psmallmatrix} x \\ y \end{psmallmatrix} \in \RealNums^2
+            \given x^2 + y^2 \leq r^2
+        }
+    \) und wissen bereits dass
+    \begin{equation*}
+        \int_{k \paren{r}} 1 \dx[\paren{x, y}] = r^2 \pi,
+        \qquad
+        \int_{k \paren{r}} x \dx[\paren{x, y}]
+        = \int_{k \paren{r}} y \dx[\paren{x, y}] = 0
+    \end{equation*}
+    Damit k\"onnen wir \"uber~\( K \) integrieren und erhalten
+    \begin{align*}
+        M_K &= \int_{z = 0}^{\frac{1}{2}}
+            \int_{k \paren{\sqrt{1 - z^2}}} 1 \dx[\paren{x, y}]
+        \dx[z]
+        = \int_0^{\frac{1}{2}} \paren{1 - z^2} \pi \dx[z]
+        \\ &
+        = \paren[\Big]{\frac{1}{2} - \int_0^{\frac{1}{2}} z^2 \dx[z]} \pi
+        = \paren[\Big]{
+            \frac{1}{2} - \FunctionBounds{\frac{z^3}{3}}{0}{\frac{1}{2}}
+        } \pi
+        = \paren[\Big]{\frac{1}{2} - \frac{1}{24}} \pi
+        = \frac{11}{24} \pi
+        \displaybreak[0] \\
+        S_{K} &= \frac{1}{M_K} \int_{z = 0}^{\frac{1}{2}}
+            \int_{k \paren{\sqrt{1 - z^2}}}
+                \begin{psmallmatrix} x \\ y \\ z\end{psmallmatrix}
+            \dx[\paren{x, y}]
+        \dx[z]
+        = \frac{24}{11 \pi} \int_0^{\frac{1}{2}}
+            \begin{psmallmatrix}
+                0 \\ 0 \\ z \paren{1 - z^2} \pi
+            \end{psmallmatrix}
+        \dx[z]
+        \\ &
+        = \frac{24}{11 \pi}
+            \int_0^{\frac{1}{2}} \paren{z - z^3} \pi \StandardVect{3} \dx[z]
+        = \frac{24}{11}
+            \FunctionBounds{\frac{z^2}{2} - \frac{z^4}{4}}{0}{\frac{1}{2}}
+            \StandardVect{3}
+        = \frac{24}{11} \paren[\Big]{\frac{1}{8} - \frac{1}{64}}
+            \StandardVect{3}
+        \\ &
+        = \frac{24}{11} \cdot \frac{7}{64} \StandardVect{3}
+        = \frac{21}{88} \StandardVect{3}
+    \end{align*}
+\end{document}
