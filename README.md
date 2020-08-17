@@ -23,7 +23,7 @@ and delegate accordingly.
 This meant a huge amount of time would have to be spent
 on writing code to delegate,
 when that time could have been spent
-writing the code to actually execute the requested command.-
+writing the code to actually execute the requested command.
 
 I got the idea to abstract away those repetitive basics,
 and got started on writing an abstraction layer
